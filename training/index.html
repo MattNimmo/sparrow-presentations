@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1bae70">
+  <title>Training Videos | The Nest</title>
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%231bae70'/><circle cx='50' cy='40' r='12' fill='white'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+  <script>(function(){var t=localStorage.getItem('nest-theme');if(t)document.documentElement.classList.add(t);})();</script>
+
+  <style>
+    /* ── SERIES SWITCHER ─────────────────────── */
+    .series-switcher {
+      display: flex;
+      gap: 0;
+      background: var(--gray-100);
+      border-radius: var(--radius-md);
+      padding: 4px;
+      margin-bottom: var(--space-lg);
+    }
+
+    .series-tab {
+      flex: 1;
+      padding: 10px 12px;
+      border-radius: calc(var(--radius-md) - 4px);
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      transition: all var(--transition-fast);
+      text-align: center;
+      background: transparent;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .series-tab.active {
+      background: var(--white);
+      color: var(--sparrow-green);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .series-tab:active:not(.active) {
+      opacity: 0.7;
+    }
+
+    /* ── SERIES PANELS ───────────────────────── */
+    .series-panel {
+      display: none;
+    }
+
+    .series-panel.active {
+      display: block;
+    }
+
+    /* ── SERIES HEADER ───────────────────────── */
+    .series-header {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-lg);
+      border: 1px solid var(--gray-200);
+    }
+
+    .series-name {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--gray-800);
+      line-height: 1.3;
+      margin-bottom: 4px;
+    }
+
+    .series-meta {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      line-height: 1.6;
+    }
+
+    .playlist-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: var(--space-md);
+      padding: 9px 16px;
+      background: var(--sparrow-green);
+      color: var(--white);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: background var(--transition-fast);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .playlist-btn:active {
+      background: var(--sparrow-green-dark);
+    }
+
+    .playlist-btn svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
+    /* ── VIDEO LIST ──────────────────────────── */
+    .video-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .video-row {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: border-color var(--transition-fast);
+    }
+
+    .video-row:focus-within {
+      border-color: var(--sparrow-green);
+    }
+
+    .video-row-body {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 14px 12px;
+    }
+
+    .video-num {
+      min-width: 32px;
+      height: 32px;
+      background: var(--sparrow-green);
+      color: var(--white);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 0.6875rem;
+      font-weight: 800;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .video-num--advanced {
+      background: var(--gray-600);
+    }
+
+    .video-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .video-tags {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 5px;
+    }
+
+    .vtag {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 0.5625rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    .vtag--start {
+      background: var(--training-green-light);
+      color: var(--training-green);
+    }
+
+    .vtag--advanced {
+      background: var(--faq-amber-light);
+      color: var(--faq-amber);
+    }
+
+    .video-title {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--gray-800);
+      line-height: 1.35;
+    }
+
+    .video-desc {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      margin-top: 4px;
+      line-height: 1.5;
+    }
+
+    .video-watch {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--sparrow-green);
+      color: var(--white);
+      padding: 11px 16px;
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: background var(--transition-fast);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .video-watch:active {
+      background: var(--sparrow-green-dark);
+    }
+
+    .video-watch svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      opacity: 0.85;
+    }
+
+    /* ── ADVANCED DIVIDER ────────────────────── */
+    .advanced-divider {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      margin: var(--space-lg) 0 var(--space-md);
+    }
+
+    .advanced-divider__line {
+      flex: 1;
+      height: 1px;
+      background: var(--gray-200);
+    }
+
+    .advanced-divider__label {
+      font-family: var(--font-display);
+      font-size: 0.5625rem;
+      font-weight: 700;
+      color: var(--faq-amber);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 3px 10px;
+      background: var(--faq-amber-light);
+      border-radius: var(--radius-full);
+      white-space: nowrap;
+    }
+
+    /* ── STUMPF HEADER TINT ──────────────────── */
+    .series-header--stumpf .series-name {
+      color: var(--gray-800);
+    }
+
+    .series-header--stumpf .playlist-btn {
+      background: var(--gray-700);
+    }
+
+    .series-header--stumpf .playlist-btn:active {
+      background: var(--gray-800);
+    }
+
+    .series-panel--stumpf .video-num {
+      background: var(--gray-700);
+    }
+
+    .series-panel--stumpf .video-watch {
+      background: var(--gray-700);
+    }
+
+    .series-panel--stumpf .video-watch:active {
+      background: var(--gray-800);
+    }
+
+    .series-panel--stumpf .video-row:focus-within {
+      border-color: var(--gray-500);
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header__brand">
+      <a href="../index.html" class="header__logo">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M3 14 Q5 21 12 21 Q19 21 21 14" stroke="#1bae70" stroke-width="2" stroke-linecap="round"/>
+          <path d="M6 14 Q8.5 19 12 19 Q15.5 19 18 14" stroke="#1bae70" stroke-width="1.25" stroke-linecap="round" opacity="0.55"/>
+          <ellipse cx="10" cy="13" rx="2.2" ry="1.6" fill="#1bae70"/>
+          <ellipse cx="14.5" cy="13" rx="2.2" ry="1.6" fill="#1bae70"/>
+        </svg>
+      </a>
+      <div>
+        <h1 class="header__title">The Nest</h1>
+        <p class="header__subtitle">Sparrow team resources</p>
+      </div>
+      <nav class="header__nav" aria-label="Main navigation">
+        <a href="../index.html" class="header__nav-link">Home</a>
+        <a href="../docs/index.html" class="header__nav-link">Docs</a>
+        <a href="index.html" class="header__nav-link active">Training</a>
+        <a href="../faq/index.html" class="header__nav-link">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="page-header page-header--transparent">
+      <a href="../index.html" class="page-header__back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        Back to Home
+      </a>
+      <h1 class="page-header__title">Training Videos</h1>
+      <p class="page-header__desc">Learn the techniques. Watch in order.</p>
+    </div>
+
+    <!-- Series Switcher -->
+    <div class="series-switcher" role="tablist" aria-label="Training series">
+      <button class="series-tab active" role="tab" aria-selected="true" aria-controls="panel-sparrow" onclick="showSeries('sparrow', this)">
+        Pack &amp; Prep
+      </button>
+      <button class="series-tab" role="tab" aria-selected="false" aria-controls="panel-stumpf" onclick="showSeries('stumpf', this)">
+        Protect &amp; Load
+      </button>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════
+         SPARROW SERIES — Packing & Prep
+    ════════════════════════════════════════ -->
+    <div class="series-panel active" id="panel-sparrow" role="tabpanel">
+
+      <div class="series-header">
+        <div class="series-name">Moving Day | Packing &amp; Prep Series - Krupp Moving</div>
+        <div class="series-meta">14 videos &middot; Built to Move channel &middot; Watch in order</div>
+        <a href="https://www.youtube.com/playlist?list=PLP2hRv0u_2S_XNcsNxqme-tyhptLJATEd"
+           target="_blank" rel="noopener" class="playlist-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          View Full Playlist
+        </a>
+      </div>
+
+      <div class="video-list">
+
+        <!-- 1 -->
+        <div class="video-row">
+          <div class="video-row-body">
+            <div class="video-num">01</div>
+            <div class="video-content">
+              <div class="video-tags"><span class="vtag vtag--start">Start Here</span></div>
+              <div class="video-title">Series Introduction</div>
+              <div class="video-desc">What this training covers and how to use it — whether you're a new crew member or on the sales team.</div>
+            </div>
+          </div>
+          <a href="https://www.youtube.com/watch?v=5yWoEotTkv8" target="_blank" rel="noopener" class="video-watch">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
+
+        <!-- 2 -->
+        <div class="video-row">
+          <div class="video-row-body">
+            <div class="video-num">02</div>
+            <div class="video-content">
+              <div class="video-tags"><span class="vtag vtag--start">Start Here</span></div>
+              <div class="video-title">So You're the New Guy</div>
+              <div class="video-desc">Top 10 first-day tips: walking empty-handed, phone rules, crew culture, how to read the customer, and how to grow fast.</div>
+            </div>
+          </div>
+          <a href="https://www.youtube.com/watch?v=Q96BzaxMwnc" target="_blank" rel="noopener" class="video-watch">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
+
+        <!-- 3 -->
+        <div class="video-row">
+          <div class="video-row-body">
+            <div class="video-num">03</div>
+            <div class="video-content">
+              <div class="video-title">Materials</div>
+              <div class="video-desc">Every box type you'll use: small, medium, large, dish pack, wardrobe, mirror carton, TV box. Plus newsprint, shrink wrap, and mattress bags.</div>
+            </div>
+          </div>
+          <a href="https://www.youtube.com/watch?v=eKDQ2Emuuew" target="_blank" rel="noopener" class="video-watch">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
+
+        <!-- 4 -->
+        <div class="video-row">
+          <div class="video-row-body">
+            <div class="video-num">04</div>
+            <div class="video-content">
+              <div class="video-title">Using Cartons</div>
+              <div class="video-desc">How to build, label, and stack boxes properly. Workstation setup, dolly technique, and labeling rules that save time and prevent damage.</div>
+            </div>
+          </div>
+          <a href="https://www.youtube.com/watch?v=fjka7DqcGH4" target="_blank" rel="noopener" class="video-watch">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
+
+        <!-- 5 -->
+        <div class="video-row">
+          <div class="video-row-body">
+            <div class="video-num">05</div>
+            <div class="video-content">
+              <div class="video-title">Prepping the Home</div>
+              <div class="video-desc">Neoprene floor runners, door jamb protectors, stair runners. How to document pre-existing damage before you touch anything.</div>
+            </div>
+          </div>
+          <a href="https://www.youtube.com/watch?v=0i2xWCJUI8Q" target="_blank" rel="noopener" class="video-watch">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
+
+        <!-- 6 -->
+        <div class="video-row">
+          <div class="video-row-body">
+            <div class="video-num">06</div>
+            <div class="video-content">
+              <div class="video-title">Lifting Furniture</div>
+              <div class="video-desc">Coffin carry and 45° technique. Dolly rules. Hump strap. The verbal cue system for safe team lifts — how to call moves before you make them.</div>
+            </div>
+          </div>
+          <a href="https://www.youtube.com/watch?v=ULTKOVfL2Ec" target="_blank" rel="noopener" class="video-watch">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
+
+        <!-- 7 -->
+        <div class="video-row">
+          <div class="video-row-body">
+            <div class="video-num">07</div>
+            <div class="video-content">
+              <div class="video-title">The Bedrooms</div>
+              <div class="video-desc">Mattress bags (always), bed frame disassembly, spindle removal, hardware bags. Dresser mirrors. Wardrobe boxes.</div>
+            </div>
+          </div>
+          <a href="https://www.youtube.com/watch?v=vsQwnrUJawE" target="_blank" rel="noopener" class="video-watch">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
+
+        <!-- 8 -->
+        <div class="video-row">
+          <div class="video-row-body">
+            <div class="video-num">08</div>
+            <div class="video-content">
+              <div class="video-title">The Living Room — How to Pack Items</div>
+              <div class="video-desc">Books, electronics, candles, picture frames, lamps. What goes in boxes vs. what moves as-is. Silver items: use paper, no bare hands.</div>
+            </div>
+          </div>
+          <a href="https://www.youtube.com/watch?v=oNMG8xZ5vWI" target="_blank" rel="noopener" class="video-watch">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
+
+        <!-- 9 -->
+        <div class="video-row">
+          <div class="video-row-body">
+            <div class="video-num">09</div>
+            <div class="video-content">
+              <div class="video-title">The Living Room — Pad Wrapping Furniture</div>
+              <div class="video-desc">Couches, recliners, side tables, wall art and clocks. Rubber band + stretch wrap method. Why you never use tape on pads.</div>
+            </div>
+          </div>
+          <a href="https://www.youtube.com/watch?v=uz9nyaccVTM" target="_blank" rel="noopener" class="video-watch">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
+
+        <!-- 10 -->
+        <div class="video-row">
+          <div class="video-row-body">
+            <div class="video-num">10</div>
+            <div class="video-content">
+              <div class="video-title">Flat Screen TVs</div>
+              <div class="video-desc">TV box with foam corner guards. Always upright — never lay flat. Cords inside the box, legs wrapped separately.</div>
+            </div>
+          </div>
+          <a href="https://www.youtube.com/watch?v=c7bbM9jvdhk" target="_blank" rel="noopener" class="video-watch">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
+
+        <!-- Advanced Divider -->
+        <div class="advanced-divider" aria-hidden="true">
+          <div class="advanced-divider__line"></div>
+          <div class="advanced-divider__label">Advanced — Learn after your first few jobs</div>
+          <div class="advanced-divider__line"></div>
+        </div>
+
+        <!-- 11 -->
+        <div class="video-row">
+          <div class="video-row-body">
+            <div class="video-num video-num--advanced">11</div>
+            <div class="video-content">
+              <div class="video-tags"><span class="vtag vtag--advanced">Advanced</span></div>
+              <div class="video-title">Grand Pianos</div>
+              <div class="video-desc">3–4 person minimum. Piano board setup. Leg removal order (left leg first). Keys-first loading rule. Flag during the estimate — don't surprise the crew.</div>
+            </div>
+          </div>
+          <a href="https://www.youtube.com/watch?v=HbkDG3mOoEU" target="_blank" rel="noopener" class="video-watch">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
+
+        <!-- 12 -->
+        <div class="video-row">
+          <div class="video-row-body">
+            <div class="video-num video-num--advanced">12</div>
+            <div class="video-content">
+              <div class="video-tags"><span class="vtag vtag--advanced">Advanced</span></div>
+              <div class="video-title">The Kitchen</div>
+              <div class="video-desc">Dish pack 3-tier system. China, stemware, and silverware techniques. Pantry goods and plastic containers. Most fragile room — slow down here.</div>
+            </div>
+          </div>
+          <a href="https://www.youtube.com/watch?v=d8HQcfLJYvE" target="_blank" rel="noopener" class="video-watch">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
+
+        <!-- 13 -->
+        <div class="video-row">
+          <div class="video-row-body">
+            <div class="video-num video-num--advanced">13</div>
+            <div class="video-content">
+              <div class="video-tags"><span class="vtag vtag--advanced">Advanced</span></div>
+              <div class="video-title">The Dining Room</div>
+              <div class="video-desc">Table disassembly and glass top handling. Figure-eight banding. Captain's chair vs. standard chair wrap (captain's chairs need 2 pads).</div>
+            </div>
+          </div>
+          <a href="https://www.youtube.com/watch?v=kwu6nW_Wdhg" target="_blank" rel="noopener" class="video-watch">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
+
+        <!-- 14 -->
+        <div class="video-row">
+          <div class="video-row-body">
+            <div class="video-num video-num--advanced">14</div>
+            <div class="video-content">
+              <div class="video-tags"><span class="vtag vtag--advanced">Advanced</span></div>
+              <div class="video-title">Safes</div>
+              <div class="video-desc">Measure every doorway first. Check dolly weight rating. Plywood on floors. Strap sequence. 2–3 person minimum — never rush a safe move.</div>
+            </div>
+          </div>
+          <a href="https://www.youtube.com/watch?v=h_zDmig9HJs" target="_blank" rel="noopener" class="video-watch">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
+
+      </div><!-- /video-list -->
+    </div><!-- /panel-sparrow -->
+
+
+    <!-- ═══════════════════════════════════════
+         STUMPF SERIES — Loading & Moving
+    ════════════════════════════════════════ -->
+    <div class="series-panel series-panel--stumpf" id="panel-stumpf" role="tabpanel">
+
+      <div class="series-header series-header--stumpf">
+        <div class="series-name">Pro Techniques — Stumpf Moving &amp; Storage</div>
+        <div class="series-meta">9 videos &middot; Pittsburgh, PA &middot; Professional-grade technique library</div>
+        <a href="https://www.youtube.com/playlist?list=PLwAF63k-1Igo6eF8UmWzr3TSQ9wEKi_QM"
+           target="_blank" rel="noopener" class="playlist-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          View Full Playlist
+        </a>
+      </div>
+
+      <div class="video-list">
+
+        <!-- S1 -->
+        <div class="video-row">
+          <div class="video-row-body">
+            <div class="video-num">01</div>
+            <div class="video-content">
+              <div class="video-title">How PROFESSIONAL Moving Trucks Are Equipped</div>
+              <div class="video-desc">Full truck inventory: 40 moving pads, walkboards, four-wheel dollies, piano board, straps, land dolly. Know what's in the truck before you start.</div>
+            </div>
+          </div>
+          <a href="https://www.youtube.com/watch?v=YDoJmUUq8qA" target="_blank" rel="noopener" class="video-watch">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
+
+        <!-- S2 -->
+        <div class="video-row">
+          <div class="video-row-body">
+            <div class="video-num">02</div>
+            <div class="video-content">
+              <div class="video-title">How to Properly Load a Moving Truck</div>
+              <div class="video-desc">The 3-tier system: base (heavy furniture) → medium (chairs, boxes) → up stuff (light items on top). A loose load means broken stuff.</div>
+            </div>
+          </div>
+          <a href="https://www.youtube.com/watch?v=I7LW4tsIHTQ" target="_blank" rel="noopener" class="video-watch">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
+
+        <!-- S3 -->
+        <div class="video-row">
+          <div class="video-row-body">
+            <div class="video-num">03</div>
+            <div class="video-content">
+              <div class="video-title">How to Load Couches &amp; Sofas in a Truck</div>
+              <div class="video-desc">Stand sofas upright to save floor space. Legs toward the wall. Pad underneath before loading. Ratchet strap to E-track with burlap at contact points.</div>
+            </div>
+          </div>
+          <a href="https://www.youtube.com/watch?v=k_m2lOLJHg8" target="_blank" rel="noopener" class="video-watch">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
+
+        <!-- S4 -->
+        <div class="video-row">
+          <div class="video-row-body">
+            <div class="video-num">04</div>
+            <div class="video-content">
+              <div class="video-title">How to Protect Furniture During a Move</div>
+              <div class="video-desc">Full 4-pad sofa wrap technique. Large rubber bands to hold pads — never tape (tape damages pads and leaves marks). Stretch wrap to lock everything in place.</div>
+            </div>
+          </div>
+          <a href="https://www.youtube.com/watch?v=p_Dqj6Fzvbk" target="_blank" rel="noopener" class="video-watch">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
+
+        <!-- S5 -->
+        <div class="video-row">
+          <div class="video-row-body">
+            <div class="video-num">05</div>
+            <div class="video-content">
+              <div class="video-title">How to Move a Refrigerator</div>
+              <div class="video-desc">Door removal step-by-step. Drag pad technique to slide out of tight spaces without scratching floors. Appliance dolly use. Parts box for hardware and shelves.</div>
+            </div>
+          </div>
+          <a href="https://www.youtube.com/watch?v=jaEAevIHeAE" target="_blank" rel="noopener" class="video-watch">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
+
+        <!-- S6 -->
+        <div class="video-row">
+          <div class="video-row-body">
+            <div class="video-num">06</div>
+            <div class="video-content">
+              <div class="video-title">How to Pack a Kitchen</div>
+              <div class="video-desc">Dish pack layer-by-layer. Plates on edge. Cups open-side-down. Cutlery horizontal — never upright (sharp ends poke through). Between layers: crinkled paper fill.</div>
+            </div>
+          </div>
+          <a href="https://www.youtube.com/watch?v=m_62RkzQgtE" target="_blank" rel="noopener" class="video-watch">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
+
+        <!-- S7 -->
+        <div class="video-row">
+          <div class="video-row-body">
+            <div class="video-num">07</div>
+            <div class="video-content">
+              <div class="video-title">How to Safely Lift &amp; Carry Heavy Furniture</div>
+              <div class="video-desc">Coffin carry for flat ground and hallways. 69 carry (angled) for stairs and ramps. When to use each. Back legs down first when setting. Hump strap for tall dressers.</div>
+            </div>
+          </div>
+          <a href="https://www.youtube.com/watch?v=WpUz5sUK48Y" target="_blank" rel="noopener" class="video-watch">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
+
+        <!-- S8 -->
+        <div class="video-row">
+          <div class="video-row-body">
+            <div class="video-num">08</div>
+            <div class="video-content">
+              <div class="video-title">How to Move a Piano Up &amp; Down Stairs</div>
+              <div class="video-desc">Scout all entries before committing to a route. Ramp bridge over uneven steps. Wax the piano board. 4-person crew minimum on stairs. Pad and strap before moving.</div>
+            </div>
+          </div>
+          <a href="https://www.youtube.com/watch?v=DmYp9chsvVc" target="_blank" rel="noopener" class="video-watch">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
+
+        <!-- S9 -->
+        <div class="video-row">
+          <div class="video-row-body">
+            <div class="video-num">09</div>
+            <div class="video-content">
+              <div class="video-title">The BEST House &amp; Apartment Moving Tips</div>
+              <div class="video-desc">20 customer prep rules: appliances disconnected, permits reserved, no propane or firearms, walk-through checklist with crew lead before leaving. What the BOL covers.</div>
+            </div>
+          </div>
+          <a href="https://www.youtube.com/watch?v=bWBtUtNeTdM" target="_blank" rel="noopener" class="video-watch">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
+
+      </div><!-- /video-list -->
+    </div><!-- /panel-stumpf -->
+
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="../index.html" class="nav-item">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      <span class="nav-item__label">Home</span>
+    </a>
+    <a href="../search.html" class="nav-item">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <span class="nav-item__label">Search</span>
+    </a>
+    <a href="../docs/index.html" class="nav-item">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+      <span class="nav-item__label">Docs</span>
+    </a>
+    <a href="index.html" class="nav-item active">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+      <span class="nav-item__label">Videos</span>
+    </a>
+  </nav>
+
+  <script>
+    function showSeries(name, btn) {
+      document.querySelectorAll('.series-tab').forEach(function(t) {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      document.querySelectorAll('.series-panel').forEach(function(p) {
+        p.classList.remove('active');
+      });
+      document.getElementById('panel-' + name).classList.add('active');
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+  <script src="../js/app.js"></script>
+</body>
+</html>

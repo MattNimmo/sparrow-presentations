@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1bae70">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>The Nest | Sparrow Moving Team Resources</title>
+  <meta name="description" content="Employee resources, training materials, and documentation for the Sparrow Moving team.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%231bae70'/><circle cx='50' cy='40' r='12' fill='white'/></svg>">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <!-- Fuse.js for search -->
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
+  <script>
+    (function(){var t=localStorage.getItem('nest-theme');if(t)document.documentElement.classList.add(t);})();
+  </script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header__brand">
+      <a href="index.html" class="header__logo">
+        <svg viewBox="0 0 24 24" fill="none">
+          <!-- nest bowl -->
+          <path d="M3 14 Q5 21 12 21 Q19 21 21 14" stroke="#1bae70" stroke-width="2" stroke-linecap="round"/>
+          <!-- inner weave arc -->
+          <path d="M6 14 Q8.5 19 12 19 Q15.5 19 18 14" stroke="#1bae70" stroke-width="1.25" stroke-linecap="round" opacity="0.55"/>
+          <!-- eggs -->
+          <ellipse cx="10" cy="13" rx="2.2" ry="1.6" fill="#1bae70"/>
+          <ellipse cx="14.5" cy="13" rx="2.2" ry="1.6" fill="#1bae70"/>
+        </svg>
+      </a>
+      <div>
+        <h1 class="header__title">The Nest</h1>
+        <p class="header__subtitle">Sparrow team resources</p>
+      </div>
+      <nav class="header__nav" aria-label="Main navigation">
+        <a href="index.html" class="header__nav-link active">Home</a>
+        <a href="docs/index.html" class="header__nav-link">Docs</a>
+        <a href="training/index.html" class="header__nav-link">Training</a>
+        <a href="faq/index.html" class="header__nav-link">FAQ</a>
+      </nav>
+    </div>
+    
+    <!-- Search -->
+    <div class="search">
+      <input 
+        type="search" 
+        id="searchInput"
+        class="search__input" 
+        placeholder="Search everything..."
+        autocomplete="off"
+      >
+      <svg class="search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="M21 21l-4.35-4.35"/>
+      </svg>
+      <button class="search__clear" type="button" aria-label="Clear search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+      <div id="searchResults" class="search-results"></div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+    
+    <!-- Quick Access -->
+    <section class="quick-access">
+      <div class="section-header">
+        <h2 class="section-title">Quick Access</h2>
+      </div>
+      <div class="quick-access__grid">
+        <a href="docs/safety-manual/index.html" class="quick-access__item">
+          <div class="quick-access__icon quick-access__icon--safety">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2">
+              <path d="M12 9v4m0 4h.01M12 3l9 16H3L12 3z"/>
+            </svg>
+          </div>
+          <span class="quick-access__label quick-access__label--safety">Safety</span>
+        </a>
+        <a href="training/index.html" class="quick-access__item">
+          <div class="quick-access__icon quick-access__icon--training">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2">
+              <polygon points="23 7 16 12 23 17 23 7"/>
+              <rect x="1" y="5" width="15" height="14" rx="2"/>
+            </svg>
+          </div>
+          <span class="quick-access__label quick-access__label--training">Training</span>
+        </a>
+        <a href="docs/onboarding/index.html" class="quick-access__item">
+          <div class="quick-access__icon quick-access__icon--onboard">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2">
+              <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+              <circle cx="8.5" cy="7" r="4"/>
+              <path d="M20 8v6m3-3h-6"/>
+            </svg>
+          </div>
+          <span class="quick-access__label quick-access__label--onboard">Onboard</span>
+        </a>
+        <a href="faq/index.html" class="quick-access__item">
+          <div class="quick-access__icon quick-access__icon--faq">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3m.08 4h.01"/>
+            </svg>
+          </div>
+          <span class="quick-access__label quick-access__label--faq">FAQ</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Role Filters -->
+    <section class="role-filters">
+      <div class="section-header">
+        <h2 class="section-title">Browse by Role</h2>
+      </div>
+      <div class="role-filters__scroll">
+        <button class="role-pill active" data-role="all">All roles</button>
+        <button class="role-pill" data-role="crew-lead">Crew lead</button>
+        <button class="role-pill" data-role="mover">Mover</button>
+        <button class="role-pill" data-role="sales">Sales</button>
+        <button class="role-pill" data-role="estimator">Estimator</button>
+        <button class="role-pill" data-role="dispatcher">Dispatcher</button>
+      </div>
+    </section>
+
+    <!-- Documents -->
+    <section class="documents">
+      <div class="section-header">
+        <h2 class="section-title">Documents</h2>
+        <a href="docs/index.html" class="section-link">View all →</a>
+      </div>
+      <div class="document-list">
+        
+        <!-- Onboarding Checklist -->
+        <a href="docs/onboarding/index.html" class="document-card" data-roles="all">
+          <div class="document-card__icon" style="background: var(--doc-onboarding)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+              <rect x="9" y="3" width="6" height="4" rx="1"/>
+              <path d="M9 12l2 2 4-4"/>
+            </svg>
+          </div>
+          <div class="document-card__content">
+            <div class="document-card__title">Onboarding Checklist</div>
+            <div class="document-card__desc">Day-one paperwork, training schedule, mentorship pairing</div>
+          </div>
+          <div class="document-card__arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </div>
+        </a>
+
+        <!-- Employee Handbook -->
+        <a href="docs/handbook/index.html" class="document-card" data-roles="all">
+          <div class="document-card__icon" style="background: var(--doc-handbook)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+            </svg>
+          </div>
+          <div class="document-card__content">
+            <div class="document-card__title">Employee Handbook</div>
+            <div class="document-card__desc">Company policies, expectations, PTO, pay schedules</div>
+          </div>
+          <div class="document-card__arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </div>
+        </a>
+
+        <!-- Code of Conduct -->
+        <a href="docs/code-of-conduct/index.html" class="document-card" data-roles="all">
+          <div class="document-card__icon" style="background: var(--doc-conduct)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <div class="document-card__content">
+            <div class="document-card__title">Code of Conduct</div>
+            <div class="document-card__desc">Professional behavior, customer interaction standards</div>
+          </div>
+          <div class="document-card__arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </div>
+        </a>
+
+        <!-- Safety Manual -->
+        <a href="docs/safety-manual/index.html" class="document-card" data-roles="mover,crew-lead">
+          <div class="document-card__icon" style="background: var(--doc-safety)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 9v4m0 4h.01M12 3l9 16H3L12 3z"/>
+            </svg>
+          </div>
+          <div class="document-card__content">
+            <div class="document-card__title">Safety Manual</div>
+            <div class="document-card__desc">OSHA compliance, lifting techniques, PPE requirements</div>
+          </div>
+          <div class="document-card__arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </div>
+        </a>
+
+        <!-- Training & SOPs -->
+        <a href="docs/training-sops/index.html" class="document-card" data-roles="mover,crew-lead">
+          <div class="document-card__icon" style="background: var(--doc-training)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+              <rect x="9" y="3" width="6" height="4" rx="1"/>
+            </svg>
+          </div>
+          <div class="document-card__content">
+            <div class="document-card__title">Training & SOPs</div>
+            <div class="document-card__desc">Pack & prep, loading, specialty items, checklists</div>
+          </div>
+          <div class="document-card__arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </div>
+        </a>
+
+        <!-- Compensation -->
+        <a href="docs/compensation/index.html" class="document-card" data-roles="mover crew-lead">
+          <div class="document-card__icon" style="background: var(--doc-compensation)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+            </svg>
+          </div>
+          <div class="document-card__content">
+            <div class="document-card__title">Compensation</div>
+            <div class="document-card__desc">Pay structure, tips, bonuses by role</div>
+          </div>
+          <div class="document-card__arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </div>
+        </a>
+
+        <!-- More link -->
+        <a href="docs/index.html" class="document-more">View all 10 documents →</a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item active">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5">
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+      </svg>
+      <span class="nav-item__label">Home</span>
+    </a>
+    <a href="search.html" class="nav-item">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="M21 21l-4.35-4.35"/>
+      </svg>
+      <span class="nav-item__label">Search</span>
+    </a>
+    <a href="docs/index.html" class="nav-item">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+        <path d="M14 2v6h6"/>
+      </svg>
+      <span class="nav-item__label">Docs</span>
+    </a>
+    <a href="training/index.html" class="nav-item">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <polygon points="23 7 16 12 23 17 23 7"/>
+        <rect x="1" y="5" width="15" height="14" rx="2"/>
+      </svg>
+      <span class="nav-item__label">Videos</span>
+    </a>
+  </nav>
+
+  <!-- Scripts -->
+  <script src="js/app.js"></script>
+</body>
+</html>

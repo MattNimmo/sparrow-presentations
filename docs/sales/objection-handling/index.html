@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1bae70">
+  <title>Objection Handling | The Nest</title>
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%231bae70'/><circle cx='50' cy='40' r='12' fill='white'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/styles.css">
+
+  <style>
+    /* ── Objection Cards ── */
+    .obj-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+
+    .obj-card__trigger {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding: 14px 16px;
+      text-align: left;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: var(--font-body);
+      transition: background var(--transition-fast);
+    }
+
+    .obj-card__trigger:active {
+      background: var(--gray-50);
+    }
+
+    .obj-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      background: var(--gray-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.125rem;
+    }
+
+    .obj-card__label {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .obj-card__trigger-phrase {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--gray-800);
+      font-style: italic;
+    }
+
+    .obj-card__hint {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      margin-top: 2px;
+    }
+
+    .obj-card__chevron {
+      width: 20px;
+      height: 20px;
+      color: var(--gray-400);
+      flex-shrink: 0;
+      transition: transform var(--transition-base);
+    }
+
+    .obj-card.open .obj-card__chevron {
+      transform: rotate(180deg);
+    }
+
+    .obj-card__body {
+      display: none;
+      padding: 0 16px 16px;
+      border-top: 1px solid var(--gray-100);
+    }
+
+    .obj-card.open .obj-card__body {
+      display: block;
+    }
+
+    /* ── Script Block ── */
+    .script-block {
+      background: var(--gray-50);
+      border-left: 3px solid var(--sparrow-green);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: var(--space-md);
+      margin: var(--space-md) 0;
+      font-size: 0.875rem;
+      color: var(--gray-700);
+      line-height: 1.6;
+    }
+
+    .script-block strong {
+      display: block;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--sparrow-green);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: var(--space-sm);
+    }
+
+    .script-block em {
+      display: block;
+      color: var(--gray-500);
+      font-style: italic;
+      font-size: 0.8125rem;
+      margin-top: var(--space-sm);
+    }
+
+    /* ── Obj body headings ── */
+    .obj-card__body h3 {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin: var(--space-md) 0 var(--space-sm);
+    }
+
+    .obj-card__body ul {
+      padding-left: var(--space-md);
+      margin: var(--space-sm) 0;
+    }
+
+    .obj-card__body ul li {
+      font-size: 0.875rem;
+      color: var(--gray-700);
+      margin-bottom: 6px;
+      list-style: disc;
+    }
+
+    /* ── Tip Block ── */
+    .tip-block {
+      background: #FEF9C3;
+      border-left: 3px solid #CA8A04;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: var(--space-sm) var(--space-md);
+      margin: var(--space-sm) 0;
+      font-size: 0.8125rem;
+      color: #713F12;
+    }
+
+    /* ── Universal Fallback Banner ── */
+    .fallback-banner {
+      background: var(--sparrow-green-light);
+      border: 1.5px solid var(--sparrow-green);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      margin-bottom: var(--space-lg);
+      display: flex;
+      gap: var(--space-md);
+      align-items: flex-start;
+    }
+
+    .fallback-banner__icon {
+      width: 36px;
+      height: 36px;
+      background: var(--sparrow-green);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: white;
+      font-size: 1.125rem;
+    }
+
+    .fallback-banner__text strong {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--gray-800);
+      margin-bottom: 4px;
+    }
+
+    .fallback-banner__text p {
+      font-size: 0.8125rem;
+      color: var(--gray-600);
+      margin: 0;
+    }
+
+    /* ── Principles section ── */
+    .principles {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: var(--space-lg);
+      margin-top: var(--space-xl);
+    }
+
+    .principles h2 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--gray-800);
+      margin-bottom: var(--space-md);
+    }
+
+    .principle-item {
+      display: flex;
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+      padding-bottom: var(--space-md);
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .principle-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .principle-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--gray-800);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .principle-item p {
+      font-size: 0.875rem;
+      color: var(--gray-700);
+      margin: 0;
+    }
+
+    .principle-item p strong {
+      color: var(--gray-800);
+    }
+  </style>
+  <script>
+    (function(){var t=localStorage.getItem('nest-theme');if(t)document.documentElement.classList.add(t);})();
+  </script>
+</head>
+<body>
+
+  <header class="header">
+    <div class="header__brand">
+      <a href="../../../index.html" class="header__logo">
+        <svg viewBox="0 0 24 24" fill="none">
+          <!-- nest bowl -->
+          <path d="M3 14 Q5 21 12 21 Q19 21 21 14" stroke="#1bae70" stroke-width="2" stroke-linecap="round"/>
+          <!-- inner weave arc -->
+          <path d="M6 14 Q8.5 19 12 19 Q15.5 19 18 14" stroke="#1bae70" stroke-width="1.25" stroke-linecap="round" opacity="0.55"/>
+          <!-- eggs -->
+          <ellipse cx="10" cy="13" rx="2.2" ry="1.6" fill="#1bae70"/>
+          <ellipse cx="14.5" cy="13" rx="2.2" ry="1.6" fill="#1bae70"/>
+        </svg>
+      </a>
+      <div>
+        <h1 class="header__title">The Nest</h1>
+        <p class="header__subtitle">Sparrow team resources</p>
+      </div>
+      <nav class="header__nav" aria-label="Main navigation">
+        <a href="../../../index.html" class="header__nav-link">Home</a>
+        <a href="../../../docs/index.html" class="header__nav-link">Docs</a>
+        <a href="../../../training/index.html" class="header__nav-link">Training</a>
+        <a href="../../../faq/index.html" class="header__nav-link">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="page-header">
+      <a href="../../index.html" class="page-header__back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        Back to Documents
+      </a>
+      <div class="doc-title-header">
+        <div class="doc-title-icon" style="background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="page-header__title">Objection Handling</h1>
+          <div class="doc-title-roles">
+            <span class="role-tag role-tag--sales">Sales</span>
+          </div>
+        </div>
+      </div>
+      <p class="page-header__desc">7 documented objections with rebuttals. Empathize first, probe second, rebuttal third. Every call ends with at least a tentative reservation.</p>
+    </div>
+
+    <article class="doc-content">
+
+      <!-- Universal Fallback -->
+      <div class="fallback-banner">
+        <div class="fallback-banner__icon">⚓</div>
+        <div class="fallback-banner__text">
+          <strong>Universal Fallback — Use Every Time</strong>
+          <p>If you can't close the sale, never let the call end with nothing. Always offer a <strong>tentative reservation</strong> — free, no commitment, fully changeable. It keeps Sparrow on the calendar.</p>
+        </div>
+      </div>
+
+      <!-- Objection 1 -->
+      <div class="obj-card" id="obj1">
+        <button class="obj-card__trigger" onclick="toggleObj('obj1')">
+          <div class="obj-icon">🛒</div>
+          <div class="obj-card__label">
+            <div class="obj-card__trigger-phrase">"I'm still shopping around."</div>
+            <div class="obj-card__hint">Probe priority before responding</div>
+          </div>
+          <svg class="obj-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="obj-card__body">
+          <h3>Step 1 — Probe First</h3>
+          <p style="font-size:0.875rem;color:var(--gray-700);">Ask before launching into a rebuttal. Their answer changes your response entirely.</p>
+          <div class="script-block">
+            <strong>Probe</strong>
+            "I totally get it. How many estimates do you have so far? And when it comes down to it, what's your top priority — price, service, or getting the right date?"
+          </div>
+
+          <h3>By Priority</h3>
+
+          <div class="script-block">
+            <strong>If Price Is Priority</strong>
+            "The lowest price isn't always the most cost-effective. Send me that estimate and we'll look at it together. If it's legitimate and the same services, we'll do our best to beat it."
+          </div>
+
+          <div class="script-block">
+            <strong>If Service Is Priority</strong>
+            "Our movers are licensed, insured, and top-rated. We're here 7 days a week. You'd be hard-pressed to find a company as dedicated to your satisfaction as ours."
+          </div>
+
+          <div class="script-block">
+            <strong>If Date Is Priority</strong>
+            "Even without a final decision, we can lock in your date right now at no risk. Dates can change anytime — but availability goes fast."
+          </div>
+
+          <div class="tip-block">
+            💡 Always close with the tentative reservation if they're still undecided.
+          </div>
+        </div>
+      </div>
+
+      <!-- Objection 2 -->
+      <div class="obj-card" id="obj2">
+        <button class="obj-card__trigger" onclick="toggleObj('obj2')">
+          <div class="obj-icon">💲</div>
+          <div class="obj-card__label">
+            <div class="obj-card__trigger-phrase">"I found a lower quote."</div>
+            <div class="obj-card__hint">Compare what's actually in the quotes</div>
+          </div>
+          <svg class="obj-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="obj-card__body">
+          <h3>Step 1 — Probe the Quote</h3>
+          <p style="font-size:0.875rem;color:var(--gray-700);">Most "lower quotes" aren't actually apples-to-apples.</p>
+
+          <div class="script-block">
+            <strong>Probe</strong>
+            "Is their quote hourly or flat rate? And how many guys are on the crew?"
+          </div>
+
+          <div class="script-block">
+            <strong>If It's a 2-Man Crew</strong>
+            "A 3-man crew will actually save you money. One loads while two carry — your billable hours drop significantly. In apartment buildings, one holds the elevator while two work. That efficiency more than offsets the higher hourly rate."
+          </div>
+
+          <div class="script-block">
+            <strong>Review the Quote Together</strong>
+            "Send me their estimate — I want to make sure you're comparing the same services. Staffing surcharges, transportation surcharges, professional quilt-wrapping — these are often hidden costs that won't show up in the base rate."
+          </div>
+
+          <div class="script-block">
+            <strong>Manager Discount Close</strong>
+            "Let me talk to my manager about an additional 10% discount. That brings us down to [adjusted rate]. If I can lock that in, can we get you set up today?"
+          </div>
+        </div>
+      </div>
+
+      <!-- Objection 3 -->
+      <div class="obj-card" id="obj3">
+        <button class="obj-card__trigger" onclick="toggleObj('obj3')">
+          <div class="obj-icon">🚚</div>
+          <div class="obj-card__label">
+            <div class="obj-card__trigger-phrase">"I'm just going to rent a truck myself."</div>
+            <div class="obj-card__hint">Walk through the real math</div>
+          </div>
+          <svg class="obj-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="obj-card__body">
+          <h3>Walk Through the Hidden Costs</h3>
+          <p style="font-size:0.875rem;color:var(--gray-700);">Most customers haven't done this math. Walk through it with them.</p>
+          <ul>
+            <li>Truck rental fee</li>
+            <li>Insurance (rental companies charge extra for moving)</li>
+            <li>Fuel — miles ÷ 8 mpg × current gas price</li>
+            <li>Moving blankets, dollies, equipment rental</li>
+            <li>Packing materials</li>
+            <li>Physical labor — your time, their back, friends' time</li>
+            <li>Risk to valuables — no professional wrapping, no coverage</li>
+            <li>For long-distance: add lodging costs</li>
+          </ul>
+
+          <div class="script-block">
+            <strong>The Close</strong>
+            "Once you factor everything in, hiring a professional is often cheaper — and that's before you account for your time and the risk to everything you own. We guarantee our work. A rental truck doesn't."
+          </div>
+        </div>
+      </div>
+
+      <!-- Objection 4 -->
+      <div class="obj-card" id="obj4">
+        <button class="obj-card__trigger" onclick="toggleObj('obj4')">
+          <div class="obj-icon">👫</div>
+          <div class="obj-card__label">
+            <div class="obj-card__trigger-phrase">"I need to talk to my spouse first."</div>
+            <div class="obj-card__hint">Lock in the date while they decide</div>
+          </div>
+          <svg class="obj-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="obj-card__body">
+          <div class="script-block">
+            <strong>First Response</strong>
+            "Totally understand — and I want you both comfortable. Here's the thing: our availability is limited. Let's set up a no-risk reservation right now. The deposit is fully refundable. Your spouse can review everything, and if they say no, just call us back — no questions asked."
+          </div>
+
+          <div class="script-block">
+            <strong>If They Still Resist</strong>
+            "How long do you need to talk it over?" [Let them answer.] "Perfect — I'll put you on a tentative reservation in the meantime so you don't lose the date."
+          </div>
+
+          <div class="tip-block">
+            💡 Never argue with "I need to talk to my spouse." Empathize and redirect to protecting the date.
+          </div>
+        </div>
+      </div>
+
+      <!-- Objection 5 -->
+      <div class="obj-card" id="obj5">
+        <button class="obj-card__trigger" onclick="toggleObj('obj5')">
+          <div class="obj-icon">🏠</div>
+          <div class="obj-card__label">
+            <div class="obj-card__trigger-phrase">"We're waiting on the sale of our home."</div>
+            <div class="obj-card__hint">Book now, change the date later</div>
+          </div>
+          <svg class="obj-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="obj-card__body">
+          <div class="script-block">
+            <strong>Rebuttal</strong>
+            "Most of our customers in that situation still book in advance to lock in their current rate — good for up to 2 years. Dates can change anytime at no extra charge. There's nothing to lose, and you'll have peace of mind knowing your crew and truck are already secured."
+          </div>
+
+          <div class="tip-block">
+            💡 This objection is almost always a win if you present it right. The 2-year rate lock is a genuine differentiator.
+          </div>
+        </div>
+      </div>
+
+      <!-- Objection 6 -->
+      <div class="obj-card" id="obj6">
+        <button class="obj-card__trigger" onclick="toggleObj('obj6')">
+          <div class="obj-icon">❌</div>
+          <div class="obj-card__label">
+            <div class="obj-card__trigger-phrase">"I need to cancel my move."</div>
+            <div class="obj-card__hint">Probe the reason before reacting</div>
+          </div>
+          <svg class="obj-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="obj-card__body">
+          <h3>Process</h3>
+          <ul>
+            <li>Pull up their account, confirm identity, make small talk first</li>
+            <li>Don't react immediately — build a moment of rapport</li>
+          </ul>
+
+          <div class="script-block">
+            <strong>Step 1 — Ask Why</strong>
+            "I'm sorry to hear that. Can I ask what made you decide to cancel?"
+          </div>
+
+          <div class="script-block">
+            <strong>If Going to a Competitor or DIY</strong>
+            Use the "Lower Quote" or "Renting a Truck" rebuttal above based on their answer.
+          </div>
+
+          <div class="script-block">
+            <strong>If Move Is Delayed (No New Date)</strong>
+            "No problem — I can place the move on hold rather than canceling. That locks in your current rate in case our prices go up before you're ready."
+          </div>
+
+          <div class="script-block">
+            <strong>If They Insist on Full Cancellation</strong>
+            "Your refund will process within the hour. Please don't hesitate to reach out when the time is right — we'd love to earn your business."
+          </div>
+        </div>
+      </div>
+
+      <!-- Objection 7 -->
+      <div class="obj-card" id="obj7">
+        <button class="obj-card__trigger" onclick="toggleObj('obj7')">
+          <div class="obj-icon">📞</div>
+          <div class="obj-card__label">
+            <div class="obj-card__trigger-phrase">Preventing a cancellation call</div>
+            <div class="obj-card__hint">Curious tone, not defensive</div>
+          </div>
+          <svg class="obj-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="obj-card__body">
+          <p style="font-size:0.875rem;color:var(--gray-700);margin-top:var(--space-md);">This is a proactive outbound call when you sense a customer may be about to cancel. Same script as Objection 6 — key difference is the tone.</p>
+
+          <div class="script-block">
+            <strong>Opening — Curious, Not Defensive</strong>
+            "Hey [name], I was just going over your file and wanted to reach out. Everything still on track for [date]?"
+          </div>
+
+          <p style="font-size:0.875rem;color:var(--gray-700);">Let them respond. If there's hesitation, move into the Objection 6 process — probe the reason, then redirect to a hold or the appropriate rebuttal.</p>
+
+          <div class="callout callout--info" style="margin-top:var(--space-md);">
+            The goal of this call is to surface the real concern <em>before</em> they've made a firm decision. It's much easier to save a booking at this stage than after they've already called to cancel.
+          </div>
+        </div>
+      </div>
+
+      <!-- Key Principles -->
+      <div class="principles">
+        <h2>Key Principles</h2>
+
+        <div class="principle-item">
+          <div class="principle-num">1</div>
+          <p><strong>Empathize first.</strong> Every rebuttal starts with "I totally understand" or "That makes sense." Never argue.</p>
+        </div>
+
+        <div class="principle-item">
+          <div class="principle-num">2</div>
+          <p><strong>Probe before you rebuttal.</strong> Ask what their concern actually is. The answer changes your response.</p>
+        </div>
+
+        <div class="principle-item">
+          <div class="principle-num">3</div>
+          <p><strong>Always offer a path forward.</strong> Discount, hold, review together — never leave them with a dead end.</p>
+        </div>
+
+        <div class="principle-item">
+          <div class="principle-num">4</div>
+          <p><strong>The tentative reservation is always the fallback.</strong> Never let a call end with nothing.</p>
+        </div>
+
+        <div class="principle-item">
+          <div class="principle-num">5</div>
+          <p><strong>Use urgency responsibly.</strong> Limited availability, price increases, fuel costs — these are real. Don't manufacture pressure, but don't hide it either.</p>
+        </div>
+      </div>
+
+    </article>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="../../../index.html" class="nav-item">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      <span class="nav-item__label">Home</span>
+    </a>
+    <a href="../../../docs/index.html" class="nav-item active">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      <span class="nav-item__label">Docs</span>
+    </a>
+    <a href="../../../faq/index.html" class="nav-item">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span class="nav-item__label">FAQ</span>
+    </a>
+  </nav>
+
+  <script>
+    function toggleObj(id) {
+      const card = document.getElementById(id);
+      const isOpen = card.classList.contains('open');
+      document.querySelectorAll('.obj-card').forEach(c => c.classList.remove('open'));
+      if (!isOpen) card.classList.add('open');
+    }
+  </script>
+
+  <script src="../../../js/app.js"></script>
+</body>
+</html>

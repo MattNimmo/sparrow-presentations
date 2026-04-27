@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1bae70">
+  <title>9-Step Call Framework | The Nest</title>
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%231bae70'/><circle cx='50' cy='40' r='12' fill='white'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/styles.css">
+
+  <style>
+    .step-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+
+    .step-card__trigger {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding: 14px 16px;
+      text-align: left;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: var(--font-body);
+      transition: background var(--transition-fast);
+    }
+
+    .step-card__trigger:active { background: var(--gray-50); }
+
+    .step-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--sparrow-green);
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 0.875rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-card__label { flex: 1; min-width: 0; }
+
+    .step-card__name {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--gray-800);
+    }
+
+    .step-card__tagline {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      margin-top: 2px;
+    }
+
+    .step-card__chevron {
+      width: 20px;
+      height: 20px;
+      color: var(--gray-400);
+      flex-shrink: 0;
+      transition: transform var(--transition-base);
+    }
+
+    .step-card.open .step-card__chevron { transform: rotate(180deg); }
+
+    .step-card__body {
+      display: none;
+      padding: 0 16px 16px;
+      border-top: 1px solid var(--gray-100);
+    }
+
+    .step-card.open .step-card__body { display: block; }
+
+    .script-block {
+      background: var(--gray-50);
+      border-left: 3px solid var(--sparrow-green);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: var(--space-md);
+      margin: var(--space-md) 0;
+      font-size: 0.875rem;
+      color: var(--gray-700);
+      line-height: 1.6;
+    }
+
+    .script-block strong {
+      display: block;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--sparrow-green);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: var(--space-sm);
+    }
+
+    .tip-block {
+      background: #FEF9C3;
+      border-left: 3px solid #CA8A04;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: var(--space-sm) var(--space-md);
+      margin: var(--space-sm) 0;
+      font-size: 0.8125rem;
+      color: #713F12;
+      line-height: 1.5;
+    }
+
+    .step-card__body h3 {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin: var(--space-md) 0 var(--space-sm);
+    }
+
+    .step-card__body p {
+      font-size: 0.875rem;
+      color: var(--gray-700);
+      margin-bottom: var(--space-sm);
+      line-height: 1.5;
+    }
+
+    .step-card__body ul {
+      padding-left: var(--space-md);
+      margin: var(--space-sm) 0;
+    }
+
+    .step-card__body ul li {
+      font-size: 0.875rem;
+      color: var(--gray-700);
+      margin-bottom: 6px;
+      list-style: disc;
+    }
+
+    /* if/when table */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+      margin: var(--space-md) 0;
+    }
+
+    .compare-table th {
+      background: var(--gray-100);
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--gray-600);
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .compare-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--gray-100);
+      color: var(--gray-700);
+      vertical-align: top;
+    }
+
+    .compare-table td:first-child { color: var(--safety-red-dark); }
+    .compare-table td:last-child { color: #166534; }
+
+    .pro-tips {
+      background: var(--sparrow-green-light);
+      border: 1px solid var(--sparrow-green);
+      border-radius: var(--radius-md);
+      padding: var(--space-lg);
+      margin-top: var(--space-xl);
+    }
+
+    .pro-tips h2 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--sparrow-green-dark);
+      margin-bottom: var(--space-md);
+    }
+
+    .pro-tip-item {
+      margin-bottom: var(--space-md);
+      padding-bottom: var(--space-md);
+      border-bottom: 1px solid rgba(27,174,112,0.2);
+    }
+
+    .pro-tip-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .pro-tip-item strong {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--gray-800);
+      margin-bottom: 4px;
+    }
+
+    .pro-tip-item p {
+      font-size: 0.8125rem;
+      color: var(--gray-600);
+      margin: 0;
+    }
+
+    .progress-bar {
+      display: flex;
+      gap: 4px;
+      padding: var(--space-md) 0 var(--space-lg);
+    }
+
+    .progress-bar__step {
+      flex: 1;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--gray-200);
+      transition: background var(--transition-base);
+    }
+
+    .progress-bar__step.done { background: var(--sparrow-green); }
+  </style>
+  <script>
+    (function(){var t=localStorage.getItem('nest-theme');if(t)document.documentElement.classList.add(t);})();
+  </script>
+</head>
+<body>
+
+  <header class="header">
+    <div class="header__brand">
+      <a href="../../../index.html" class="header__logo">
+        <svg viewBox="0 0 24 24" fill="none">
+          <!-- nest bowl -->
+          <path d="M3 14 Q5 21 12 21 Q19 21 21 14" stroke="#1bae70" stroke-width="2" stroke-linecap="round"/>
+          <!-- inner weave arc -->
+          <path d="M6 14 Q8.5 19 12 19 Q15.5 19 18 14" stroke="#1bae70" stroke-width="1.25" stroke-linecap="round" opacity="0.55"/>
+          <!-- eggs -->
+          <ellipse cx="10" cy="13" rx="2.2" ry="1.6" fill="#1bae70"/>
+          <ellipse cx="14.5" cy="13" rx="2.2" ry="1.6" fill="#1bae70"/>
+        </svg>
+      </a>
+      <div>
+        <h1 class="header__title">The Nest</h1>
+        <p class="header__subtitle">Sparrow team resources</p>
+      </div>
+      <nav class="header__nav" aria-label="Main navigation">
+        <a href="../../../index.html" class="header__nav-link">Home</a>
+        <a href="../../../docs/index.html" class="header__nav-link">Docs</a>
+        <a href="../../../training/index.html" class="header__nav-link">Training</a>
+        <a href="../../../faq/index.html" class="header__nav-link">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="page-header">
+      <a href="../../index.html" class="page-header__back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        Back to Documents
+      </a>
+      <div class="doc-title-header">
+        <div class="doc-title-icon" style="background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.26 11.9a19.79 19.79 0 01-3.07-8.67A2 2 0 013.18 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.91 8.91a16 16 0 006.29 6.29l1.28-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="page-header__title">9-Step Call Framework</h1>
+          <div class="doc-title-roles">
+            <span class="role-tag role-tag--sales">Sales</span>
+          </div>
+        </div>
+      </div>
+      <p class="page-header__desc">80% scripted process, 20% spontaneous judgment. Follow the steps on every call — every customer gets the same experience, nothing gets missed.</p>
+    </div>
+
+    <article class="doc-content">
+
+      <div class="progress-bar" id="progressBar">
+        <div class="progress-bar__step" data-step="1"></div>
+        <div class="progress-bar__step" data-step="2"></div>
+        <div class="progress-bar__step" data-step="3"></div>
+        <div class="progress-bar__step" data-step="4"></div>
+        <div class="progress-bar__step" data-step="5"></div>
+        <div class="progress-bar__step" data-step="6"></div>
+        <div class="progress-bar__step" data-step="7"></div>
+        <div class="progress-bar__step" data-step="8"></div>
+        <div class="progress-bar__step" data-step="9"></div>
+      </div>
+
+      <!-- ── STEP 1 ── -->
+      <div class="step-card" id="step1">
+        <button class="step-card__trigger" onclick="toggleStep('step1')">
+          <div class="step-badge">1</div>
+          <div class="step-card__label">
+            <div class="step-card__name">Setting Expectations</div>
+            <div class="step-card__tagline">First impression. Control starts here.</div>
+          </div>
+          <svg class="step-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="step-card__body">
+
+          <h3>Opening</h3>
+          <div class="script-block">
+            <strong>Standard Open</strong>
+            "Thanks for calling Sparrow Moving, this is [Name] — how may I help you?"
+          </div>
+          <div class="script-block">
+            <strong>Upgraded Open (Movebees Standard)</strong>
+            "I know you're reaching out about moving — we're going to make sure that gets taken care of for you. But what has you moving today?"
+          </div>
+          <p>Let them tell you why. Their answer (new job, new baby, new house) gives you a genuine human moment to react to. That rapport carries through the entire call.</p>
+
+          <h3>Build Value Before Collecting Info</h3>
+          <div class="script-block">
+            <strong>Value-First Framing</strong>
+            "Have you ever used a professional moving company before? Let me tell you what to expect — we pad-wrap everything, break down and reassemble furniture, no extra charge for any of that..."
+          </div>
+          <p>Get them excited about the experience before they hear the price. A $2,000 number lands completely differently when they're already sold on the value.</p>
+
+          <h3>Read the Personality — First 30 Seconds</h3>
+          <div class="script-block">
+            <strong>Straight-Shooter Framing</strong>
+            "You sound like a straight shooter — let's get right to the meat and potatoes. All I need is an inventory of what you have and I'll give you our best rate. Sound fair?"
+          </div>
+          <p>Same process either way — but framing it as customized for them changes how they experience the whole call.</p>
+
+          <h3>Collect Access Conditions</h3>
+          <ul>
+            <li>Property type at origin — house, apartment, condo?</li>
+            <li>Floor number at origin — any stairs?</li>
+            <li>How close can the truck park?</li>
+            <li>Destination property type</li>
+            <li>Driveway access at destination?</li>
+            <li>Carry distance at destination</li>
+            <li>Packing — handling themselves or want help? (opens the upsell door naturally)</li>
+          </ul>
+
+          <h3>Close the Step</h3>
+          <div class="script-block">
+            <strong>Verbal Summary Before Moving On</strong>
+            "Okay — so we've got you moving from a ground-level apartment to a house. We're handling the move and you're handling the packing — correct?"
+          </div>
+
+          <div class="tip-block">
+            💡 You're a <strong>moving consultant</strong>, not a sales rep. Don't use the word "sales" — people don't want to feel sold.<br><br>
+            💡 Get a laugh in the first 30 seconds. It carries you through the rest of the call.
+          </div>
+        </div>
+      </div>
+
+      <!-- ── STEP 2 ── -->
+      <div class="step-card" id="step2">
+        <button class="step-card__trigger" onclick="toggleStep('step2')">
+          <div class="step-badge">2</div>
+          <div class="step-card__label">
+            <div class="step-card__name">Basic Info</div>
+            <div class="step-card__tagline">Get everything into Chariot — fast and natural</div>
+          </div>
+          <svg class="step-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="step-card__body">
+
+          <div class="script-block">
+            <strong>Transition Line</strong>
+            "Let's get you logged in — we're going to start putting some of that information in so we can get your quote started."
+          </div>
+
+          <h3>Enter into Chariot</h3>
+          <ul>
+            <li>First and last name — ask spelling on unusual last names</li>
+            <li>Phone — <em>"Is it okay if I use the number you called in on?"</em></li>
+            <li>Email — required for estimate, confirmation, invoice</li>
+            <li>Move date (see script below)</li>
+            <li>Service type — moving only vs. packing + moving</li>
+            <li>Home size / property type — already from Step 1</li>
+            <li><strong>Lead source — always ask, always enter. No exceptions.</strong></li>
+            <li>Origin address + access details</li>
+            <li>Destination address + access details</li>
+          </ul>
+
+          <div class="script-block">
+            <strong>Move Date — Exact Framing</strong>
+            "Do you have a date you're targeting — or if not, a time of month you're planning for?"
+          </div>
+          <p>A customer who says "I don't have a date" still has a time of month. Get something in the system, note it tentative, adjust later. Never let a missing date stop the process.</p>
+
+          <div class="script-block">
+            <strong>No Date Close</strong>
+            "Not a problem — you can reserve the truck and crew. There's no penalty to reschedule. I'll put in a tentative date and we can change it to whatever works once you know more."
+          </div>
+
+          <div class="tip-block">
+            💡 If Step 1 was done well, almost nothing in Step 2 is new — it's fast, organized data entry, not a second interrogation.<br><br>
+            💡 Never re-ask what you already have. Confirmation signals competence. Re-asking signals chaos.
+          </div>
+        </div>
+      </div>
+
+      <!-- ── STEP 3 ── -->
+      <div class="step-card" id="step3">
+        <button class="step-card__trigger" onclick="toggleStep('step3')">
+          <div class="step-badge">3</div>
+          <div class="step-card__label">
+            <div class="step-card__name">Collecting Inventory</div>
+            <div class="step-card__tagline">You lead. They confirm.</div>
+          </div>
+          <svg class="step-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="step-card__body">
+
+          <div class="script-block">
+            <strong>Transition Line</strong>
+            "I've got you loaded in, got both addresses, got all my trip and travel information. At this point we're going to gather an inventory from you."
+          </div>
+
+          <h3>Have They Moved Before?</h3>
+          <div class="script-block">
+            <strong>First Time</strong>
+            Preface the process — tell them what to expect from the room-by-room.
+          </div>
+          <div class="script-block">
+            <strong>Bad Experience</strong>
+            "I'm really sorry to hear that. Just so you know — all our guys are full-time, many have been with us for years. We pad-wrap everything, put floor runners and door jamb protectors — we protect your belongings and the home itself."
+          </div>
+
+          <h3>You Name the Items — They Confirm</h3>
+          <div class="script-block">
+            <strong>The Right Way</strong>
+            "Do you have a bed? What size — queen, king? Does it have a box spring? Any nightstands? Any dressers? Do you need help with disassembly on any of those?"
+          </div>
+          <div class="callout callout--warning" style="margin-top:0;">
+            <strong>Never ask:</strong> "What do you have in the bedroom?" — customers have brain farts, dead air kills the call, and you lose control. You name items, they say yes or no.
+          </div>
+
+          <h3>Room Order — Always This Sequence</h3>
+          <ul>
+            <li><strong>Phase 1:</strong> All bedrooms — master first, then each additional</li>
+            <li><strong>Phase 2:</strong> Primary rooms — living room, dining room, kitchen</li>
+            <li><strong>Phase 3:</strong> Additional spaces</li>
+          </ul>
+
+          <div class="script-block">
+            <strong>Phase 3 Prompt — Always Ask This</strong>
+            "Are there any unique spaces we haven't discussed? Office, sunroom, balcony, patio, shed?"
+          </div>
+          <p>Phase 3 is where the forgotten items live. This question catches what customers don't think to mention.</p>
+
+          <h3>Confirm Each Room Before Moving On</h3>
+          <div class="script-block">
+            <strong>Room Confirmation</strong>
+            "Just to confirm — queen bed, bed frame, two nightstands, chest of drawers. Is that everything from that room? Everything else will be boxed and ready to go upon arrival — correct?"
+          </div>
+          <p>The second sentence confirms inventory AND sets a move-day expectation. A verbal "correct" creates commitment.</p>
+
+          <div class="script-block">
+            <strong>If They Go Off Script</strong>
+            "I like to do things in a particular order — if you don't mind, can we start with the bedrooms? I just want to make sure nothing gets missed on either end."
+          </div>
+
+          <h3>Box Count Estimate</h3>
+          <p>After inventory is complete, use the quick formula: <strong>~10 boxes per 1,000 lbs, 1 wardrobe box per 1,000 lbs.</strong> Use the Pack Calculator for a full breakdown by box type when quoting packing services.</p>
+
+          <div class="tip-block">
+            💡 Calls run 20–40 minutes even with the framework. Without it, they run longer and miss things. Specificity is what separates a great estimate from one that blows up on move day.
+          </div>
+        </div>
+      </div>
+
+      <!-- ── STEP 4 ── -->
+      <div class="step-card" id="step4">
+        <button class="step-card__trigger" onclick="toggleStep('step4')">
+          <div class="step-badge">4</div>
+          <div class="step-card__label">
+            <div class="step-card__name">Paint the Picture</div>
+            <div class="step-card__tagline">Turn inventory numbers into something they can feel</div>
+          </div>
+          <svg class="step-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="step-card__body">
+
+          <div class="script-block">
+            <strong>Transition Line</strong>
+            "All right — we just went room by room, discussed all the furniture pieces, estimated the boxes. Let me tell you what we came up with."
+          </div>
+
+          <h3>Translate the Numbers</h3>
+          <div class="script-block">
+            <strong>Weight-to-Story Script</strong>
+            "We came up with about 950 pounds of estimated inventory. Now — this means nothing to you, but let me tell you what it means to me. A full truck is about 8,000 lbs. At 950 lbs, you don't have a ton of stuff — we're going to send a two-man crew, be pretty quick and efficient."
+          </div>
+
+          <h3>Proactively Describe the Service</h3>
+          <p>Don't wait to be asked. Answer the questions they haven't thought of yet.</p>
+          <ul>
+            <li>Pad-wrap every piece of furniture — no extra charge</li>
+            <li>Floor protection at origin and destination — neoprene runners, door jamb protectors</li>
+            <li>Disassembly at pickup, full reassembly at delivery — no extra charge</li>
+            <li>Furniture placed exactly where they want it</li>
+          </ul>
+
+          <div class="script-block">
+            <strong>Training Differentiator — Use This Line</strong>
+            "Our guys are trained specifically on this — we're not sending day-laborers to your house. They go through a full onboarding program before they touch a customer's belongings."
+          </div>
+
+          <div class="script-block">
+            <strong>If They Had a Bad Experience With a Previous Mover</strong>
+            "I'm really sorry — that happens more than it should in this industry. What I can tell you is our guys are trained, they protect your home as much as your belongings, and that's genuinely the job. That's what Hospitality means to us — it's not a tagline."
+          </div>
+
+          <div class="script-block">
+            <strong>Vision Close (Andy Elliott)</strong>
+            "When it's done, I want you to say: if moving was always that easy, I would have done it more often."
+          </div>
+
+          <div class="tip-block">
+            💡 "Confused mind doesn't buy." Give them a clear picture of move day — crew size, pace, what's included. Simplicity builds confidence. Complexity creates anxiety.<br><br>
+            💡 The goal: "I get to the end and ask if they have any questions — and a lot of times they laugh and say: 'No, you answered questions I didn't even think to ask.'"
+          </div>
+        </div>
+      </div>
+
+      <!-- ── STEP 5 ── -->
+      <div class="step-card" id="step5">
+        <button class="step-card__trigger" onclick="toggleStep('step5')">
+          <div class="step-badge">5</div>
+          <div class="step-card__label">
+            <div class="step-card__name">Confirm Basic Info</div>
+            <div class="step-card__tagline">Build the Yes Ladder before you ask for the card</div>
+          </div>
+          <svg class="step-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="step-card__body">
+
+          <p>60 seconds. Two jobs: catch errors, and get the customer saying yes. Every "correct" conditions them toward yes at the close.</p>
+
+          <div class="script-block">
+            <strong>Exact Script</strong>
+            "Before I calculate everything, let me just verify a couple quick details... You said the week of April 15th — correct? We're moving out of [address], first-floor apartment — correct? Moving to [address], a house — correct? And you're handling all the packing, so when we show up everything that needs to be in a box is already handled — we're just focused on the furniture — correct?"
+          </div>
+
+          <h3>The Packing Confirmation Does Double Duty</h3>
+          <p>It's a yes <em>and</em> it sets a move-day expectation. A customer who verbally confirms they'll be packed creates accountability. It's one of the biggest sources of move-day friction when it doesn't happen — get the "correct" now.</p>
+
+          <div class="tip-block">
+            💡 Yes is a habit, not a decision. People who've been agreeing for 45 minutes don't suddenly say no when the price comes out. The close doesn't start in Step 7 — it starts here.
+          </div>
+        </div>
+      </div>
+
+      <!-- ── STEP 6 ── -->
+      <div class="step-card" id="step6">
+        <button class="step-card__trigger" onclick="toggleStep('step6')">
+          <div class="step-badge">6</div>
+          <div class="step-card__label">
+            <div class="step-card__name">Present the Pricing</div>
+            <div class="step-card__tagline">Verbal first. One total. Then stop talking.</div>
+          </div>
+          <svg class="step-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="step-card__body">
+
+          <h3>The Rules</h3>
+          <ul>
+            <li><strong>Always present verbally before sending the estimate</strong> — never email first. The customer sees the number, their mind locks on it, and they stop listening.</li>
+            <li>Give one total — don't itemize every line</li>
+            <li>Pre-empt everything that could become an objection <em>before</em> the number, not after</li>
+            <li>After the number lands — slow down and let it sit</li>
+          </ul>
+
+          <div class="script-block">
+            <strong>Pricing Script</strong>
+            "Based on everything we've discussed, I'm going to send one truck and two men. I'm estimating this job at an hour and thirty minutes. I do have my standard truck and equipment charge plus a local fuel surcharge — which puts the estimated total at $[X]. That's for one truck, two men, if it runs the full hour and thirty minutes we're estimating."
+          </div>
+
+          <div class="script-block">
+            <strong>Time Clock Explanation</strong>
+            "The clock starts when we arrive at your first address and stops when we finish unloading at the destination. That's the time you're paying for. If it takes less time, you only pay for that amount."
+          </div>
+
+          <div class="script-block">
+            <strong>Price Pre-Handle</strong>
+            "We charge a little more than most. We pay our people more money. We're not interested in cheap — and you probably aren't either, because the stuff you're moving isn't cheap."
+          </div>
+
+          <h3>Deposit Structure</h3>
+          <ul>
+            <li>Small local jobs: $100 flat deposit</li>
+            <li>Mid-size jobs: 10% of estimate</li>
+            <li>Large jobs: $500 flat deposit</li>
+            <li>All deposits fully refundable with 48 hours notice</li>
+          </ul>
+
+          <h3>Send the Estimate While Still on the Phone</h3>
+          <p>Send it during the call so the number they see matches the number they heard. The gap between a verbal quote and an emailed quote is where doubt grows.</p>
+
+          <div class="script-block">
+            <strong>Availability Signal — Bridge to the Close</strong>
+            "Our schedule does fill up, especially on weekends and end-of-month. I'd love to get you on the calendar while I have you — it only takes a small deposit and it's fully refundable."
+          </div>
+
+          <div class="tip-block">
+            💡 After you say the number — <strong>stop talking</strong>. Silence after the price sounds confident. Jumping in to fill silence sounds nervous.<br><br>
+            💡 Never be bashful about price. Present $350 and $6,000 with identical confidence. The customer's wallet is not your wallet.
+          </div>
+        </div>
+      </div>
+
+      <!-- ── STEP 7 ── -->
+      <div class="step-card" id="step7">
+        <button class="step-card__trigger" onclick="toggleStep('step7')">
+          <div class="step-badge">7</div>
+          <div class="step-card__label">
+            <div class="step-card__name">Assume the Sale</div>
+            <div class="step-card__tagline">Immediate. Confident. No hesitation.</div>
+          </div>
+          <svg class="step-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="step-card__body">
+
+          <div class="script-block">
+            <strong>The Close</strong>
+            "I only require a 10% deposit, which is fully refundable with 48 hours notice. I can take that for you right now — would you be putting that on a Visa or Mastercard?"
+          </div>
+
+          <p>No preamble. No "so what do you think?" The customer called because they have to move. If you did your job in Steps 1–6, the answer is yes.</p>
+
+          <h3>Eliminate Conditional Language</h3>
+          <table class="compare-table">
+            <tr><th>❌ Weak</th><th>✓ Strong</th></tr>
+            <tr><td>"If you want to book with us..."</td><td>"You're going to book with us."</td></tr>
+            <tr><td>"If you're ready to sign..."</td><td>"You are ready to sign."</td></tr>
+            <tr><td>"If you'd like to put a deposit..."</td><td>"I just need a Visa or Mastercard."</td></tr>
+          </table>
+
+          <h3>Close on the Cue</h3>
+          <p>When the customer says <em>"perfect," "that sounds great," "okay"</em> — take it immediately. Every word after a green-light cue gives doubt room to re-enter.</p>
+
+          <h3>Walk Through Signing Together</h3>
+          <p>Stay on the phone. Direct them to the estimate email → blue "Sign Estimate" button → deposit prompt. Don't hang up until it's done. For customers who struggle with technology, take the deposit manually by phone and chase the signature after.</p>
+
+          <div class="callout callout--info" style="margin-top:var(--space-md);">
+            If they don't say yes immediately — don't retreat. Move to Step 8. The booking is still alive.
+          </div>
+        </div>
+      </div>
+
+      <!-- ── STEP 8 ── -->
+      <div class="step-card" id="step8">
+        <button class="step-card__trigger" onclick="toggleStep('step8')">
+          <div class="step-badge">8</div>
+          <div class="step-card__label">
+            <div class="step-card__name">Objections &amp; Rebuttals</div>
+            <div class="step-card__tagline">This is where order-takers become salespeople</div>
+          </div>
+          <svg class="step-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="step-card__body">
+
+          <h3>The 80/10/10 Rule</h3>
+          <ul>
+            <li><strong>80%</strong> — ready to buy. Assuming the sale handles them.</li>
+            <li><strong>10%</strong> — fence-sitters. This is where Step 8 lives.</li>
+            <li><strong>10%</strong> — won't buy today. Recognize them and release them gracefully.</li>
+          </ul>
+          <p>Most reps spend 80% of their energy on the 10% who will never buy. Don't.</p>
+
+          <h3>Four Rules</h3>
+          <ul>
+            <li>Never say anything negative about a competitor</li>
+            <li>Always lead with your positives, not their negatives</li>
+            <li>Use specific stories — real examples beat abstract claims</li>
+            <li>The best companies aren't the ones that never make mistakes — they're the ones that fix them</li>
+          </ul>
+
+          <h3>Think in Rounds</h3>
+          <p>If the first rebuttal doesn't land, try a different angle — not the same one repeated louder.</p>
+          <ul>
+            <li>Round 1: Lead with value</li>
+            <li>Round 2: Specific story or differentiator</li>
+            <li>Round 3: "Person to person — what's holding you back?"</li>
+          </ul>
+
+          <div class="script-block">
+            <strong>High Rate Rebuttal</strong>
+            "We do provide excellent value. My labor rate may be a little higher than some, but the billing is very clear and easy to understand. We pay our guys well and we don't overwork them — our goal is to keep people with us for years. High turnover makes consistent service really hard. That's how we consistently deliver top-level results."
+          </div>
+
+          <div class="script-block">
+            <strong>Bad Review Rebuttal</strong>
+            "At the end of the day we're human, but we take every possible precaution — pad wrap, shrink wrap, floor runners, door protectors. You called and got me right away. We're a local independent company — you're going to get me or someone in dispatch every time. If anything goes wrong, I'm confident we'll remedy it and make you a customer for life."
+          </div>
+
+          <h3>Quick Reference</h3>
+          <table class="compare-table">
+            <tr><th>Objection</th><th>First Move</th></tr>
+            <tr><td>Found a lower quote</td><td>"Did they walk you through what's included? A lot of lower quotes don't cover disassembly, floor protection, or pad wrapping. Those aren't extras for us — they're standard."</td></tr>
+            <tr><td>Need to talk to my spouse</td><td>"That makes sense. Is it more the timing, or the investment you want to talk through?" → Isolate, then offer tentative reservation.</td></tr>
+            <tr><td>Still shopping</td><td>"Come back to me before you decide — I'll tell you honestly if someone has a better deal."</td></tr>
+            <tr><td>Want to rent a truck</td><td>Lead with hidden costs: time, fuel, equipment rental, physical risk, no second pair of hands.</td></tr>
+            <tr><td>Price concern</td><td>"Our guys are full-time movers who've been through our training program — you're not getting day labor. That's what the difference in price is."</td></tr>
+          </table>
+
+          <div class="script-block">
+            <strong>Tentative Reservation — Most Underused Close</strong>
+            "Let me hold that date for you right now at no charge — fully changeable, zero commitment. That way you have something concrete while you decide."
+          </div>
+          <p>Any time a customer needs to think, talk to someone, or wait on a date — offer this before they hang up. A tentative reservation beats "call me back" every time.</p>
+
+          <div class="callout callout--success" style="margin-top:var(--space-md);">
+            Full scripts for every objection — shopping around, lower quote, renting a truck, spouse, no date, cancellation — in the <a href="../objection-handling/index.html" style="color:var(--sparrow-green);font-weight:600;">Objection Handling guide</a>.
+          </div>
+
+          <div class="tip-block">
+            💡 Energy matters as much as content. A pause followed by a confident response reads as "I've heard this before — the answer is easy." Rushing reads as defensive.
+          </div>
+        </div>
+      </div>
+
+      <!-- ── STEP 9 ── -->
+      <div class="step-card" id="step9">
+        <button class="step-card__trigger" onclick="toggleStep('step9')">
+          <div class="step-badge">9</div>
+          <div class="step-card__label">
+            <div class="step-card__name">Rewrap &amp; Close</div>
+            <div class="step-card__tagline">One anchor. One emotional close. Get them scheduled.</div>
+          </div>
+          <svg class="step-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="step-card__body">
+
+          <p>When the objection lands and you sense a positive shift — move immediately. Time kills deals.</p>
+
+          <div class="script-block">
+            <strong>The Rewrap — 1 or 2 Sentences Only</strong>
+            "We've got great value, guys who've been with us for a long time, we're going to move your stuff safely, not going to damage anything — you're going to love our movers, trust me."
+          </div>
+
+          <div class="script-block">
+            <strong>The Emotional Close</strong>
+            "Hey, it's just a $100 deposit. Let's get you booked. This is one less thing off your plate — you can quit stressing about the move. You're looking to move next week. Let's just get it done."
+          </div>
+
+          <div class="script-block">
+            <strong>Person-to-Person Close (Last Resort)</strong>
+            "Can I ask you something — person to person? I've walked you through everything, we've talked about your move. What's holding you back?"
+          </div>
+          <p>Then stop talking. The answer gives you one more shot — or tells you you're in the 10%.</p>
+
+          <div class="script-block">
+            <strong>Referral Seed</strong>
+            "The greatest compliment you could ever give me is sending me someone you know who's moving in the future."
+          </div>
+
+          <h3>Always Close on Something</h3>
+          <p>"What did you close them on?" is the accountability question after every non-booked call. <em>"They said they'd think about it"</em> is not an answer.</p>
+
+          <table class="compare-table">
+            <tr><th>Outcome</th><th>Close on this</th></tr>
+            <tr><td>Ready to book</td><td>Deposit + signed estimate before hanging up</td></tr>
+            <tr><td>Interested, not ready</td><td>Tentative reservation + specific callback time</td></tr>
+            <tr><td>Needs spouse</td><td>"When will you chat with them? I'll reach out [day]."</td></tr>
+            <tr><td>Still shopping</td><td>"Come back to me before you decide — I'll tell you if someone has a better deal."</td></tr>
+            <tr><td>Needs more time</td><td>"I'll follow up Tuesday at 2 — does that work?"</td></tr>
+          </table>
+
+          <div class="tip-block">
+            💡 Getting them scheduled is the priority. The signature can come after.<br><br>
+            💡 A tentative reservation beats "call me back" every time. It sets up the 5-touch follow-up with a natural foundation — the next call isn't cold, it's expected.
+          </div>
+        </div>
+      </div>
+
+      <!-- Pro Tips -->
+      <div class="pro-tips">
+        <h2>Pro Tips</h2>
+
+        <div class="pro-tip-item">
+          <strong>Stay on "The Line"</strong>
+          <p>Always be moving toward the close. If the customer detours, bring them back: <em>"I like to do things in a particular order — if you don't mind, can we start with the bedrooms?"</em> One detour tolerated trains the customer that detours are acceptable.</p>
+        </div>
+
+        <div class="pro-tip-item">
+          <strong>Never Assume Their Wallet</strong>
+          <p>Present every price — $350 or $6,000 — with identical confidence. Your personal budget is not relevant. The customer's inventory warrants the price.</p>
+        </div>
+
+        <div class="pro-tip-item">
+          <strong>Time Kills Deals</strong>
+          <p>When you sense a positive shift after a rebuttal, move immediately. Doubt grows in the gap between a landed rebuttal and the next close attempt.</p>
+        </div>
+
+        <div class="pro-tip-item">
+          <strong>The Jacob Lesson</strong>
+          <p>Push through the awkward phase of a new technique. Sloppy repetitions still build the skill. Before the Jacob story, he never tried the spouse rebuttal at all — now he does it every time. Practice through the uncomfortable moment.</p>
+        </div>
+
+        <div class="pro-tip-item">
+          <strong>80/20 Rule</strong>
+          <p>This framework is 80% scripted process and 20% spontaneous judgment. Follow the steps when the call is normal. Trust your instincts when it goes sideways — then come back to the framework.</p>
+        </div>
+      </div>
+
+    </article>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="../../../index.html" class="nav-item">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      <span class="nav-item__label">Home</span>
+    </a>
+    <a href="../../../docs/index.html" class="nav-item active">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      <span class="nav-item__label">Docs</span>
+    </a>
+    <a href="../../../faq/index.html" class="nav-item">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span class="nav-item__label">FAQ</span>
+    </a>
+  </nav>
+
+  <script>
+    function toggleStep(id) {
+      const card = document.getElementById(id);
+      const isOpen = card.classList.contains('open');
+      document.querySelectorAll('.step-card').forEach(c => c.classList.remove('open'));
+      if (!isOpen) {
+        card.classList.add('open');
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const openCard = document.querySelector('.step-card.open');
+      const steps = document.querySelectorAll('.progress-bar__step');
+      steps.forEach(s => s.classList.remove('done'));
+      if (openCard) {
+        const stepNum = parseInt(openCard.id.replace('step', ''));
+        for (let i = 0; i < stepNum; i++) steps[i].classList.add('done');
+      }
+    }
+  </script>
+
+  <script src="../../../js/app.js"></script>
+</body>
+</html>

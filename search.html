@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1bae70">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Search | The Nest</title>
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%231bae70'/><circle cx='50' cy='40' r='12' fill='white'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
+  <script>
+    (function(){var t=localStorage.getItem('nest-theme');if(t)document.documentElement.classList.add(t);})();
+  </script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header__brand">
+      <a href="index.html" class="header__logo">
+        <svg viewBox="0 0 24 24" fill="none">
+          <!-- nest bowl -->
+          <path d="M3 14 Q5 21 12 21 Q19 21 21 14" stroke="#1bae70" stroke-width="2" stroke-linecap="round"/>
+          <!-- inner weave arc -->
+          <path d="M6 14 Q8.5 19 12 19 Q15.5 19 18 14" stroke="#1bae70" stroke-width="1.25" stroke-linecap="round" opacity="0.55"/>
+          <!-- eggs -->
+          <ellipse cx="10" cy="13" rx="2.2" ry="1.6" fill="#1bae70"/>
+          <ellipse cx="14.5" cy="13" rx="2.2" ry="1.6" fill="#1bae70"/>
+        </svg>
+      </a>
+      <div>
+        <h1 class="header__title">The Nest</h1>
+        <p class="header__subtitle">Sparrow team resources</p>
+      </div>
+      <nav class="header__nav" aria-label="Main navigation">
+        <a href="index.html" class="header__nav-link">Home</a>
+        <a href="docs/index.html" class="header__nav-link">Docs</a>
+        <a href="training/index.html" class="header__nav-link">Training</a>
+        <a href="faq/index.html" class="header__nav-link">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="search-page-wrapper">
+
+      <div class="search-page-header">
+        <h1>Search The Nest</h1>
+        <p>Find policies, procedures, and answers fast</p>
+      </div>
+
+      <!-- Search Input -->
+      <div class="search-page-input-wrap">
+        <svg class="search-page-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="M21 21l-4.35-4.35"/>
+        </svg>
+        <input
+          type="search"
+          id="searchPageInput"
+          class="search-page-input"
+          placeholder="Search for policies, procedures, answers..."
+          autocomplete="off"
+          autofocus
+        >
+        <button class="search-page-clear" id="searchPageClear" type="button" aria-label="Clear search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Results area -->
+      <div id="searchPageResults">
+
+        <!-- Initial / popular searches state -->
+        <div id="searchPopularState">
+          <p class="search-popular-title">Popular searches</p>
+          <div class="search-popular-grid">
+            <button class="search-popular-item" data-search="pay schedule">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+              </svg>
+              <span>Pay schedule</span>
+            </button>
+            <button class="search-popular-item" data-search="PTO time off">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2"/>
+                <path d="M16 2v4M8 2v4M3 10h18"/>
+              </svg>
+              <span>PTO &amp; time off</span>
+            </button>
+            <button class="search-popular-item" data-search="injury report">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+              </svg>
+              <span>Injury reporting</span>
+            </button>
+            <button class="search-popular-item" data-search="lifting technique">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 8v4m0 4h.01"/>
+              </svg>
+              <span>Lifting techniques</span>
+            </button>
+            <button class="search-popular-item" data-search="damage claim">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                <path d="M14 2v6h6"/>
+              </svg>
+              <span>Damage claims</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- No results state -->
+        <div id="searchNoResults" style="display:none">
+          <div class="search-no-results">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="M21 21l-4.35-4.35M8 11h6"/>
+            </svg>
+            <h3>No results found</h3>
+            <p>Try different keywords or browse by category</p>
+            <div class="search-suggestion-tags">
+              <button class="search-suggestion-tag" data-search="handbook">Handbook</button>
+              <button class="search-suggestion-tag" data-search="safety">Safety</button>
+              <button class="search-suggestion-tag" data-search="compensation">Compensation</button>
+              <button class="search-suggestion-tag" data-search="training">Training</button>
+              <button class="search-suggestion-tag" data-search="onboarding">Onboarding</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results list -->
+        <div id="searchResultsContainer" style="display:none">
+          <p class="search-results-count" id="searchResultsCount"></p>
+          <div id="searchResultsList"></div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+      </svg>
+      <span class="nav-item__label">Home</span>
+    </a>
+    <a href="search.html" class="nav-item active">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="M21 21l-4.35-4.35"/>
+      </svg>
+      <span class="nav-item__label">Search</span>
+    </a>
+    <a href="docs/index.html" class="nav-item">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+        <path d="M14 2v6h6"/>
+      </svg>
+      <span class="nav-item__label">Docs</span>
+    </a>
+    <a href="training/index.html" class="nav-item">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <polygon points="23 7 16 12 23 17 23 7"/>
+        <rect x="1" y="5" width="15" height="14" rx="2"/>
+      </svg>
+      <span class="nav-item__label">Videos</span>
+    </a>
+  </nav>
+
+  <script src="js/app.js"></script>
+  <script>
+    const searchIndex = [
+      { title: "Employee Handbook", category: "Handbook", url: "docs/handbook/index.html", content: "PTO vacation sick leave pay schedule weekly direct deposit policies termination anti-harassment discrimination drug alcohol workplace conduct benefits" },
+      { title: "Code of Conduct", category: "Code of Conduct", url: "docs/code-of-conduct/index.html", content: "behavior standards professionalism customer interaction social media uniforms dress code appearance ethics integrity" },
+      { title: "Safety Manual", category: "Safety", url: "docs/safety-manual/index.html", content: "OSHA lifting techniques back injury PPE personal protective equipment gloves footwear incident reporting hazards" },
+      { title: "Pack & Prep Procedures", category: "Training", url: "docs/training-sops/pack-and-prep/index.html", content: "wrapping packing materials shrink wrap moving pads furniture protection tape boxes labeling fragile bubble wrap" },
+      { title: "Loading Procedures", category: "Training", url: "docs/training-sops/loading/index.html", content: "loading truck tier weight distribution straps securing cargo ramp lift gate stacking boxes furniture" },
+      { title: "Specialty Item Handling", category: "Training", url: "docs/training-sops/specialty-items/index.html", content: "piano safe antiques artwork mirrors pool table hot tub chandelier electronics TV fragile heavy specialty" },
+      { title: "Move Day Checklists", category: "Training", url: "docs/training-sops/checklists/index.html", content: "checklist pre-departure arrival loading unloading completion walkthrough paperwork equipment inspection" },
+      { title: "Vehicle Operation Policy", category: "Vehicle", url: "docs/vehicle-policy/index.html", content: "DOT regulations CDL license pre-trip inspection accident procedures maintenance driving safety truck" },
+      { title: "Crew Lead Job Description", category: "Job Descriptions", url: "docs/job-descriptions/crew-lead/index.html", content: "crew lead supervisor leadership responsibilities duties requirements experience skills" },
+      { title: "Mover Job Description", category: "Job Descriptions", url: "docs/job-descriptions/mover/index.html", content: "mover position duties responsibilities physical requirements entry level" },
+      { title: "Sales Rep Job Description", category: "Job Descriptions", url: "docs/job-descriptions/sales/index.html", content: "sales representative position duties commission closing leads customer service" },
+      { title: "Estimator Job Description", category: "Job Descriptions", url: "docs/job-descriptions/estimator/index.html", content: "estimator in-home estimates virtual survey pricing quotes customer consultation" },
+      { title: "Dispatcher Job Description", category: "Job Descriptions", url: "docs/job-descriptions/dispatcher/index.html", content: "dispatcher scheduling routing crew assignment operations logistics coordination" },
+      { title: "Mover Compensation", category: "Compensation", url: "docs/compensation/mover/index.html", content: "mover pay hourly wage tips bonuses performance incentives pay grades" },
+      { title: "Crew Lead Compensation", category: "Compensation", url: "docs/compensation/crew-lead/index.html", content: "crew lead pay hourly bonuses performance leadership premium" },
+      { title: "Onboarding Checklist", category: "Onboarding", url: "docs/onboarding/index.html", content: "new hire orientation first day paperwork training schedule mentorship I-9 W-4 direct deposit" },
+      { title: "Injury & Workers' Comp", category: "Injury & Claims", url: "docs/injury-workers-comp/index.html", content: "injury reporting workers compensation claim work injury accident first aid return to work" },
+      { title: "Property Damage & Claims", category: "Injury & Claims", url: "docs/claims-protocol/index.html", content: "damage claim property damage documentation photos customer communication claims process" },
+      { title: "9-Step Call Framework", category: "Sales", url: "docs/sales/call-framework/index.html", content: "sales call script framework steps expectations close rewrap objections leads phone" },
+      { title: "Objection Handling", category: "Sales", url: "docs/sales/objection-handling/index.html", content: "objections rebuttals scripts price too expensive thinking about it competitors" }
+    ];
+
+    const fuse = new Fuse(searchIndex, {
+      keys: ['title', 'content', 'category'],
+      threshold: 0.35,
+      includeScore: true
+    });
+
+    const input      = document.getElementById('searchPageInput');
+    const clearBtn   = document.getElementById('searchPageClear');
+    const popularEl  = document.getElementById('searchPopularState');
+    const noResultEl = document.getElementById('searchNoResults');
+    const resultsCon = document.getElementById('searchResultsContainer');
+    const countEl    = document.getElementById('searchResultsCount');
+    const listEl     = document.getElementById('searchResultsList');
+
+    function showState(state) {
+      popularEl.style.display  = state === 'popular' ? '' : 'none';
+      noResultEl.style.display = state === 'empty'   ? '' : 'none';
+      resultsCon.style.display = state === 'results' ? '' : 'none';
+    }
+
+    function runSearch(query) {
+      if (!query.trim()) { showState('popular'); clearBtn.classList.remove('visible'); return; }
+      clearBtn.classList.add('visible');
+      const results = fuse.search(query);
+      if (!results.length) { showState('empty'); return; }
+      showState('results');
+      countEl.textContent = `${results.length} result${results.length === 1 ? '' : 's'}`;
+      listEl.innerHTML = results.map(r => {
+        const item = r.item;
+        let preview = item.content.substring(0, 120);
+        query.toLowerCase().split(' ').forEach(term => {
+          if (term.length > 2) preview = preview.replace(new RegExp(`(${term})`, 'gi'), '<mark>$1</mark>');
+        });
+        return `
+          <div class="search-result-card">
+            <a href="${item.url}">
+              <span class="search-result-category">${item.category}</span>
+              <div class="search-result-title">${item.title}</div>
+              <div class="search-result-preview">${preview}…</div>
+            </a>
+          </div>`;
+      }).join('');
+    }
+
+    input.addEventListener('input', e => runSearch(e.target.value));
+    clearBtn.addEventListener('click', () => { input.value = ''; runSearch(''); input.focus(); });
+
+    document.querySelectorAll('.search-popular-item, .search-suggestion-tag').forEach(el => {
+      el.addEventListener('click', () => { input.value = el.dataset.search; runSearch(el.dataset.search); });
+    });
+
+    const q = new URLSearchParams(window.location.search).get('q');
+    if (q) { input.value = q; runSearch(q); }
+  </script>
+</body>
+</html>
