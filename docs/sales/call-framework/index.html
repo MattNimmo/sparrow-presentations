@@ -282,12 +282,13 @@
           </div>
         </div>
       </div>
-      <p class="page-header__desc">80% scripted process, 20% spontaneous judgment. Follow the steps on every call — every customer gets the same experience, nothing gets missed.</p>
+      <p class="page-header__desc">80% scripted, 20% spontaneous. Follow the steps on every call — every customer gets the same experience, nothing gets missed. Calls run 20–40 minutes when done well.</p>
     </div>
 
     <article class="doc-content">
 
       <div class="progress-bar" id="progressBar">
+        <div class="progress-bar__step" data-step="0"></div>
         <div class="progress-bar__step" data-step="1"></div>
         <div class="progress-bar__step" data-step="2"></div>
         <div class="progress-bar__step" data-step="3"></div>
@@ -299,13 +300,38 @@
         <div class="progress-bar__step" data-step="9"></div>
       </div>
 
+      <!-- ── STEP 0 ── -->
+      <div class="step-card" id="step0">
+        <button class="step-card__trigger" onclick="toggleStep('step0')">
+          <div class="step-badge" style="background: var(--gray-500);">0</div>
+          <div class="step-card__label">
+            <div class="step-card__name">Before the Call</div>
+            <div class="step-card__tagline">30-second reset. Leave the last call behind.</div>
+          </div>
+          <svg class="step-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="step-card__body">
+
+          <h3>The Reset</h3>
+          <ul>
+            <li>Stand up. Walk a few steps — energy travels through your voice.</li>
+            <li>If the last call went poorly, leave it there. The next customer didn't cause it.</li>
+            <li>Remind yourself: this person is going through a major life transition. Bring your best.</li>
+          </ul>
+
+          <div class="tip-block">
+            ⚠️ <strong>Pitfall:</strong> Stacking calls without resetting. A bad call leaks into the next one. The fix is physical — stand up, walk, breathe.
+          </div>
+        </div>
+      </div>
+
       <!-- ── STEP 1 ── -->
       <div class="step-card" id="step1">
         <button class="step-card__trigger" onclick="toggleStep('step1')">
           <div class="step-badge">1</div>
           <div class="step-card__label">
             <div class="step-card__name">Setting Expectations</div>
-            <div class="step-card__tagline">First impression. Control starts here.</div>
+            <div class="step-card__tagline">Connect human-to-human. Earn the right to guide the call.</div>
           </div>
           <svg class="step-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
         </button>
@@ -313,49 +339,78 @@
 
           <h3>Opening</h3>
           <div class="script-block">
-            <strong>Standard Open</strong>
-            "Thanks for calling Sparrow Moving, this is [Name] — how may I help you?"
+            <strong>The Opener</strong>
+            "Thanks for calling Sparrow Moving, this is [Name]. I know you're reaching out about a move — we're going to take care of you. But first, what has you moving today?"
+          </div>
+          <p>Listen to the answer. This question almost always surfaces something real — new job, first home, baby on the way, downsizing after a parent passed, divorce. React genuinely.</p>
+          <div class="script-block">
+            <strong>If It's Good News</strong>
+            "Congratulations — that's huge. Let's make sure this part is one less thing on your plate."
           </div>
           <div class="script-block">
-            <strong>Upgraded Open (Movebees Standard)</strong>
-            "I know you're reaching out about moving — we're going to make sure that gets taken care of for you. But what has you moving today?"
+            <strong>If It's Hard News</strong>
+            "I'm really sorry to hear that. We'll do everything we can to make this part smoother for you."
           </div>
-          <p>Let them tell you why. Their answer (new job, new baby, new house) gives you a genuine human moment to react to. That rapport carries through the entire call.</p>
 
-          <h3>Build Value Before Collecting Info</h3>
+          <h3>Ask One More Question</h3>
           <div class="script-block">
-            <strong>Value-First Framing</strong>
-            "Have you ever used a professional moving company before? Let me tell you what to expect — we pad-wrap everything, break down and reassemble furniture, no extra charge for any of that..."
+            <strong>The Follow-Up</strong>
+            "What else is going on around the move that we should know about?"
           </div>
-          <p>Get them excited about the experience before they hear the price. A $2,000 number lands completely differently when they're already sold on the value.</p>
+          <p>This surfaces the surrounding life: work travel, kids' first day of school, a partner recovering from surgery. It opens the door for better questions and makes Step 4 hit harder.</p>
 
-          <h3>Read the Personality — First 30 Seconds</h3>
+          <h3>The Pain Funnel — When to Drill</h3>
+          <p>Any time the customer mentions a stressor, don't acknowledge-and-pivot. Drill 1–2 layers deeper before moving on. Takes 30 seconds; changes how the rest of the call lands.</p>
+          <p><strong>Technique:</strong> <em>"Tell me more about that"</em> → <em>"Why is that important?"</em> — in your own words.</p>
+
           <div class="script-block">
-            <strong>Straight-Shooter Framing</strong>
-            "You sound like a straight shooter — let's get right to the meat and potatoes. All I need is an inventory of what you have and I'll give you our best rate. Sound fair?"
+            <strong>Example — Past Bad Mover</strong>
+            Customer: "We had a bad experience with movers last time."<br>
+            You: "I'm sorry — what happened?"<br>
+            Customer: "They broke our dining table."<br>
+            You: "Ugh. Was it a piece that mattered to you?"<br>
+            Customer: "It was my wife's grandmother's."<br><br>
+            You now know exactly what to anchor on in Step 4. Honor it.
           </div>
-          <p>Same process either way — but framing it as customized for them changes how they experience the whole call.</p>
 
-          <h3>Collect Access Conditions</h3>
-          <ul>
-            <li>Property type at origin — house, apartment, condo?</li>
-            <li>Floor number at origin — any stairs?</li>
-            <li>How close can the truck park?</li>
-            <li>Destination property type</li>
-            <li>Driveway access at destination?</li>
-            <li>Carry distance at destination</li>
-            <li>Packing — handling themselves or want help? (opens the upsell door naturally)</li>
-          </ul>
-
-          <h3>Close the Step</h3>
           <div class="script-block">
-            <strong>Verbal Summary Before Moving On</strong>
-            "Okay — so we've got you moving from a ground-level apartment to a house. We're handling the move and you're handling the packing — correct?"
+            <strong>Example — Tight Timing</strong>
+            Customer: "We're moving the weekend before my wife's first day at her new job."<br>
+            You: "Tight window — what happens if move day goes sideways?"<br>
+            Customer: "She'd be unpacking until midnight Sunday and walking into Monday wrecked."<br><br>
+            Premium pricing isn't a defense anymore. It's protection of her first day.
           </div>
 
           <div class="tip-block">
-            💡 You're a <strong>moving consultant</strong>, not a sales rep. Don't use the word "sales" — people don't want to feel sold.<br><br>
-            💡 Get a laugh in the first 30 seconds. It carries you through the rest of the call.
+            ⚠️ <strong>Pitfall:</strong> The pain funnel is curiosity, not interrogation. Would a friend ask this if you mentioned your moving stress? If yes, you're on-brand. If it feels like extracting information, dial back.
+          </div>
+
+          <h3>Read the Personality — First 30 Seconds</h3>
+          <table class="compare-table">
+            <tr><th>Type</th><th>How to Adjust</th></tr>
+            <tr>
+              <td style="color:var(--gray-700)"><strong>Storyteller</strong> — elaborates, friendly, shares context</td>
+              <td style="color:var(--gray-700)">Match warmth, react genuinely, let them lead the rapport</td>
+            </tr>
+            <tr>
+              <td style="color:var(--gray-700)"><strong>Straight Shooter</strong> — clipped, just-the-facts</td>
+              <td style="color:var(--gray-700)">"You sound like a straight shooter — let's get right to it. I just need an inventory and I'll get you a number. Sound good?"</td>
+            </tr>
+          </table>
+          <p>The process is identical either way. The framing changes everything.</p>
+
+          <h3>Build Value Before Logistics</h3>
+          <div class="script-block">
+            <strong>If They've Never Used a Professional Mover</strong>
+            "Let me tell you what to expect from us. We pad-wrap all of your furniture. We put down floor runners and door jamb protectors at both locations — your house gets protected from the start. We break down anything that needs it and reassemble at the destination. None of that costs extra. We treat your stuff and your home the way we'd treat our own."
+          </div>
+          <div class="script-block">
+            <strong>If They've Had a Bad Experience</strong>
+            "I'm really sorry — that happens more than it should in this industry. Just so you know how we work: our guys are full-time, trained on our own program, and protecting your stuff is genuinely the job. Let me walk you through what to expect."
+          </div>
+
+          <div class="tip-block">
+            💡 Don't trash the previous mover. Lead with what we do, never what they did wrong.
           </div>
         </div>
       </div>
@@ -374,36 +429,23 @@
 
           <div class="script-block">
             <strong>Transition Line</strong>
-            "Let's get you logged in — we're going to start putting some of that information in so we can get your quote started."
+            "Let me get you loaded in so I can build out your quote."
           </div>
 
           <h3>Enter into Chariot</h3>
           <ul>
-            <li>First and last name — ask spelling on unusual last names</li>
-            <li>Phone — <em>"Is it okay if I use the number you called in on?"</em></li>
-            <li>Email — required for estimate, confirmation, invoice</li>
-            <li>Move date (see script below)</li>
+            <li>Name — ask spelling on unusual last names</li>
+            <li>Phone, email</li>
+            <li>Move date — <em>"Do you have a date you're targeting, or if not, a time of month you're planning for?"</em></li>
             <li>Service type — moving only vs. packing + moving</li>
-            <li>Home size / property type — already from Step 1</li>
+            <li>Origin address + property type, parking, floor, carry distance</li>
+            <li>Destination address + property type, parking, carry distance</li>
             <li><strong>Lead source — always ask, always enter. No exceptions.</strong></li>
-            <li>Origin address + access details</li>
-            <li>Destination address + access details</li>
           </ul>
 
-          <div class="script-block">
-            <strong>Move Date — Exact Framing</strong>
-            "Do you have a date you're targeting — or if not, a time of month you're planning for?"
-          </div>
-          <p>A customer who says "I don't have a date" still has a time of month. Get something in the system, note it tentative, adjust later. Never let a missing date stop the process.</p>
-
-          <div class="script-block">
-            <strong>No Date Close</strong>
-            "Not a problem — you can reserve the truck and crew. There's no penalty to reschedule. I'll put in a tentative date and we can change it to whatever works once you know more."
-          </div>
-
           <div class="tip-block">
-            💡 If Step 1 was done well, almost nothing in Step 2 is new — it's fast, organized data entry, not a second interrogation.<br><br>
-            💡 Never re-ask what you already have. Confirmation signals competence. Re-asking signals chaos.
+            💡 If Step 1 went well, almost everything you need is already known. <strong>Confirm, don't re-ask.</strong> <em>"I have you at a first-floor apartment moving to a single-family home — let me get you loaded in."</em> Confirmation feels organized. Re-asking feels chaotic.<br><br>
+            💡 A customer without a firm date isn't a problem. Get a tentative date based on the time of month they mention. Don't let a missing date stall the call.
           </div>
         </div>
       </div>
@@ -420,60 +462,41 @@
         </button>
         <div class="step-card__body">
 
-          <div class="script-block">
-            <strong>Transition Line</strong>
-            "I've got you loaded in, got both addresses, got all my trip and travel information. At this point we're going to gather an inventory from you."
-          </div>
-
-          <h3>Have They Moved Before?</h3>
-          <div class="script-block">
-            <strong>First Time</strong>
-            Preface the process — tell them what to expect from the room-by-room.
-          </div>
-          <div class="script-block">
-            <strong>Bad Experience</strong>
-            "I'm really sorry to hear that. Just so you know — all our guys are full-time, many have been with us for years. We pad-wrap everything, put floor runners and door jamb protectors — we protect your belongings and the home itself."
-          </div>
-
           <h3>You Name the Items — They Confirm</h3>
           <div class="script-block">
             <strong>The Right Way</strong>
-            "Do you have a bed? What size — queen, king? Does it have a box spring? Any nightstands? Any dressers? Do you need help with disassembly on any of those?"
-          </div>
-          <div class="callout callout--warning" style="margin-top:0;">
-            <strong>Never ask:</strong> "What do you have in the bedroom?" — customers have brain farts, dead air kills the call, and you lose control. You name items, they say yes or no.
+            "Let's start with the master. Do you have a bed in there? What size — queen, king? Box spring? Any nightstands? Dresser — wide or tall chest? Need us to handle disassembly on any of that?"
           </div>
 
-          <h3>Room Order — Always This Sequence</h3>
+          <div class="callout callout--warning" style="margin-top:0;">
+            <strong>Never ask:</strong> "What do you have in the bedroom?" — customers freeze on open questions. You name items, they confirm yes or no.
+          </div>
+
+          <h3>Room Order — Non-Negotiable</h3>
           <ul>
             <li><strong>Phase 1:</strong> All bedrooms — master first, then each additional</li>
             <li><strong>Phase 2:</strong> Primary rooms — living room, dining room, kitchen</li>
-            <li><strong>Phase 3:</strong> Additional spaces</li>
+            <li><strong>Phase 3:</strong> Catch-all — <em>"Are there any spaces we haven't gone through yet? Office, sunroom, garage, shed, patio storage?"</em></li>
           </ul>
-
-          <div class="script-block">
-            <strong>Phase 3 Prompt — Always Ask This</strong>
-            "Are there any unique spaces we haven't discussed? Office, sunroom, balcony, patio, shed?"
-          </div>
-          <p>Phase 3 is where the forgotten items live. This question catches what customers don't think to mention.</p>
+          <p>Phase 3 is where forgotten items live. The garage question alone regularly surfaces half a truck of stuff.</p>
 
           <h3>Confirm Each Room Before Moving On</h3>
           <div class="script-block">
             <strong>Room Confirmation</strong>
-            "Just to confirm — queen bed, bed frame, two nightstands, chest of drawers. Is that everything from that room? Everything else will be boxed and ready to go upon arrival — correct?"
+            "Okay — so in the master we've got: king bed, frame, two nightstands, dresser. That's everything? And when we show up, all the boxes are packed and ready — we're just handling the furniture. Correct?"
           </div>
-          <p>The second sentence confirms inventory AND sets a move-day expectation. A verbal "correct" creates commitment.</p>
+          <p>That second sentence sets a move-day expectation and gets an early "correct."</p>
 
           <div class="script-block">
             <strong>If They Go Off Script</strong>
-            "I like to do things in a particular order — if you don't mind, can we start with the bedrooms? I just want to make sure nothing gets missed on either end."
+            "I want to make sure I don't miss anything — can we go room by room? We'll get to that after."
           </div>
 
           <h3>Box Count Estimate</h3>
-          <p>After inventory is complete, use the quick formula: <strong>~10 boxes per 1,000 lbs, 1 wardrobe box per 1,000 lbs.</strong> Use the Pack Calculator for a full breakdown by box type when quoting packing services.</p>
+          <p>After inventory is complete: <strong>~10 boxes per 1,000 lbs, 1 wardrobe box per 1,000 lbs.</strong> Use the Pack Calculator for a full breakdown when quoting packing services.</p>
 
           <div class="tip-block">
-            💡 Calls run 20–40 minutes even with the framework. Without it, they run longer and miss things. Specificity is what separates a great estimate from one that blows up on move day.
+            💡 Specificity is what separates a great estimate from one that blows up on move day. Go room by room, every time.
           </div>
         </div>
       </div>
@@ -484,50 +507,45 @@
           <div class="step-badge">4</div>
           <div class="step-card__label">
             <div class="step-card__name">Paint the Picture</div>
-            <div class="step-card__tagline">Turn inventory numbers into something they can feel</div>
+            <div class="step-card__tagline">Translate the inventory. Anchor on what they told you.</div>
           </div>
           <svg class="step-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
         </button>
         <div class="step-card__body">
 
-          <div class="script-block">
-            <strong>Transition Line</strong>
-            "All right — we just went room by room, discussed all the furniture pieces, estimated the boxes. Let me tell you what we came up with."
-          </div>
-
           <h3>Translate the Numbers</h3>
           <div class="script-block">
             <strong>Weight-to-Story Script</strong>
-            "We came up with about 950 pounds of estimated inventory. Now — this means nothing to you, but let me tell you what it means to me. A full truck is about 8,000 lbs. At 950 lbs, you don't have a ton of stuff — we're going to send a two-man crew, be pretty quick and efficient."
+            "Okay — based on what we walked through, you're at about [X] pounds of estimated inventory. That probably means nothing to you, so let me tell you what it means to me. A fully loaded truck is around 8,000 pounds. At [X], you're [a small move / a solid full load / a really big move]. Based on the inventory, we're sending [crew] and you're looking at around [Y] hours."
           </div>
 
           <h3>Proactively Describe the Service</h3>
-          <p>Don't wait to be asked. Answer the questions they haven't thought of yet.</p>
-          <ul>
-            <li>Pad-wrap every piece of furniture — no extra charge</li>
-            <li>Floor protection at origin and destination — neoprene runners, door jamb protectors</li>
-            <li>Disassembly at pickup, full reassembly at delivery — no extra charge</li>
-            <li>Furniture placed exactly where they want it</li>
-          </ul>
+          <p>Say all of this before they ask:</p>
+          <div class="script-block">
+            <strong>Standard Service Description</strong>
+            "Here's what I want you to know about how we work. We pad-wrap all of your furniture. Floor runners and door jamb protectors at both locations — your house gets protected the whole time. We break down whatever needs it and reassemble at the destination. None of that's extra. Our guys are full-time, trained on our own program — we're not sending day labor to your house."
+          </div>
+
+          <h3>Pain Funnel Callbacks — This Is Where Step 1 Pays Off</h3>
+          <p>If you drilled a stressor in Step 1, name it back here specifically. Generic service description is fine. Service description that names the customer's specific concern is closing.</p>
 
           <div class="script-block">
-            <strong>Training Differentiator — Use This Line</strong>
-            "Our guys are trained specifically on this — we're not sending day-laborers to your house. They go through a full onboarding program before they touch a customer's belongings."
+            <strong>If They Mentioned a Meaningful Piece of Furniture</strong>
+            "I remember you mentioned the dining table was your wife's grandmother's — that's exactly the kind of piece our pad wrap and the way we strap furniture is built for. Our guys understand what irreplaceable looks like."
           </div>
 
           <div class="script-block">
-            <strong>If They Had a Bad Experience With a Previous Mover</strong>
-            "I'm really sorry — that happens more than it should in this industry. What I can tell you is our guys are trained, they protect your home as much as your belongings, and that's genuinely the job. That's what Hospitality means to us — it's not a tagline."
+            <strong>If They Mentioned Timing Pressure</strong>
+            "Since your wife starts Monday, getting this done clean on Saturday matters even more — that's why we send full-time guys who've done this hundreds of times instead of a casual two-man crew. We move efficiently and we don't break things."
           </div>
 
           <div class="script-block">
-            <strong>Vision Close (Andy Elliott)</strong>
-            "When it's done, I want you to say: if moving was always that easy, I would have done it more often."
+            <strong>If They Mentioned a Past Bad Experience</strong>
+            "You mentioned the last move was a mess — that's the experience we're built to be the opposite of. Our guys are trained on our process, they pad-wrap everything, and they treat your home like it's theirs. That's genuinely the job."
           </div>
 
           <div class="tip-block">
-            💡 "Confused mind doesn't buy." Give them a clear picture of move day — crew size, pace, what's included. Simplicity builds confidence. Complexity creates anxiety.<br><br>
-            💡 The goal: "I get to the end and ask if they have any questions — and a lot of times they laugh and say: 'No, you answered questions I didn't even think to ask.'"
+            ⚠️ <strong>Pitfall:</strong> Don't list service items mechanically. Match what you say to what you heard. If they mentioned a piano, lead with how you handle pianos. If you didn't drill in Step 1, Step 4 has nothing specific to anchor on.
           </div>
         </div>
       </div>
@@ -538,7 +556,7 @@
           <div class="step-badge">5</div>
           <div class="step-card__label">
             <div class="step-card__name">Confirm Basic Info</div>
-            <div class="step-card__tagline">Build the Yes Ladder before you ask for the card</div>
+            <div class="step-card__tagline">Build the Yes Ladder before the price lands</div>
           </div>
           <svg class="step-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
         </button>
@@ -547,15 +565,13 @@
           <p>60 seconds. Two jobs: catch errors, and get the customer saying yes. Every "correct" conditions them toward yes at the close.</p>
 
           <div class="script-block">
-            <strong>Exact Script</strong>
-            "Before I calculate everything, let me just verify a couple quick details... You said the week of April 15th — correct? We're moving out of [address], first-floor apartment — correct? Moving to [address], a house — correct? And you're handling all the packing, so when we show up everything that needs to be in a box is already handled — we're just focused on the furniture — correct?"
+            <strong>Exact Script — Four Corrects</strong>
+            "Before I pull the numbers together, let me confirm a couple quick things. You're moving the week of [date] — correct? Out of [origin], [floor / access info] — correct? Into [destination], [property type] — correct? And you're handling all the packing, so when we show up, everything in boxes is ready — we're just focused on furniture — correct?"
           </div>
 
-          <h3>The Packing Confirmation Does Double Duty</h3>
-          <p>It's a yes <em>and</em> it sets a move-day expectation. A customer who verbally confirms they'll be packed creates accountability. It's one of the biggest sources of move-day friction when it doesn't happen — get the "correct" now.</p>
-
           <div class="tip-block">
-            💡 Yes is a habit, not a decision. People who've been agreeing for 45 minutes don't suddenly say no when the price comes out. The close doesn't start in Step 7 — it starts here.
+            💡 Listen for a <em>"well, mostly"</em> or <em>"sort of"</em> instead of "correct." That's the customer flagging something. Pause and clear it up before moving on.<br><br>
+            💡 The close doesn't start in Step 7 — it starts here. People who've been saying yes don't suddenly say no when the price comes out.
           </div>
         </div>
       </div>
@@ -572,48 +588,30 @@
         </button>
         <div class="step-card__body">
 
-          <h3>The Rules</h3>
+          <h3>Three Rules</h3>
           <ul>
-            <li><strong>Always present verbally before sending the estimate</strong> — never email first. The customer sees the number, their mind locks on it, and they stop listening.</li>
-            <li>Give one total — don't itemize every line</li>
-            <li>Pre-empt everything that could become an objection <em>before</em> the number, not after</li>
-            <li>After the number lands — slow down and let it sit</li>
+            <li><strong>Verbal first. Always.</strong> If the customer sees the number before you've framed it, their mind locks on it and they stop listening.</li>
+            <li><strong>One number.</strong> State the total — don't itemize. Itemizing invites scrutiny on every line and turns a number into a negotiation.</li>
+            <li><strong>Stop talking.</strong> The pause after the number is your most powerful tool. Trust it.</li>
           </ul>
 
           <div class="script-block">
-            <strong>Pricing Script</strong>
-            "Based on everything we've discussed, I'm going to send one truck and two men. I'm estimating this job at an hour and thirty minutes. I do have my standard truck and equipment charge plus a local fuel surcharge — which puts the estimated total at $[X]. That's for one truck, two men, if it runs the full hour and thirty minutes we're estimating."
+            <strong>Reading the Price</strong>
+            "Based on the inventory, we're sending [X] men and [Y] truck(s). I'm estimating the job at about [Z] hours. Your total comes to $[total]. The clock starts when we arrive at your first address and stops when we finish at the destination — that's the time you're paying for."
           </div>
 
-          <div class="script-block">
-            <strong>Time Clock Explanation</strong>
-            "The clock starts when we arrive at your first address and stops when we finish unloading at the destination. That's the time you're paying for. If it takes less time, you only pay for that amount."
-          </div>
+          <p>Your tone is the tell. Quoting $400 and $6,000 should sound identical. Don't betray that one feels small and the other feels big.</p>
 
-          <div class="script-block">
-            <strong>Price Pre-Handle</strong>
-            "We charge a little more than most. We pay our people more money. We're not interested in cheap — and you probably aren't either, because the stuff you're moving isn't cheap."
-          </div>
-
-          <h3>Deposit Structure</h3>
+          <h3>Deposit Policy</h3>
           <ul>
-            <li>Small local jobs: $100 flat deposit</li>
-            <li>Mid-size jobs: 10% of estimate</li>
-            <li>Large jobs: $500 flat deposit</li>
-            <li>All deposits fully refundable with 48 hours notice</li>
+            <li>Moves <strong>over $1,500</strong> — 10% of the total</li>
+            <li>Moves <strong>$1,500 or under</strong> — flat $150</li>
+            <li>Both fully refundable with 48 hours notice</li>
           </ul>
-
-          <h3>Send the Estimate While Still on the Phone</h3>
-          <p>Send it during the call so the number they see matches the number they heard. The gap between a verbal quote and an emailed quote is where doubt grows.</p>
-
-          <div class="script-block">
-            <strong>Availability Signal — Bridge to the Close</strong>
-            "Our schedule does fill up, especially on weekends and end-of-month. I'd love to get you on the calendar while I have you — it only takes a small deposit and it's fully refundable."
-          </div>
+          <p>State the actual dollar amount when the customer asks — you'll have it from the estimate.</p>
 
           <div class="tip-block">
-            💡 After you say the number — <strong>stop talking</strong>. Silence after the price sounds confident. Jumping in to fill silence sounds nervous.<br><br>
-            💡 Never be bashful about price. Present $350 and $6,000 with identical confidence. The customer's wallet is not your wallet.
+            ⚠️ <strong>Pitfall:</strong> Filling silence after the number sounds nervous. Trust the pause. The first person to speak tells you what you need to know.
           </div>
         </div>
       </div>
@@ -624,7 +622,7 @@
           <div class="step-badge">7</div>
           <div class="step-card__label">
             <div class="step-card__name">Assume the Sale</div>
-            <div class="step-card__tagline">Immediate. Confident. No hesitation.</div>
+            <div class="step-card__tagline">Immediate. Confident. No conditional language.</div>
           </div>
           <svg class="step-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
         </button>
@@ -632,24 +630,28 @@
 
           <div class="script-block">
             <strong>The Close</strong>
-            "I only require a 10% deposit, which is fully refundable with 48 hours notice. I can take that for you right now — would you be putting that on a Visa or Mastercard?"
+            "To lock in your date, I'm sending the estimate over right now. At the top of the page you'll see a sign button — click that, then enter your card for the deposit. Takes about a minute and you're locked in."
           </div>
 
-          <p>No preamble. No "so what do you think?" The customer called because they have to move. If you did your job in Steps 1–6, the answer is yes.</p>
-
-          <h3>Eliminate Conditional Language</h3>
+          <h3>No Conditional Language. Ever.</h3>
           <table class="compare-table">
-            <tr><th>❌ Weak</th><th>✓ Strong</th></tr>
-            <tr><td>"If you want to book with us..."</td><td>"You're going to book with us."</td></tr>
-            <tr><td>"If you're ready to sign..."</td><td>"You are ready to sign."</td></tr>
-            <tr><td>"If you'd like to put a deposit..."</td><td>"I just need a Visa or Mastercard."</td></tr>
+            <tr><th>❌ Don't Say</th><th>✓ Say Instead</th></tr>
+            <tr><td>"If you want to move forward..."</td><td>"To get you on the calendar..."</td></tr>
+            <tr><td>"If you'd like to book..."</td><td>"I'm sending the estimate now — sign at the top of the page."</td></tr>
+            <tr><td>"Would you like to put down a deposit?"</td><td>"Click sign at the top of the page, then enter your card."</td></tr>
+            <tr><td>"So, what do you think?"</td><td>Silence — let the price land. Then close.</td></tr>
           </table>
 
           <h3>Close on the Cue</h3>
-          <p>When the customer says <em>"perfect," "that sounds great," "okay"</em> — take it immediately. Every word after a green-light cue gives doubt room to re-enter.</p>
+          <p>When the customer says <em>"perfect," "that sounds great,"</em> or <em>"okay"</em> — take it immediately. Every word after a green light gives doubt room to re-enter.</p>
 
-          <h3>Walk Through Signing Together</h3>
-          <p>Stay on the phone. Direct them to the estimate email → blue "Sign Estimate" button → deposit prompt. Don't hang up until it's done. For customers who struggle with technology, take the deposit manually by phone and chase the signature after.</p>
+          <h3>Stay on the Phone Through Signing AND Card Entry</h3>
+          <div class="script-block">
+            <strong>Walk-Through Script</strong>
+            "I'm sending the estimate over now — you should see it in a minute or two. The sign button is at the top of the page. Click that, and once it's signed you'll be prompted to enter your card. I'll stay on with you while you walk through it."
+          </div>
+          <p><strong>Both steps matter.</strong> Signed without paying = no booking. Paid without signing = no booking. The moment they hang up before completing both, the booking is at risk.</p>
+          <p>For elderly or tech-challenged customers: slow down and walk them through screen by screen. If they truly can't navigate it, schedule a callback rather than letting them hang up unsigned.</p>
 
           <div class="callout callout--info" style="margin-top:var(--space-md);">
             If they don't say yes immediately — don't retreat. Move to Step 8. The booking is still alive.
@@ -663,64 +665,45 @@
           <div class="step-badge">8</div>
           <div class="step-card__label">
             <div class="step-card__name">Objections &amp; Rebuttals</div>
-            <div class="step-card__tagline">This is where order-takers become salespeople</div>
+            <div class="step-card__tagline">Address → Reassure → Close. Always those three.</div>
           </div>
           <svg class="step-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
         </button>
         <div class="step-card__body">
 
-          <h3>The 80/10/10 Rule</h3>
-          <ul>
-            <li><strong>80%</strong> — ready to buy. Assuming the sale handles them.</li>
-            <li><strong>10%</strong> — fence-sitters. This is where Step 8 lives.</li>
-            <li><strong>10%</strong> — won't buy today. Recognize them and release them gracefully.</li>
-          </ul>
-          <p>Most reps spend 80% of their energy on the 10% who will never buy. Don't.</p>
+          <p>The pattern for every objection: <strong>address the concern → reassure with something specific to Sparrow → ask for the deposit again</strong>. Always those three, in that order.</p>
 
-          <h3>Four Rules</h3>
-          <ul>
-            <li>Never say anything negative about a competitor</li>
-            <li>Always lead with your positives, not their negatives</li>
-            <li>Use specific stories — real examples beat abstract claims</li>
-            <li>The best companies aren't the ones that never make mistakes — they're the ones that fix them</li>
-          </ul>
-
-          <h3>Think in Rounds</h3>
-          <p>If the first rebuttal doesn't land, try a different angle — not the same one repeated louder.</p>
+          <h3>Think in Rounds — Max Two</h3>
           <ul>
             <li>Round 1: Lead with value</li>
             <li>Round 2: Specific story or differentiator</li>
-            <li>Round 3: "Person to person — what's holding you back?"</li>
           </ul>
+          <p>Each round must give the customer something new — a new piece of information, a new angle, a real benefit. Repeating the same pitch louder is grinding. Stop after two rounds if you're not getting anywhere new.</p>
 
-          <div class="script-block">
-            <strong>High Rate Rebuttal</strong>
-            "We do provide excellent value. My labor rate may be a little higher than some, but the billing is very clear and easy to understand. We pay our guys well and we don't overwork them — our goal is to keep people with us for years. High turnover makes consistent service really hard. That's how we consistently deliver top-level results."
-          </div>
-
-          <div class="script-block">
-            <strong>Bad Review Rebuttal</strong>
-            "At the end of the day we're human, but we take every possible precaution — pad wrap, shrink wrap, floor runners, door protectors. You called and got me right away. We're a local independent company — you're going to get me or someone in dispatch every time. If anything goes wrong, I'm confident we'll remedy it and make you a customer for life."
-          </div>
-
-          <h3>Quick Reference</h3>
+          <h3>Common Objections</h3>
           <table class="compare-table">
             <tr><th>Objection</th><th>First Move</th></tr>
-            <tr><td>Found a lower quote</td><td>"Did they walk you through what's included? A lot of lower quotes don't cover disassembly, floor protection, or pad wrapping. Those aren't extras for us — they're standard."</td></tr>
-            <tr><td>Need to talk to my spouse</td><td>"That makes sense. Is it more the timing, or the investment you want to talk through?" → Isolate, then offer tentative reservation.</td></tr>
-            <tr><td>Still shopping</td><td>"Come back to me before you decide — I'll tell you honestly if someone has a better deal."</td></tr>
-            <tr><td>Want to rent a truck</td><td>Lead with hidden costs: time, fuel, equipment rental, physical risk, no second pair of hands.</td></tr>
-            <tr><td>Price concern</td><td>"Our guys are full-time movers who've been through our training program — you're not getting day labor. That's what the difference in price is."</td></tr>
+            <tr><td>"I found a lower quote."</td><td>"Can I ask — did they walk you through what's included? A lot of cheaper quotes don't cover disassembly, floor protection, or pad wrapping. Those aren't extras for us — they're standard. The number you're comparing to may not be the same job."</td></tr>
+            <tr><td>"I need to talk to my spouse."</td><td>"That makes total sense. Is it more the timing, or more the investment you want to talk through?" If they tell you, address it. If both, offer to hold the date at no cost.</td></tr>
+            <tr><td>"I want to think about it."</td><td>"Of course — what specifically do you want to think over? I want to make sure I haven't left anything unanswered." If they can't name it, ask for the deposit again.</td></tr>
+            <tr><td>"I want to rent my own truck."</td><td>"If it's a small load and you've got friends, that can work. But the hidden costs add up fast: the rental itself, gas, potential damage, physical risk, and the time. We can usually do it for less than people expect."</td></tr>
           </table>
 
           <div class="script-block">
             <strong>Tentative Reservation — Most Underused Close</strong>
-            "Let me hold that date for you right now at no charge — fully changeable, zero commitment. That way you have something concrete while you decide."
+            "Let me hold that date for you right now at no charge — fully changeable, zero obligation. That way you have something concrete while you decide."
           </div>
-          <p>Any time a customer needs to think, talk to someone, or wait on a date — offer this before they hang up. A tentative reservation beats "call me back" every time.</p>
+          <p>Any time a customer needs to think, talk to someone, or wait on a date — offer this before they hang up.</p>
+
+          <h3>Brand-Fit Watchpoints</h3>
+          <ul>
+            <li><strong>On rounds:</strong> Stop after two if you're not getting anywhere new. Every round must give something new. Repeating the same pitch louder is grinding.</li>
+            <li><strong>On "make them the hero":</strong> Painting the picture of their spouse coming home to a booked move works when warm. It feels condescending when forced. If you're using it, mean it.</li>
+            <li><strong>On scarcity language:</strong> Saying "I've still got my A-team available for that date" is only ethical if it's literally true. Honesty is the brand.</li>
+          </ul>
 
           <div class="callout callout--success" style="margin-top:var(--space-md);">
-            Full scripts for every objection — shopping around, lower quote, renting a truck, spouse, no date, cancellation — in the <a href="../objection-handling/index.html" style="color:var(--sparrow-green);font-weight:600;">Objection Handling guide</a>.
+            Full scripts for every objection in the <a href="../objection-handling/index.html" style="color:var(--sparrow-green);font-weight:600;">Objection Handling guide</a>.
           </div>
 
           <div class="tip-block">
@@ -735,81 +718,80 @@
           <div class="step-badge">9</div>
           <div class="step-card__label">
             <div class="step-card__name">Rewrap &amp; Close</div>
-            <div class="step-card__tagline">One anchor. One emotional close. Get them scheduled.</div>
+            <div class="step-card__tagline">Two sentences. Emotional close. Always close on something.</div>
           </div>
           <svg class="step-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
         </button>
         <div class="step-card__body">
 
-          <p>When the objection lands and you sense a positive shift — move immediately. Time kills deals.</p>
+          <p>When the customer is ready, move quickly. When they're not, end the call with a specific next step.</p>
 
           <div class="script-block">
-            <strong>The Rewrap — 1 or 2 Sentences Only</strong>
-            "We've got great value, guys who've been with us for a long time, we're going to move your stuff safely, not going to damage anything — you're going to love our movers, trust me."
+            <strong>The Rewrap — Two Sentences Max</strong>
+            "We're going to pad-wrap everything, protect your floors and doors, and our guys are going to take care of you. This is one less thing on your plate."
           </div>
+          <p>Re-anchor. Don't re-sell the whole call.</p>
 
           <div class="script-block">
             <strong>The Emotional Close</strong>
-            "Hey, it's just a $100 deposit. Let's get you booked. This is one less thing off your plate — you can quit stressing about the move. You're looking to move next week. Let's just get it done."
+            "It's just [deposit amount] to get you on the schedule. You can quit stressing about the move part — let's just get this done."
           </div>
-
-          <div class="script-block">
-            <strong>Person-to-Person Close (Last Resort)</strong>
-            "Can I ask you something — person to person? I've walked you through everything, we've talked about your move. What's holding you back?"
-          </div>
-          <p>Then stop talking. The answer gives you one more shot — or tells you you're in the 10%.</p>
-
-          <div class="script-block">
-            <strong>Referral Seed</strong>
-            "The greatest compliment you could ever give me is sending me someone you know who's moving in the future."
-          </div>
+          <p>They don't want a moving company. They want their move to be over. Speak to that.</p>
 
           <h3>Always Close on Something</h3>
-          <p>"What did you close them on?" is the accountability question after every non-booked call. <em>"They said they'd think about it"</em> is not an answer.</p>
-
           <table class="compare-table">
-            <tr><th>Outcome</th><th>Close on this</th></tr>
-            <tr><td>Ready to book</td><td>Deposit + signed estimate before hanging up</td></tr>
-            <tr><td>Interested, not ready</td><td>Tentative reservation + specific callback time</td></tr>
-            <tr><td>Needs spouse</td><td>"When will you chat with them? I'll reach out [day]."</td></tr>
-            <tr><td>Still shopping</td><td>"Come back to me before you decide — I'll tell you if someone has a better deal."</td></tr>
-            <tr><td>Needs more time</td><td>"I'll follow up Tuesday at 2 — does that work?"</td></tr>
+            <tr><th>Situation</th><th>Close On</th></tr>
+            <tr><td>Books</td><td>Deposit + signed estimate before hanging up</td></tr>
+            <tr><td>Talks to spouse</td><td>"When do you think you'll talk with them? I'll follow up [day]." Optional: hold the date at no cost.</td></tr>
+            <tr><td>Still shopping</td><td>"Come back to me before you decide — I'll tell you honestly if someone has a better deal." Specific callback day/time.</td></tr>
+            <tr><td>Needs more time</td><td>"Let me follow up [day] at [time] — does that work?"</td></tr>
           </table>
 
           <div class="tip-block">
-            💡 Getting them scheduled is the priority. The signature can come after.<br><br>
-            💡 A tentative reservation beats "call me back" every time. It sets up the 5-touch follow-up with a natural foundation — the next call isn't cold, it's expected.
+            ⚠️ <strong>Pitfall:</strong> "They said they'd think about it" is not a close. That's a drift. Drifts don't convert.
           </div>
         </div>
       </div>
 
-      <!-- Pro Tips -->
+      <!-- Quick Reference -->
       <div class="pro-tips">
-        <h2>Pro Tips</h2>
+        <h2>Quick Reference</h2>
 
         <div class="pro-tip-item">
-          <strong>Stay on "The Line"</strong>
-          <p>Always be moving toward the close. If the customer detours, bring them back: <em>"I like to do things in a particular order — if you don't mind, can we start with the bedrooms?"</em> One detour tolerated trains the customer that detours are acceptable.</p>
+          <strong>The 10 Steps at a Glance</strong>
+          <p>
+            0 — Reset. Stand up, walk, breathe. Leave the last call there.<br>
+            1 — "What has you moving today?" + "What else is going on?" Drill any stressor.<br>
+            2 — Confirm what you know. Don't re-ask. Lead source: always.<br>
+            3 — You name items, they confirm. Bedrooms → primary rooms → catch-all.<br>
+            4 — Translate weight to crew. Proactive service description. Name their concern back.<br>
+            5 — 60-second recap. Four "corrects." Yes ladder built.<br>
+            6 — Verbal first. One number. Stop talking. Same tone every time.<br>
+            7 — Send estimate. Sign button at top. Card entry. Both required. Stay on through both.<br>
+            8 — Address → reassure → close. Two rounds max. Each round gives something new.<br>
+            9 — Two-sentence rewrap. Emotional close. Always close on something.
+          </p>
+        </div>
+
+        <div class="pro-tip-item">
+          <strong>Phrases to Memorize</strong>
+          <p>"What has you moving today?" &nbsp;·&nbsp; "What else is going on around the move that we should know about?" &nbsp;·&nbsp; "Tell me more about that — why is that important?" &nbsp;·&nbsp; "Do you have a date you're targeting, or if not, a time of month?" &nbsp;·&nbsp; "Anything else we might be forgetting in there?" &nbsp;·&nbsp; "Sign at the top of the page, then enter your card." &nbsp;·&nbsp; "I'll stay on with you while you walk through it." &nbsp;·&nbsp; "When can I follow up with you?"</p>
+        </div>
+
+        <div class="pro-tip-item">
+          <strong>Phrases to Retire</strong>
+          <p>
+            "How can I help?" → <em>"What has you moving today?"</em><br>
+            "If you want to book..." → <em>"To lock in your date..."</em><br>
+            "Would you like to put down a deposit?" → <em>"Click sign at the top of the page, then enter your card."</em><br>
+            "Let me know what you decide." → <em>"I'll follow up [day] at [time]."</em><br>
+            "So, what do you think?" → <em>Silence.</em>
+          </p>
         </div>
 
         <div class="pro-tip-item">
           <strong>Never Assume Their Wallet</strong>
           <p>Present every price — $350 or $6,000 — with identical confidence. Your personal budget is not relevant. The customer's inventory warrants the price.</p>
-        </div>
-
-        <div class="pro-tip-item">
-          <strong>Time Kills Deals</strong>
-          <p>When you sense a positive shift after a rebuttal, move immediately. Doubt grows in the gap between a landed rebuttal and the next close attempt.</p>
-        </div>
-
-        <div class="pro-tip-item">
-          <strong>The Jacob Lesson</strong>
-          <p>Push through the awkward phase of a new technique. Sloppy repetitions still build the skill. Before the Jacob story, he never tried the spouse rebuttal at all — now he does it every time. Practice through the uncomfortable moment.</p>
-        </div>
-
-        <div class="pro-tip-item">
-          <strong>80/20 Rule</strong>
-          <p>This framework is 80% scripted process and 20% spontaneous judgment. Follow the steps when the call is normal. Trust your instincts when it goes sideways — then come back to the framework.</p>
         </div>
       </div>
 
