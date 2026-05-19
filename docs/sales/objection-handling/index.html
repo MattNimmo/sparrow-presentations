@@ -305,6 +305,8 @@
     </div>
 
     <article class="doc-content">
+    <!-- objection-sheet-source wraps all content so the sheet fetch can extract it -->
+    <article id="objection-sheet-source">
 
       <!-- Universal Fallback -->
       <div class="fallback-banner">
@@ -567,6 +569,7 @@
         </div>
       </div>
 
+    </article><!-- end #objection-sheet-source -->
     </article>
   </main>
 
@@ -586,11 +589,10 @@
   </nav>
 
   <script>
+    // Multi-open accordion — no close-all-others
     function toggleObj(id) {
       const card = document.getElementById(id);
-      const isOpen = card.classList.contains('open');
-      document.querySelectorAll('.obj-card').forEach(c => c.classList.remove('open'));
-      if (!isOpen) card.classList.add('open');
+      if (card) card.classList.toggle('open');
     }
   </script>
 
