@@ -315,8 +315,6 @@ function formatRoleTags(roles) {
     'mover': 'Mover',
     'crew-lead': 'Crew lead',
     'sales': 'Sales',
-    'estimator': 'Estimator',
-    'dispatcher': 'Dispatcher'
   };
   
   return roles.map(role => 
