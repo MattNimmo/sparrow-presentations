@@ -95,6 +95,7 @@ html {
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -106,6 +107,7 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 a {
@@ -988,6 +990,12 @@ ul, ol {
 }
 
 @media (min-width: 768px) {
+  .role-filters__scroll {
+    margin: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
   .main {
     max-width: 768px;
     margin: 0 auto;
