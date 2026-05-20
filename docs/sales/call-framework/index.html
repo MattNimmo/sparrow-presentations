@@ -254,21 +254,24 @@
         <p class="header__subtitle">Sparrow team resources</p>
       </div>
 
-      <!-- Quick Scripts button (visible on all sizes) -->
-      <button class="qs-header-btn" id="qsOpenBtn" aria-label="Open Quick Scripts">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
-        Quick Scripts
-      </button>
-
-      <!-- One-Handed Mode (mobile ergonomics) -->
-      <button class="one-handed-toggle" id="oneHandedToggle" aria-label="Toggle one-handed mode" title="One-handed mode">☝️</button>
-
+      <!-- Nav first (desktop only — hides on mobile via styles.css) -->
       <nav class="header__nav" aria-label="Main navigation">
         <a href="../../../index.html" class="header__nav-link">Home</a>
         <a href="../../../docs/index.html" class="header__nav-link">Docs</a>
         <a href="../../../training/index.html" class="header__nav-link">Training</a>
         <a href="../../../faq/index.html" class="header__nav-link">FAQ</a>
       </nav>
+
+      <!-- Quick Scripts button: desktop only (mobile uses FAB) -->
+      <button class="qs-header-btn" id="qsOpenBtn" aria-label="Open Quick Scripts">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
+        Quick Scripts
+      </button>
+
+      <!-- One-Handed Mode: mobile only (hidden on desktop via cockpit.css) -->
+      <button class="one-handed-toggle" id="oneHandedToggle" aria-label="Toggle one-handed mode" title="One-handed mode">☝️</button>
+
+      <!-- Dark mode toggle injected here by app.js (theme-toggle class) -->
     </div>
   </header>
 

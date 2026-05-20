@@ -623,20 +623,18 @@
 .drawer-tabs {
   display: flex;
   border-bottom: 1px solid var(--gray-200);
-  overflow-x: auto;
-  scrollbar-width: none;
   flex-shrink: 0;
+  /* no overflow-x: auto — tabs use flex:1 to fill evenly */
 }
 
-.drawer-tabs::-webkit-scrollbar { display: none; }
-
 .drawer-tab {
-  padding: 10px 12px;
+  padding: 10px 6px;
   font-family: var(--font-body);
-  font-size: 0.6875rem;
+  font-size: 0.625rem;         /* 10px — fits 5 labels in 320px */
+  letter-spacing: 0.4px;
   font-weight: 600;
   color: var(--gray-500);
-  white-space: nowrap;
+  text-align: center;
   border-bottom: 2px solid transparent;
   border-left: none;
   border-right: none;
@@ -644,7 +642,11 @@
   background: none;
   cursor: pointer;
   transition: all var(--transition-fast);
-  flex-shrink: 0;
+  flex: 1;
+  min-width: 0;
+  text-transform: uppercase;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .drawer-tab:hover:not(.active) { color: var(--gray-700); }
@@ -747,17 +749,23 @@
 #qsOverlay.open { transform: translateY(0); }
 
 @media (min-width: 1024px) {
+  /* QS slides in from the right occupying the SAME rail as the drawer.
+     Width matches padding-right (360px = 320px panel + 40px gap).
+     When QS is open the drawer is hidden to prevent stacking. */
   #qsOverlay {
     inset: auto;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 480px;
-    transform: translateX(100%);
-    box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
-    border-left: 1px solid var(--gray-200);
+    top: 80px;
+    right: 24px;
+    bottom: 24px;
+    width: 320px;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14);
+    border: 1px solid var(--gray-200);
+    transform: translateX(calc(100% + 48px));
+    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
   }
   #qsOverlay.open { transform: translateX(0); }
+  body.qs-open #contextDrawer { display: none !important; }
 }
 
 .qs-header {
@@ -1084,12 +1092,13 @@ kbd {
   .step-jumper__spacer { display: none; }
   .step-jumper__collapse { display: none; }
 
-  /* Tooltip appears to the right on desktop */
+  /* Tooltip appears to the right on desktop — must clear content edge */
   .step-jumper__btn::after {
     bottom: auto;
     top: 50%;
     left: calc(100% + 10px);
     transform: translateY(-50%);
+    z-index: calc(var(--z-jumper) + 5);
   }
 
   /* Main constrained */
@@ -1112,6 +1121,65 @@ kbd {
 
   /* Toast positioning */
   #cockpitToast { bottom: 32px; }
+}
+
+/* ============================================
+   REMEDIATION — Phase B · C · E additions
+   ============================================ */
+
+/* B1 — One-handed mode is a mobile affordance only */
+@media (min-width: 1024px) {
+  .one-handed-toggle { display: none; }
+}
+
+/* B3 — Tighter header on desktop (recovers ~24px vertical space) */
+@media (min-width: 1024px) {
+  .header {
+    padding: 8px var(--space-lg);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+  .header__title   { font-size: 1.125rem; line-height: 1.1; }
+  .header__subtitle { display: none; }
+  .header__logo    { width: 36px; height: 36px; min-width: 36px; min-height: 36px; }
+  .header__logo svg { width: 20px; height: 20px; }
+}
+
+/* C3 — QS header button: desktop only (mobile uses the FAB) */
+@media (max-width: 1023px) {
+  .qs-header-btn { display: none; }
+}
+
+/* C2 — Dismiss is redundant on desktop (Principle tab in drawer) */
+@media (min-width: 1024px) {
+  .principle-callout__dismiss { display: none; }
+  .principle-callout p { padding-right: 0; }
+}
+
+/* C4 — Quiet visual chrome: open step cards stand out */
+@media (min-width: 1024px) {
+  .step-card {
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .step-card:hover {
+    border-color: var(--gray-300);
+  }
+  .step-card.open {
+    border-color: var(--sparrow-green);
+    box-shadow: 0 2px 8px rgba(27, 174, 112, 0.08);
+  }
+}
+
+/* Mobile jumper button — bump to 44px min tap target */
+@media (max-width: 1023px) {
+  .step-jumper__btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* Search results: max-height on small viewports */
+.cockpit-search__results {
+  max-height: min(50vh, 320px);
 }
 
 /* ============================================
@@ -1153,5 +1221,17 @@ kbd {
   .obj-card {
     break-inside: avoid;
     margin-bottom: 16px;
+  }
+}
+
+/* ============================================
+   REDUCED MOTION (E4)
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

@@ -81,16 +81,14 @@ function restoreOpenSteps() {
   });
 }
 
-/* ── Phase 1 — Progress bar update (multi-open aware) ── */
+/* ── C1 — Progress bar: highlight which steps are actually open ── */
 function updateProgress() {
   const steps = document.querySelectorAll('.progress-bar__step');
-  const openCards = [...document.querySelectorAll('.step-card.open')];
-  if (!openCards.length) {
-    steps.forEach(s => s.classList.remove('done'));
-    return;
-  }
-  const maxOpen = Math.max(...openCards.map(c => parseInt(c.id.replace('step', ''), 10)));
-  steps.forEach((s, i) => s.classList.toggle('done', i < maxOpen));
+  if (!steps.length) return;
+  const openIds = new Set(
+    [...document.querySelectorAll('.step-card.open')].map(c => c.id)
+  );
+  steps.forEach((s, i) => s.classList.toggle('done', openIds.has('step' + i)));
 }
 
 /* ── Phase 1.2 — Step jumper ── */
@@ -551,12 +549,15 @@ function escHtml(str) {
   return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
+/* A1 — body.qs-open hides the context drawer so QS can use the same rail */
 function openQS() {
   document.getElementById('qsOverlay')?.classList.add('open');
+  document.body.classList.add('qs-open');
 }
 
 function closeQS() {
   document.getElementById('qsOverlay')?.classList.remove('open');
+  document.body.classList.remove('qs-open');
 }
 
 /* ── Phase 3.2 — One-Handed Mode ── */
