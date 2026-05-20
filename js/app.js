@@ -7,7 +7,7 @@ const documents = [
   {
     id: 'handbook',
     title: 'Employee Handbook',
-    description: 'Company policies, expectations, PTO, pay schedules, disciplinary process',
+    description: 'Company policies, expectations, pay schedules, disciplinary process',
     category: 'handbook',
     roles: ['all'],
     icon: 'book',
@@ -132,8 +132,6 @@ const icons = {
 let fuse;
 
 document.addEventListener('DOMContentLoaded', function() {
-  initTheme();
-  injectThemeToggle();
   initSearch();
   initRoleFilters();
   initFAQ();
@@ -326,56 +324,7 @@ function formatRoleTags(roles) {
   ).join('');
 }
 
-/* ============================================
-   DARK MODE
-   ============================================ */
 
-function initTheme() {
-  const stored = localStorage.getItem('nest-theme');
-  if (stored === 'dark') {
-    document.documentElement.classList.add('dark');
-    document.documentElement.classList.remove('light');
-  } else if (stored === 'light') {
-    document.documentElement.classList.add('light');
-    document.documentElement.classList.remove('dark');
-  }
-  // If no stored preference, system @media handles it
-}
-
-function injectThemeToggle() {
-  const brand = document.querySelector('.header__brand');
-  if (!brand) return;
-
-  const btn = document.createElement('button');
-  btn.className = 'theme-toggle';
-  btn.setAttribute('aria-label', 'Toggle dark mode');
-  btn.innerHTML = `
-    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
-    </svg>
-    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <circle cx="12" cy="12" r="5"/>
-      <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-    </svg>
-  `;
-
-  btn.addEventListener('click', function() {
-    const isDark = document.documentElement.classList.contains('dark');
-    const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    if (isDark) {
-      document.documentElement.classList.remove('dark');
-      document.documentElement.classList.add('light');
-      localStorage.setItem('nest-theme', 'light');
-    } else {
-      document.documentElement.classList.add('dark');
-      document.documentElement.classList.remove('light');
-      localStorage.setItem('nest-theme', 'dark');
-    }
-  });
-
-  brand.appendChild(btn);
-}
 
 // Render document cards dynamically if needed
 function renderDocumentCards(containerId, docs = documents) {

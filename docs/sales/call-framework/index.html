@@ -231,8 +231,6 @@
     .progress-bar__step.done { background: var(--sparrow-green); }
   </style>
 
-  <!-- Theme applied before render to prevent flash -->
-  <script>(function(){var t=localStorage.getItem('nest-theme');if(t)document.documentElement.classList.add(t);})();</script>
 </head>
 <body>
 
@@ -271,7 +269,6 @@
       <!-- One-Handed Mode: mobile only (hidden on desktop via cockpit.css) -->
       <button class="one-handed-toggle" id="oneHandedToggle" aria-label="Toggle one-handed mode" title="One-handed mode">☝️</button>
 
-      <!-- Dark mode toggle injected here by app.js (theme-toggle class) -->
     </div>
   </header>
 
