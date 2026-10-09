@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1bae70">
+  <title>Customer FAQ | The Nest</title>
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%231bae70'/><circle cx='50' cy='40' r='12' fill='white'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/styles.css">
+
+  <style>
+    /* ── Rate card ── */
+    .fq-ref {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+    .doc-content .fq-ref h2 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--gray-800);
+      margin: 0 0 var(--space-sm);
+      padding: 0;
+      border: none;
+    }
+    .fq-ref__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: var(--space-sm) var(--space-lg);
+    }
+    .fq-ref__row {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-md);
+      font-size: 0.8125rem;
+      color: var(--gray-700);
+      padding: 6px 0;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .fq-ref__row strong {
+      color: var(--gray-800);
+      text-align: right;
+    }
+
+    /* ── Don't-say list ── */
+    .fq-dont {
+      background: var(--safety-red-light);
+      border-left: 3px solid var(--safety-red);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: var(--space-md);
+      margin-bottom: var(--space-lg);
+      font-size: 0.8125rem;
+      color: var(--gray-800);
+    }
+    .fq-dont strong:first-child {
+      display: block;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--safety-red-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: var(--space-sm);
+    }
+    .fq-dont ul { padding-left: var(--space-md); margin: 0; }
+    .fq-dont li { list-style: disc; margin-bottom: 4px; }
+
+    /* ── Search + stage chips ── */
+    .fq-tools {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: var(--gray-50);
+      padding: var(--space-sm) 0;
+      margin-bottom: var(--space-md);
+    }
+    .fq-search {
+      width: 100%;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      padding: 12px 14px;
+      border: 1.5px solid var(--gray-300);
+      border-radius: var(--radius-md);
+      background: var(--white);
+      color: var(--gray-800);
+    }
+    .fq-search:focus { outline: none; border-color: var(--sparrow-green); }
+    .fq-chips {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-top: var(--space-sm);
+      scrollbar-width: none;
+    }
+    .fq-chips::-webkit-scrollbar { display: none; }
+    .fq-chip {
+      flex-shrink: 0;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-full);
+      padding: 6px 12px;
+      text-decoration: none;
+    }
+    .fq-chip span { color: var(--gray-400); font-weight: 500; margin-left: 2px; }
+
+    /* ── Top 10 ── */
+    .fq-top { margin-bottom: var(--space-xl); }
+    .doc-content .fq-top ol { counter-reset: fq; padding: 0; margin: 0; }
+    .doc-content .fq-top li { counter-increment: fq; list-style: none; margin: 0; }
+    .fq-toplink {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-sm);
+      padding: 8px 0;
+      border-bottom: 1px solid var(--gray-100);
+      font-size: 0.875rem;
+      color: var(--gray-800);
+      text-decoration: none;
+    }
+    .fq-toplink::before {
+      content: counter(fq);
+      font-weight: 700;
+      color: var(--sparrow-green);
+      min-width: 1.5em;
+    }
+    .fq-toplink span:first-of-type { flex: 1; }
+    .fq-toplink__n { color: var(--gray-500); font-size: 0.75rem; white-space: nowrap; }
+
+    /* ── Question cards ── */
+    .fq-stage { scroll-margin-top: 120px; }
+    .fq-item { scroll-margin-top: 120px; }
+    .fq-stage__hint {
+      font-size: 0.8125rem;
+      color: var(--gray-500);
+      margin: -4px 0 var(--space-md);
+    }
+    .fq-q { display: flex; flex-direction: column; gap: 4px; text-align: left; flex: 1; min-width: 0; }
+    .fq-meta { font-size: 0.6875rem; font-weight: 500; color: var(--gray-500); }
+    .fq-badge {
+      display: inline-block;
+      padding: 1px 8px;
+      border-radius: var(--radius-full);
+      font-size: 0.625rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .fq-badge--phone { background: var(--faq-amber-light); color: #92400E; }
+    .fq-say {
+      background: var(--gray-50);
+      border-left: 3px solid var(--sparrow-green);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: var(--space-md);
+      font-size: 0.875rem;
+      color: var(--gray-700);
+      line-height: 1.6;
+    }
+    .fq-say > strong:first-child, .fq-note > strong:first-child {
+      display: block;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: var(--space-xs);
+    }
+    .fq-say > strong:first-child { color: var(--sparrow-green); }
+    .fq-note {
+      background: #FEF9C3;
+      border-left: 3px solid #CA8A04;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: var(--space-sm) var(--space-md);
+      margin-top: var(--space-sm);
+      font-size: 0.8125rem;
+      color: #713F12;
+    }
+    .fq-note > strong:first-child { color: #A16207; }
+    .fq-empty { display: none; font-size: 0.875rem; color: var(--gray-500); padding: var(--space-lg) 0; }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="header__brand">
+      <a href="../../../index.html" class="header__logo">
+        <svg viewBox="0 0 24 24" fill="none">
+          <!-- nest bowl -->
+          <path d="M3 14 Q5 21 12 21 Q19 21 21 14" stroke="#1bae70" stroke-width="2" stroke-linecap="round"/>
+          <!-- inner weave arc -->
+          <path d="M6 14 Q8.5 19 12 19 Q15.5 19 18 14" stroke="#1bae70" stroke-width="1.25" stroke-linecap="round" opacity="0.55"/>
+          <!-- eggs -->
+          <ellipse cx="10" cy="13" rx="2.2" ry="1.6" fill="#1bae70"/>
+          <ellipse cx="14.5" cy="13" rx="2.2" ry="1.6" fill="#1bae70"/>
+        </svg>
+      </a>
+      <div>
+        <h1 class="header__title">The Nest</h1>
+        <p class="header__subtitle">Sparrow team resources</p>
+      </div>
+      <nav class="header__nav" aria-label="Main navigation">
+        <a href="../../../index.html" class="header__nav-link">Home</a>
+        <a href="../../../docs/index.html" class="header__nav-link">Docs</a>
+        <a href="../../../training/index.html" class="header__nav-link">Training</a>
+        <a href="../../../faq/index.html" class="header__nav-link">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="page-header">
+      <a href="../../index.html" class="page-header__back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        Back to Documents
+      </a>
+      <div class="doc-title-header">
+        <div class="doc-title-icon" style="background: linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="page-header__title">Customer FAQ</h1>
+          <div class="doc-title-roles">
+            <span class="role-tag role-tag--sales">Sales</span>
+          </div>
+        </div>
+      </div>
+      <p class="page-header__desc">The questions customers actually ask, grouped by where they are in the process, most common first. Policies locked Oct 8, 2026.</p>
+    </div>
+
+    <article class="doc-content">
+
+      <div class="fq-ref">
+        <h2>Quick reference</h2>
+        <div class="fq-ref__grid">
+          <div>
+            <div class="fq-ref__row">2 movers<strong>$170/hr</strong></div>
+            <div class="fq-ref__row">3 movers<strong>$255/hr</strong></div>
+            <div class="fq-ref__row">4 movers<strong>$340/hr</strong></div>
+            <div class="fq-ref__row">Minimum<strong>1 hr, then 15-min steps</strong></div>
+            <div class="fq-ref__row">Travel<strong>1 hr min at crew rate</strong></div>
+            <div class="fq-ref__row">Truck<strong>$150/day</strong></div>
+            <div class="fq-ref__row">Small job minimum<strong>$490 w/ truck · $340 labor-only</strong></div>
+          </div>
+          <div>
+            <div class="fq-ref__row">Deposit, estimate over $1,500<strong>10%</strong></div>
+            <div class="fq-ref__row">Deposit, $1,500 or less<strong>$150</strong></div>
+            <div class="fq-ref__row">Deposit, long distance<strong>50%, rest when truck is empty</strong></div>
+            <div class="fq-ref__row">Refund<strong>Full with 48+ hrs notice</strong></div>
+            <div class="fq-ref__row">Date holds<strong>None — deposit locks it</strong></div>
+            <div class="fq-ref__row">Date change notice<strong>2 wks ideal · 1 wk usually OK</strong></div>
+            <div class="fq-ref__row">Payment<strong>Card +3% · ACH/check free</strong></div>
+            <div class="fq-ref__row">Full value protection<strong>Included in pricing</strong></div>
+          </div>
+          <div>
+            <div class="fq-ref__row">Long distance<strong>60+ mi or overnight = flat price</strong></div>
+            <div class="fq-ref__row">In-person survey<strong>Over 2BR or long distance</strong></div>
+            <div class="fq-ref__row">Storage (Gopher State)<strong>$375/mo full · $275/mo half</strong></div>
+            <div class="fq-ref__row">On-truck hold<strong>$150/truck/extra day</strong></div>
+            <div class="fq-ref__row">Wardrobe · TV box<strong>$5 rental · $10 rental</strong></div>
+            <div class="fq-ref__row">Crates · mattress bag<strong>$150/$250 · $5</strong></div>
+            <div class="fq-ref__row">Piano, safe or pool table<strong>$250</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fq-dont">
+        <strong>Don't say</strong>
+        <ul>
+          <li>"I'll hold the date for you." We don't hold dates. The deposit locks it.</li>
+          <li>A tip amount before they ask. If they ask: around 15% of the total, split between the movers. Never expected, always appreciated.</li>
+          <li>Pounds per hour or truck cubic feet. Customers pay for time; inventory just sizes the crew.</li>
+          <li>"We have a military discount" or any discount. We don't run discounts.</li>
+          <li>"I'm still new." Say "I'll get you the exact answer from Matt within the hour," then follow up the same day.</li>
+        </ul>
+      </div>
+
+      <div class="fq-tools">
+        <input type="search" class="fq-search" id="fqSearch" placeholder="Search questions — try &quot;piano&quot; or &quot;deposit&quot;" aria-label="Search customer questions">
+        <nav class="fq-chips" aria-label="Jump to stage"><a class="fq-chip" href="#stage-first-contact">1. First contact</a><a class="fq-chip" href="#stage-estimate-survey">2. Estimate/survey</a><a class="fq-chip" href="#stage-quote-decision">3. Quote decision</a><a class="fq-chip" href="#stage-booking-deposit">4. Booking/deposit</a><a class="fq-chip" href="#stage-pre-move-prep">5. Pre-move prep</a><a class="fq-chip" href="#stage-move-day">6. Move day</a><a class="fq-chip" href="#stage-billing-after">7. Billing/after</a></nav>
+      </div>
+
+      <section class="fq-top" id="fqTop">
+        <h2 class="content-group-title">Most asked</h2>
+        <ol><li><a href="#q-do-you-have-my-date-open" class="fq-toplink"><span>Do you have my date open?</span></a></li><li><a href="#q-what-s-my-price-and-what-s-included-local-quote-review" class="fq-toplink"><span>What's my price, and what's included? (local quote review)</span></a></li><li><a href="#q-do-you-come-out-to-give-an-estimate-how-do-you-quote" class="fq-toplink"><span>Do you come out to give an estimate? How do you quote?</span></a></li><li><a href="#q-do-you-move-on-weekends-why-not" class="fq-toplink"><span>Do you move on weekends? Why not?</span></a></li><li><a href="#q-can-i-send-photos-a-video-or-a-list-instead-of-a-walkthrough" class="fq-toplink"><span>Can I send photos, a video or a list instead of a walkthrough?</span></a></li><li><a href="#q-do-you-do-labor-only-can-you-load-or-unload-my-u-haul-pod-or" class="fq-toplink"><span>Do you do labor-only? Can you load or unload my U-Haul, pod or trailer?</span></a></li><li><a href="#q-do-you-have-wardrobe-tv-and-picture-boxes-what-do-they-cost" class="fq-toplink"><span>Do you have wardrobe, TV and picture boxes? What do they cost?</span></a></li><li><a href="#q-do-you-offer-storage-where-and-what-does-it-cost" class="fq-toplink"><span>Do you offer storage? Where, and what does it cost?</span></a></li><li><a href="#q-how-is-your-pricing-figured-by-the-hour-by-item-or-by-weight" class="fq-toplink"><span>How is your pricing figured: by the hour, by item or by weight?</span></a></li><li><a href="#q-how-do-i-book" class="fq-toplink"><span>How do I book?</span></a></li></ol>
+      </section>
+
+      
+    <section class="content-section fq-stage" id="stage-first-contact">
+      <h2 class="content-group-title">1. First contact</h2>
+      <p class="fq-stage__hint">Before a quote.</p>
+      
+      <div class="faq-item fq-item" id="q-do-you-have-my-date-open" data-search="do you have my date open? what date are you looking at? let me pull up the calendar real quick. i always like to check that first. the first and last weeks of the month go fastest, so three to four weeks out usually gets you the day you want. if we&#x27;re full, i&#x27;ll give you the closest open day, or a couple of movers we trust. availability/scheduling">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Do you have my date open?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>What date are you looking at? Let me pull up the calendar real quick. I always like to check that first. The first and last weeks of the month go fastest, so three to four weeks out usually gets you the day you want. If we're full, I'll give you the closest open day, or a couple of movers we trust.</div><div class="fq-note"><strong>Internal</strong>No holds or pencil-ins. The date is locked only when the deposit is in.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-do-you-come-out-to-give-an-estimate-how-do-you-quote" data-search="do you come out to give an estimate? how do you quote? anything bigger than a two-bedroom, and every out-of-state move, matt, mark or amy comes out for an in-person walkthrough. it&#x27;s free and takes about 30 to 45 minutes. two bedrooms and smaller, we can do from photos, a video or a facetime call. either way, you get a written move plan with a time range. want me to get that on the calendar? process/how it works">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Do you come out to give an estimate? How do you quote?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Anything bigger than a two-bedroom, and every out-of-state move, Matt, Mark or Amy comes out for an in-person walkthrough. It's free and takes about 30 to 45 minutes. Two bedrooms and smaller, we can do from photos, a video or a FaceTime call. Either way, you get a written move plan with a time range. Want me to get that on the calendar?</div><div class="fq-note"><strong>Internal</strong>The threshold is "over 2 bedrooms," not "three bedrooms or more."</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-do-you-move-on-weekends-why-not" data-search="do you move on weekends? why not? we&#x27;re a little weird for a moving company: we&#x27;re closed saturdays and sundays. our team gets real weekends; it&#x27;s how great movers stay with us. we also have a lot of teammates who serve at church on sunday. long-distance drives can run through a weekend. any flexibility on your date? availability/scheduling">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Do you move on weekends? Why not?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>We're a little weird for a moving company: we're closed Saturdays and Sundays. Our team gets real weekends; it's how great movers stay with us. We also have a lot of teammates who serve at church on Sunday. Long-distance drives can run through a weekend. Any flexibility on your date?</div><div class="fq-note"><strong>Internal</strong>If they need a weekend, refer Win Win Moving (Cody or Justin). Revival covers weekdays.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-do-you-do-labor-only-can-you-load-or-unload-my-u-haul-pod-or" data-search="do you do labor-only? can you load or unload my u-haul, pod or trailer? yep, that&#x27;s one of our most common jobs. it&#x27;s $85 per mover per hour plus our drive time, and since you&#x27;ve got your own truck, there&#x27;s no truck fee. we load here in minnesota. if you need an unload out of state, i&#x27;ll point you to good local help there. pricing/cost">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Do you do labor-only? Can you load or unload my U-Haul, pod or trailer?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Yep, that's one of our most common jobs. It's $85 per mover per hour plus our drive time, and since you've got your own truck, there's no truck fee. We load here in Minnesota. If you need an unload out of state, I'll point you to good local help there.</div><div class="fq-note"><strong>Internal</strong>Two movers is $170 an hour, not $255.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-do-you-offer-storage-where-and-what-does-it-cost" data-search="do you offer storage? where, and what does it cost? yep. gopher state storage is our storage partner, and we keep our own units there. we load you up, store it, and deliver when you&#x27;re ready. it&#x27;s $375 a month for a full truck or $275 for a half truck. if you&#x27;ve got your own unit or container, we can load that too. services/scope">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Do you offer storage? Where, and what does it cost?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Yep. Gopher State Storage is our storage partner, and we keep our own units there. We load you up, store it, and deliver when you're ready. It's $375 a month for a full truck or $275 for a half truck. If you've got your own unit or container, we can load that too.</div><div class="fq-note"><strong>Internal</strong>Don't say "we don't have storage" or call us a hybrid company.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-how-is-your-pricing-figured-by-the-hour-by-item-or-by-weight" data-search="how is your pricing figured: by the hour, by item or by weight? pricing&#x27;s simple. it&#x27;s based on how long it takes. there&#x27;s three pieces: the team&#x27;s hourly rate, a flat $150 per truck for the day, and our drive time out and back. you only pay for the time you actually need. your inventory just tells us how big a team and how many trucks to bring. pricing/cost">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">How is your pricing figured: by the hour, by item or by weight?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Pricing's simple. It's based on how long it takes. There's three pieces: the team's hourly rate, a flat $150 per truck for the day, and our drive time out and back. You only pay for the time you actually need. Your inventory just tells us how big a team and how many trucks to bring.</div><div class="fq-note"><strong>Internal</strong>Keep productivity numbers (pounds per mover-hour, truck cubic feet or weight) internal. Don't quote them.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-what-s-the-out-of-state-option-list-and-what-does-each-cost" data-search="what&#x27;s the out-of-state option list, and what does each cost? for a long-distance move, the best next step is an in-person inventory. matt, mark or amy comes out, walks through your home with you, and we put together an accurate move plan before we give you a price. that way the price you get is the price you pay. what day works for us to come out? pricing/cost">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">What's the out-of-state option list, and what does each cost?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>For a long-distance move, the best next step is an in-person inventory. Matt, Mark or Amy comes out, walks through your home with you, and we put together an accurate move plan before we give you a price. That way the price you get is the price you pay. What day works for us to come out?</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-do-you-take-apart-and-reassemble-furniture" data-search="do you take apart and reassemble furniture? yep, and it&#x27;s included. we bring the tools and take apart beds, desks, shelving, exercise equipment, anything that won&#x27;t fit through a door, and put it all back together at the new place. if you took something apart yourself, we&#x27;ll put it back together, as long as all the pieces and hardware are organized and with the item. services/scope">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Do you take apart and reassemble furniture?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Yep, and it's included. We bring the tools and take apart beds, desks, shelving, exercise equipment, anything that won't fit through a door, and put it all back together at the new place. If you took something apart yourself, we'll put it back together, as long as all the pieces and hardware are organized and with the item.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-do-you-move-pianos-safes-pool-tables-and-other-heavy-items" data-search="do you move pianos, safes, pool tables and other heavy items? yep. pianos, gun safes, pool tables, treadmills, grandfather clocks, fridges; we&#x27;ve kinda done it all. adding a piano, safe or pool table to your move is $250. send me a photo so we bring the right team and gear. we&#x27;ll take a pool table apart, but we don&#x27;t re-level it, and we don&#x27;t tune pianos. services/scope">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Do you move pianos, safes, pool tables and other heavy items?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Yep. Pianos, gun safes, pool tables, treadmills, grandfather clocks, fridges; we've kinda done it all. Adding a piano, safe or pool table to your move is $250. Send me a photo so we bring the right team and gear. We'll take a pool table apart, but we don't re-level it, and we don't tune pianos.</div><div class="fq-note"><strong>Internal</strong>A piano on its own is hourly with a three-mover minimum (about $700 to $800 locally), or we refer a piano specialist. Grands are quoted from photos.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-ballpark-what-does-a-move-like-mine-usually-cost" data-search="ballpark: what does a move like mine usually cost? most one-bedrooms and senior-living moves land around $800 to $1,100. a two-bedroom runs about $1,000 to $1,500. a typical four-bedroom with one truck and four movers is about $2,100 to $2,600. walk me through what&#x27;s moving and i&#x27;ll get you your real range. pricing/cost">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Ballpark: what does a move like mine usually cost?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Most one-bedrooms and senior-living moves land around $800 to $1,100. A two-bedroom runs about $1,000 to $1,500. A typical four-bedroom with one truck and four movers is about $2,100 to $2,600. Walk me through what's moving and I'll get you your real range.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-do-you-pack-full-or-partial" data-search="do you pack? full or partial? yep, as much or as little as you want, from just the kitchen to the whole house the day before. it&#x27;s the same $85 per mover hourly rate, plus only the materials you use. packing yourself is totally fine too, and it saves you money. just know we&#x27;re responsible for how boxes are packed only when we pack them. services/scope">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Do you pack? Full or partial?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Yep, as much or as little as you want, from just the kitchen to the whole house the day before. It's the same $85 per mover hourly rate, plus only the materials you use. Packing yourself is totally fine too, and it saves you money. Just know we're responsible for how boxes are packed only when we pack them.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-can-you-move-me-today-tomorrow-or-this-week" data-search="can you move me today, tomorrow or this week? usually not. most weeks we&#x27;re booked one to three weeks out. but let me check, because if something opens up, it&#x27;s yours. and if we can&#x27;t do it, i&#x27;ll give you a couple of good movers who can. availability/scheduling">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Can you move me today, tomorrow or this week?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Usually not. Most weeks we're booked one to three weeks out. But let me check, because if something opens up, it's yours. And if we can't do it, I'll give you a couple of good movers who can.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-besides-the-hourly-rate-what-other-fees-are-there-truck-trav" data-search="besides the hourly rate, what other fees are there (truck, travel, mileage, supplies)? just two. there&#x27;s $150 per truck for the day, and travel, which is our drive time at your team&#x27;s hourly rate with a one-hour minimum. for two movers that&#x27;s $170, and it&#x27;s on its own line so you can see it. blankets, shrink wrap, floor runners, tools and fuel are all included, and mattress bags are $5 each. no mileage fees. pricing/cost">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Besides the hourly rate, what other fees are there (truck, travel, mileage, supplies)?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Just two. There's $150 per truck for the day, and travel, which is our drive time at your team's hourly rate with a one-hour minimum. For two movers that's $170, and it's on its own line so you can see it. Blankets, shrink wrap, floor runners, tools and fuel are all included, and mattress bags are $5 each. No mileage fees.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-can-you-hold-our-things-on-the-truck-between-closings" data-search="can you hold our things on the truck between closings? yep, we call that a load and hold. we load you up, keep everything locked on our truck, and unload when you&#x27;re ready. each extra day on the truck is $150 per truck. services/scope">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Can you hold our things on the truck between closings?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Yep, we call that a load and hold. We load you up, keep everything locked on our truck, and unload when you're ready. Each extra day on the truck is $150 per truck.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-do-you-wrap-and-protect-furniture-is-that-extra" data-search="do you wrap and protect furniture? is that extra? every piece of furniture gets moving blankets, and then a giant saran wrap to hold it nice and tight, at no extra charge. art goes in picture boxes. mattress bags are $5 each, and for valuable art or a big tv, we can build a custom crate for $150 or $250, depending on size. services/scope">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Do you wrap and protect furniture? Is that extra?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Every piece of furniture gets moving blankets, and then a giant saran wrap to hold it nice and tight, at no extra charge. Art goes in picture boxes. Mattress bags are $5 each, and for valuable art or a big TV, we can build a custom crate for $150 or $250, depending on size.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-how-do-we-handle-closing-day-a-split-closing" data-search="how do we handle closing day / a split closing? moving and closing the same day is a lot. our favorite plan is to load the day before or that morning, keep everything locked on our truck, and unload once you&#x27;ve got keys. ask your agent about early or delayed access in your purchase agreement. we don&#x27;t start moves after 2 pm. when&#x27;s your closing? availability/scheduling">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">How do we handle closing day / a split closing?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Moving and closing the same day is a lot. Our favorite plan is to load the day before or that morning, keep everything locked on our truck, and unload once you've got keys. Ask your agent about early or delayed access in your purchase agreement. We don't start moves after 2 PM. When's your closing?</div><div class="fq-note"><strong>Internal</strong>Each extra day on the truck is $150 per truck.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-will-you-haul-away-junk-or-drop-off-donations" data-search="will you haul away junk or drop off donations? yep. just point out what&#x27;s not coming during the walkthrough, and we&#x27;ll build in a donation stop (we&#x27;re at bridging all the time) or a run to the transfer site. you pay the time plus the disposal fee. a single big piece usually runs about $250. services/scope">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Will you haul away junk or drop off donations?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Yep. Just point out what's not coming during the walkthrough, and we'll build in a donation stop (we're at Bridging all the time) or a run to the transfer site. You pay the time plus the disposal fee. A single big piece usually runs about $250.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-do-you-do-out-of-state-long-distance-moves" data-search="do you do out-of-state / long-distance moves? yep, out of state is a big part of what we do, from wisconsin and the dakotas all the way to florida and california. our own team loads, drives and unloads. we never broker your move out. where are you headed? services/scope">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Do you do out-of-state / long-distance moves?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Yep, out of state is a big part of what we do, from Wisconsin and the Dakotas all the way to Florida and California. Our own team loads, drives and unloads. We never broker your move out. Where are you headed?</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-do-you-do-small-jobs-or-single-items-what-s-the-minimum-cost" data-search="do you do small jobs or single items? what&#x27;s the minimum cost? yep, we do. our smallest job is $490 with the truck: one hour of work, one hour of travel and the $150 truck. if we don&#x27;t need the truck, it&#x27;s $340. after the first hour, it&#x27;s just 15-minute increments. what are we moving? pricing/cost">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Do you do small jobs or single items? What's the minimum cost?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Yep, we do. Our smallest job is $490 with the truck: one hour of work, one hour of travel and the $150 truck. If we don't need the truck, it's $340. After the first hour, it's just 15-minute increments. What are we moving?</div><div class="fq-note"><strong>Internal</strong>Never say "we don't really do single-item moves."</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-can-you-add-stops-or-split-the-move-into-parts" data-search="can you add stops or split the move into parts? yep, extra stops are really common: a storage unit, a family member&#x27;s house, a donation drop. each one just adds drive time. we can also split it over two days, or come back later to set up a room. services/scope">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Can you add stops or split the move into parts?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Yep, extra stops are really common: a storage unit, a family member's house, a donation drop. Each one just adds drive time. We can also split it over two days, or come back later to set up a room.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-how-far-ahead-should-i-book" data-search="how far ahead should i book? most folks book three to four weeks ahead. for out-of-state or end-of-month moves, give us four to eight weeks. by the first of the month, that month is usually almost full. what date are you looking at? availability/scheduling">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">How far ahead should I book?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Most folks book three to four weeks ahead. For out-of-state or end-of-month moves, give us four to eight weeks. By the first of the month, that month is usually almost full. What date are you looking at?</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-who-owns-sparrow-how-long-have-you-been-in-business" data-search="who owns sparrow? how long have you been in business? sparrow&#x27;s family owned. matt and his cousin mark nimmo started it in 2023 after some family members had bad moves. we&#x27;re based in st. anthony and run three crews, all our own employees. matt handles estimates and the office, and mark runs operations and leads the moves. trust/credibility">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Who owns Sparrow? How long have you been in business?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Sparrow's family owned. Matt and his cousin Mark Nimmo started it in 2023 after some family members had bad moves. We're based in St. Anthony and run three crews, all our own employees. Matt handles estimates and the office, and Mark runs operations and leads the moves.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-can-you-recommend-another-mover-if-you-re-booked" data-search="can you recommend another mover if you&#x27;re booked? absolutely. i always like to give some options, even if we can&#x27;t help. we meet regularly with owners we trust: connor at revival moving covers weekdays, and cody or justin at win win moving covers weekends. tell them sparrow sent you. we don&#x27;t take referral fees. other">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Can you recommend another mover if you're booked?</span>
+            <span class="fq-meta"><span class="fq-badge fq-badge--phone">Phone only</span></span>
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Absolutely. I always like to give some options, even if we can't help. We meet regularly with owners we trust: Connor at Revival Moving covers weekdays, and Cody or Justin at Win Win Moving covers weekends. Tell them Sparrow sent you. We don't take referral fees.</div><div class="fq-note"><strong>Internal</strong>Phone only. Recommend Revival for weekdays and Win Win for weekends. Mention U-Haul Move Helper only with the caveat that they're not fully licensed movers, so "your mileage may vary."</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-how-many-movers-will-you-send-can-you-send-fewer" data-search="how many movers will you send? can you send fewer? we size the team to your home: two movers for apartments and small jobs, three or four for most houses, and five or six for big homes or two trucks. more movers doesn&#x27;t mean a bigger bill. it means fewer hours, and our goal is to have you moved in by midafternoon. logistics/access">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">How many movers will you send? Can you send fewer?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>We size the team to your home: two movers for apartments and small jobs, three or four for most houses, and five or six for big homes or two trucks. More movers doesn't mean a bigger bill. It means fewer hours, and our goal is to have you moved in by midafternoon.</div><div class="fq-note"><strong>Internal</strong>We don't do one-person crews. Customer helpers can't work in the truck.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-how-does-an-out-of-state-move-work-step-by-step" data-search="how does an out-of-state move work, step by step? same team the whole way. they pack if you want it, load, drive and unload. a typical out-of-state move is three to five days: pack day, load day, about ten hours of driving a day, then unload. someone you pick can meet us at the other end, or we can unload into storage. process/how it works">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">How does an out-of-state move work, step by step?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Same team the whole way. They pack if you want it, load, drive and unload. A typical out-of-state move is three to five days: pack day, load day, about ten hours of driving a day, then unload. Someone you pick can meet us at the other end, or we can unload into storage.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-what-s-your-hourly-rate" data-search="what&#x27;s your hourly rate? $85 per mover per hour. so two movers are $170 an hour, three are $255, and four are $340. packing is the same rate. pricing/cost">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">What's your hourly rate?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>$85 per mover per hour. So two movers are $170 an hour, three are $255, and four are $340. Packing is the same rate.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-where-are-you-located" data-search="where are you located? we&#x27;re based in st. anthony, and we serve the whole twin cities metro. where&#x27;s your move from and to? trust/credibility">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Where are you located?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>We're based in St. Anthony, and we serve the whole Twin Cities metro. Where's your move from and to?</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-do-you-use-your-own-employees-or-subcontractors-and-brokers" data-search="do you use your own employees, or subcontractors and brokers? always our own. every mover is a sparrow employee: background-checked, drug-tested and trained by us. no temporary help or day laborers, and no subcontractors or brokers, so you know exactly who&#x27;s in your home. when you&#x27;re comparing quotes, that&#x27;s a good one to ask the other companies. trust/credibility">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Do you use your own employees, or subcontractors and brokers?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Always our own. Every mover is a Sparrow employee: background-checked, drug-tested and trained by us. No temporary help or day laborers, and no subcontractors or brokers, so you know exactly who's in your home. When you're comparing quotes, that's a good one to ask the other companies.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-is-there-a-minimum-how-do-you-round" data-search="is there a minimum? how do you round? we just have a one-hour minimum, then it&#x27;s 15-minute increments. a lot of companies have a two- or three-hour minimum, so that&#x27;s worth a look when you compare. at the end of the day, you only pay for what you actually use. pricing/cost">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Is there a minimum? How do you round?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>We just have a one-hour minimum, then it's 15-minute increments. A lot of companies have a two- or three-hour minimum, so that's worth a look when you compare. At the end of the day, you only pay for what you actually use.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-do-you-move-cars-or-other-vehicles" data-search="do you move cars or other vehicles? not yet. vehicles need extra licensing. most of our clients ship the car with an auto transporter or tow it with a small rental. services/scope">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Do you move cars or other vehicles?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Not yet. Vehicles need extra licensing. Most of our clients ship the car with an auto transporter or tow it with a small rental.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-do-you-offer-a-military-or-any-discount" data-search="do you offer a military (or any) discount? we don&#x27;t run discounts, whether it&#x27;s military, seasonal or price-match. we keep pricing honest for everyone. but here&#x27;s how we can bring the number down: you pack some or all of it yourself, and we right-size the team and trucks. want me to run it that way? pricing/cost">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Do you offer a military (or any) discount?</span>
+            <span class="fq-meta"><span class="fq-badge fq-badge--phone">Phone only</span></span>
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>We don't run discounts, whether it's military, seasonal or price-match. We keep pricing honest for everyone. But here's how we can bring the number down: you pack some or all of it yourself, and we right-size the team and trucks. Want me to run it that way?</div><div class="fq-note"><strong>Internal</strong>Service-recovery credits are Matt's call only.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-do-you-unpack-at-the-new-home" data-search="do you unpack at the new home? we don&#x27;t unpack boxes, but you won&#x27;t be left with a garage full of stuff either. furniture goes right where you want it, beds get put back together, and every box lands in its room. services/scope">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Do you unpack at the new home?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>We don't unpack boxes, but you won't be left with a garage full of stuff either. Furniture goes right where you want it, beds get put back together, and every box lands in its room.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-will-you-take-down-and-mount-tvs-hang-pictures-or-disconnect" data-search="will you take down and mount tvs, hang pictures, or disconnect appliances? we&#x27;ll take the tvs off the wall and pack them, but we don&#x27;t re-mount tvs, hang pictures or install anything. we also don&#x27;t disconnect gas or water lines, so have the appliances disconnected before we get there, and we&#x27;ll move them. every piece of furniture still goes exactly where you want it. services/scope">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Will you take down and mount TVs, hang pictures, or disconnect appliances?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>We'll take the TVs off the wall and pack them, but we don't re-mount TVs, hang pictures or install anything. We also don't disconnect gas or water lines, so have the appliances disconnected before we get there, and we'll move them. Every piece of furniture still goes exactly where you want it.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-do-you-serve-my-area-my-kind-of-move" data-search="do you serve my area / my kind of move? we cover the whole twin cities metro and the outer suburbs; most of our clients are within about an hour of st. anthony. we do out-of-state moves too, and senior-living and assisted-living moves are a big part of our week. before we dive into details, what has you moving? services/scope">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Do you serve my area / my kind of move?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>We cover the whole Twin Cities metro and the outer suburbs; most of our clients are within about an hour of St. Anthony. We do out-of-state moves too, and senior-living and assisted-living moves are a big part of our week. Before we dive into details, what has you moving?</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-do-you-have-pods-or-portable-containers" data-search="do you have pods or portable containers? we don&#x27;t rent pods, but we load them every week. we like units, a local portable-storage company, for price and service. they drop off and pick up the container, and we handle the loading. services/scope">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Do you have pods or portable containers?</span>
+            <span class="fq-meta"><span class="fq-badge fq-badge--phone">Phone only</span></span>
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>We don't rent pods, but we load them every week. We like Units, a local portable-storage company, for price and service. They drop off and pick up the container, and we handle the loading.</div><div class="fq-note"><strong>Internal</strong>Phone only.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-what-does-faith-based-mean-where-does-the-name-sparrow-come-" data-search="what does &quot;faith-based&quot; mean? where does the name sparrow come from? our name comes from matthew 6:26: god takes care of the birds of the air, and he cares for us even more. for us, faith-based just means people first: honest pricing, careful hands, and treating your home like it&#x27;s ours. trust/credibility">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">What does "faith-based" mean? Where does the name Sparrow come from?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Our name comes from Matthew 6:26: God takes care of the birds of the air, and he cares for us even more. For us, faith-based just means people first: honest pricing, careful hands, and treating your home like it's ours.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-do-you-work-holidays" data-search="do you work holidays? holiday availability changes year to year. what date are you thinking? let me check it for you. availability/scheduling">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Do you work holidays?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Holiday availability changes year to year. What date are you thinking? Let me check it for you.</div><div class="fq-note"><strong>Internal</strong>No public rule. Check the calendar with Matt before answering.</div>
+        </div>
+      </div>
+    </section>
+    <section class="content-section fq-stage" id="stage-estimate-survey">
+      <h2 class="content-group-title">2. Estimate/survey</h2>
+      <p class="fq-stage__hint">Walkthroughs, photos and video.</p>
+      
+      <div class="faq-item fq-item" id="q-can-i-send-photos-a-video-or-a-list-instead-of-a-walkthrough" data-search="can i send photos, a video or a list instead of a walkthrough? yep, totally. text me a wide-angle photo or two of each room, from the corner, plus closets, storage spaces and the garage, and let me know what&#x27;s not coming. a walkthrough video or your listing photos work too. if it&#x27;s bigger than a two-bedroom or out of state, matt, mark or amy will still come out in person. process/how it works">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Can I send photos, a video or a list instead of a walkthrough?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Yep, totally. Text me a wide-angle photo or two of each room, from the corner, plus closets, storage spaces and the garage, and let me know what's not coming. A walkthrough video or your listing photos work too. If it's bigger than a two-bedroom or out of state, Matt, Mark or Amy will still come out in person.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-how-long-does-the-walkthrough-take-who-comes-and-when-will-i" data-search="how long does the walkthrough take, who comes, and when will i get my quote? about 30 to 45 minutes. matt, mark or amy comes out, usually tuesday or friday mornings, and you&#x27;ll have your written estimate by the end of that day. what morning works for you? process/how it works">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">How long does the walkthrough take, who comes, and when will I get my quote?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>About 30 to 45 minutes. Matt, Mark or Amy comes out, usually Tuesday or Friday mornings, and you'll have your written estimate by the end of that day. What morning works for you?</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-are-you-licensed-and-insured-can-i-see-proof" data-search="are you licensed and insured? can i see proof? yep. we&#x27;re fully licensed with usdot/fmcsa and mndot, and fully insured. our dot number&#x27;s right on your estimate, and i can send you a certificate of insurance if you&#x27;d like. trust/credibility">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Are you licensed and insured? Can I see proof?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Yep. We're fully licensed with USDOT/FMCSA and MnDOT, and fully insured. Our DOT number's right on your estimate, and I can send you a certificate of insurance if you'd like.</div><div class="fq-note"><strong>Internal</strong>The carrier is RLI. Damage claims are paid by Sparrow directly, not through the carrier.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-does-the-walkthrough-cost-anything" data-search="does the walkthrough cost anything? nope. the walkthrough is free, and there&#x27;s no obligation. pricing/cost">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Does the walkthrough cost anything?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Nope. The walkthrough is free, and there's no obligation.</div>
+        </div>
+      </div>
+    </section>
+    <section class="content-section fq-stage" id="stage-quote-decision">
+      <h2 class="content-group-title">3. Quote decision</h2>
+      <p class="fq-stage__hint">They have a number and are deciding.</p>
+      
+      <div class="faq-item fq-item" id="q-what-s-my-price-and-what-s-included-local-quote-review" data-search="what&#x27;s my price, and what&#x27;s included? (local quote review) your move plan shows the team size, trucks and an hour range, and it&#x27;s all-in: labor, travel, truck, supplies and full value protection. it&#x27;s based on how long it takes, so you only pay for the actual time, and most moves land in the middle of the range. for example, three movers for three to five hours runs about $1,170 to $1,680. what questions you got? pricing/cost">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">What's my price, and what's included? (local quote review)</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Your move plan shows the team size, trucks and an hour range, and it's all-in: labor, travel, truck, supplies and full value protection. It's based on how long it takes, so you only pay for the actual time, and most moves land in the middle of the range. For example, three movers for three to five hours runs about $1,170 to $1,680. What questions you got?</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-what-s-included-in-the-long-distance-guaranteed-price-and-ca" data-search="what&#x27;s included in the long-distance guaranteed price, and can it change? long-distance, meaning over 60 miles or anything that needs an overnight, is one guaranteed price. that covers the team, truck, fuel, hotels, meals, flights home and full value protection. it doesn&#x27;t change for traffic, weather or a long day. it only changes if you add enough stuff to need another truck. packing is quoted as its own option. pricing/cost">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">What's included in the long-distance guaranteed price, and can it change?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Long-distance, meaning over 60 miles or anything that needs an overnight, is one guaranteed price. That covers the team, truck, fuel, hotels, meals, flights home and full value protection. It doesn't change for traffic, weather or a long day. It only changes if you add enough stuff to need another truck. Packing is quoted as its own option.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-what-is-full-value-protection-and-do-i-need-it" data-search="what is full value protection, and do i need it? it&#x27;s included in every quote, so you&#x27;re covered. if anything gets damaged or broken in transit, we repair it or replace it at its current value, up to $6 a pound for your whole shipment. anything worth more than $100 a pound, like jewelry or fine art, let us know ahead of time or carry it yourself. and it&#x27;s rare: our claims run about 1%, about twice as good as the industry average. policies/terms">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">What is full value protection, and do I need it?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>It's included in every quote, so you're covered. If anything gets damaged or broken in transit, we repair it or replace it at its current value, up to $6 a pound for your whole shipment. Anything worth more than $100 a pound, like jewelry or fine art, let us know ahead of time or carry it yourself. And it's rare: our claims run about 1%, about twice as good as the industry average.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-how-big-are-your-trucks-and-how-many-do-i-need" data-search="how big are your trucks, and how many do i need? we run 26-foot box trucks, and one holds about a furnished three- to four-bedroom home. your inventory tells us how many you need. if you end up trimming stuff, we&#x27;ll right-size before move day. logistics/access">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">How big are your trucks, and how many do I need?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>We run 26-foot box trucks, and one holds about a furnished three- to four-bedroom home. Your inventory tells us how many you need. If you end up trimming stuff, we'll right-size before move day.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-other-bids-are-lower-can-you-come-down-and-why-are-you-more" data-search="other bids are lower. can you come down, and why are you more? totally fair to compare. we&#x27;re not the cheapest, and here&#x27;s why: experienced employees we pay above market, background checks and about a 1% damage rate. when you line quotes up, put the hourly rate, team size, hours and minimums side by side. we don&#x27;t run discounts, but if budget&#x27;s the issue, we&#x27;ll trim the plan, like you packing some yourself or right-sizing the team and trucks, never the care. pricing/cost">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Other bids are lower. Can you come down, and why are you more?</span>
+            <span class="fq-meta"><span class="fq-badge fq-badge--phone">Phone only</span></span>
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Totally fair to compare. We're not the cheapest, and here's why: experienced employees we pay above market, background checks and about a 1% damage rate. When you line quotes up, put the hourly rate, team size, hours and minimums side by side. We don't run discounts, but if budget's the issue, we'll trim the plan, like you packing some yourself or right-sizing the team and trucks, never the care.</div><div class="fq-note"><strong>Internal</strong>Phone only.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-what-does-packing-cost" data-search="what does packing cost? it&#x27;s the same $85 per mover hourly rate, plus only the materials you use, and unused boxes go back. a kitchen pack is usually two people for two hours, plus materials. a full pack usually costs about as much as the move itself. pricing/cost">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">What does packing cost?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>It's the same $85 per mover hourly rate, plus only the materials you use, and unused boxes go back. A kitchen pack is usually two people for two hours, plus materials. A full pack usually costs about as much as the move itself.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-how-often-do-you-damage-things" data-search="how often do you damage things? it&#x27;s rare. for every $100,000 of moves, we have about $1,000 in claims, so about 1%. that&#x27;s about twice as good as the industry average. and if something does happen, we own it and make it right fast. trust/credibility">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">How often do you damage things?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>It's rare. For every $100,000 of moves, we have about $1,000 in claims, so about 1%. That's about twice as good as the industry average. And if something does happen, we own it and make it right fast.</div>
+        </div>
+      </div>
+    </section>
+    <section class="content-section fq-stage" id="stage-booking-deposit">
+      <h2 class="content-group-title">4. Booking/deposit</h2>
+      <p class="fq-stage__hint">Locking the date and paying the deposit.</p>
+      
+      <div class="faq-item fq-item" id="q-how-do-i-book" data-search="how do i book? i&#x27;m gonna fire over your estimate by text and email. if it looks good, hit the sign button in the top right, then pay the reservation deposit by card or ach. once the deposit&#x27;s in, your date, team and truck are locked, and you&#x27;ll get a confirmation email. how&#x27;s that sound? process/how it works">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">How do I book?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>I'm gonna fire over your estimate by text and email. If it looks good, hit the sign button in the top right, then pay the reservation deposit by card or ACH. Once the deposit's in, your date, team and truck are locked, and you'll get a confirmation email. How's that sound?</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-can-i-change-my-date-how-much-notice-do-you-need" data-search="can i change my date? how much notice do you need? yep, at no charge. just give us as much notice as you can: two weeks is ideal, and a week usually works. a few days&#x27; notice usually doesn&#x27;t, because the calendar books out. we&#x27;ll move you to the closest open date. what date are you thinking? availability/scheduling">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Can I change my date? How much notice do you need?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Yep, at no charge. Just give us as much notice as you can: two weeks is ideal, and a week usually works. A few days' notice usually doesn't, because the calendar books out. We'll move you to the closest open date. What date are you thinking?</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-what-payment-methods-do-you-take-is-there-a-card-fee" data-search="what payment methods do you take? is there a card fee? card, ach bank transfer or check. cards have a 3% processing fee, which is just what we get charged. ach and checks are free. payment/billing">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">What payment methods do you take? Is there a card fee?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Card, ACH bank transfer or check. Cards have a 3% processing fee, which is just what we get charged. ACH and checks are free.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-can-you-hold-a-date-while-i-decide" data-search="can you hold a date while i decide? we don&#x27;t hold dates. the date&#x27;s yours as soon as the deposit&#x27;s in, so if you love that date, booking is the only way to lock it. and the deposit is fully refundable if you cancel 48 hours or more before your move. availability/scheduling">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Can you hold a date while I decide?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>We don't hold dates. The date's yours as soon as the deposit's in, so if you love that date, booking is the only way to lock it. And the deposit is fully refundable if you cancel 48 hours or more before your move.</div><div class="fq-note"><strong>Internal</strong>No pencil-ins, even if someone else is asking about the same date.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-how-much-is-the-deposit" data-search="how much is the deposit? for moves above $1,500, it&#x27;s a 10% reservation deposit. for $1,500 or less, it&#x27;s a flat $150. long-distance moves are 50%. either way, it comes off your bill at the end. payment/billing">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">How much is the deposit?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>For moves above $1,500, it's a 10% reservation deposit. For $1,500 or less, it's a flat $150. Long-distance moves are 50%. Either way, it comes off your bill at the end.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-is-the-estimate-a-set-price-will-i-pay-less-if-it-goes-faste" data-search="is the estimate a set price? will i pay less if it goes faster? local moves are a time range, and you only pay for the actual time, in 15-minute increments. so if it goes faster, you pay less. we don&#x27;t lock a set price on local moves, but if you&#x27;ve got a budget, we can cap the job there. long-distance, over 60 miles or an overnight, is one guaranteed flat price. pricing/cost">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Is the estimate a set price? Will I pay less if it goes faster?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Local moves are a time range, and you only pay for the actual time, in 15-minute increments. So if it goes faster, you pay less. We don't lock a set price on local moves, but if you've got a budget, we can cap the job there. Long-distance, over 60 miles or an overnight, is one guaranteed flat price.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-how-does-the-long-distance-deposit-and-balance-work" data-search="how does the long-distance deposit and balance work? for long-distance, meaning over 60 miles or anything needing an overnight, it&#x27;s 50% when you book, and that reserves your team and truck. the other 50% is due once everything&#x27;s unloaded and the truck is empty. paying by ach saves you the 3% card fee. payment/billing">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">How does the long-distance deposit and balance work?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>For long-distance, meaning over 60 miles or anything needing an overnight, it's 50% when you book, and that reserves your team and truck. The other 50% is due once everything's unloaded and the truck is empty. Paying by ACH saves you the 3% card fee.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-is-my-card-charged-now-can-i-change-cards-or-split-the-payme" data-search="is my card charged now? can i change cards or split the payment? your deposit&#x27;s charged when you book, and it comes off your final bill. we only take card info through your secure estimate link, never over the phone. the balance gets billed after the move, and you can use any card, ach or check. payment/billing">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Is my card charged now? Can I change cards or split the payment?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Your deposit's charged when you book, and it comes off your final bill. We only take card info through your secure estimate link, never over the phone. The balance gets billed after the move, and you can use any card, ACH or check.</div><div class="fq-note"><strong>Internal</strong>Split payments across two payers aren't set up. Checks are applied manually, so watch for double-charges.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-is-the-deposit-refundable-if-i-cancel" data-search="is the deposit refundable if i cancel? yep. cancel 48 hours or more before your move and you get the full deposit back. inside 48 hours, it&#x27;s non-refundable. policies/terms">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Is the deposit refundable if I cancel?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Yep. Cancel 48 hours or more before your move and you get the full deposit back. Inside 48 hours, it's non-refundable.</div>
+        </div>
+      </div>
+    </section>
+    <section class="content-section fq-stage" id="stage-pre-move-prep">
+      <h2 class="content-group-title">5. Pre-move prep</h2>
+      <p class="fq-stage__hint">Booked. Getting ready for move day.</p>
+      
+      <div class="faq-item fq-item" id="q-do-you-have-wardrobe-tv-and-picture-boxes-what-do-they-cost" data-search="do you have wardrobe, tv and picture boxes? what do they cost? yep, we bring them. wardrobe boxes are a $5 rental, so you can hang your clothes right inside and they don&#x27;t get wrinkled. tv boxes are a $10 rental, mattress bags are $5 each, and custom crates for art run $150 or $250 depending on size. floor runners are included. just let us know how many you need by the day before. services/scope">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Do you have wardrobe, TV and picture boxes? What do they cost?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Yep, we bring them. Wardrobe boxes are a $5 rental, so you can hang your clothes right inside and they don't get wrinkled. TV boxes are a $10 rental, mattress bags are $5 each, and custom crates for art run $150 or $250 depending on size. Floor runners are included. Just let us know how many you need by the day before.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-what-time-will-you-arrive" data-search="what time will you arrive? first move of the day starts at 8 am. if you&#x27;re our second job, it&#x27;s usually 11 to noon. your team lead will text you when they&#x27;re on the way. availability/scheduling">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">What time will you arrive?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>First move of the day starts at 8 AM. If you're our second job, it's usually 11 to noon. Your team lead will text you when they're on the way.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-how-should-i-pack-and-prep-are-bins-bags-and-heavy-boxes-ok" data-search="how should i pack and prep? are bins, bags and heavy boxes ok? heavy stuff like books and cans goes in small boxes. plastic bins are great, and lids help, since open bins load last. clothes in garbage bags and dishes in totes are totally fine. label every box by room and stage them near the door or in the garage. that saves time, and time is what you pay for. logistics/access">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">How should I pack and prep? Are bins, bags and heavy boxes OK?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Heavy stuff like books and cans goes in small boxes. Plastic bins are great, and lids help, since open bins load last. Clothes in garbage bags and dishes in totes are totally fine. Label every box by room and stage them near the door or in the garage. That saves time, and time is what you pay for.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-i-ve-added-or-removed-items-since-the-estimate-what-now" data-search="i&#x27;ve added or removed items since the estimate. what now? just text me the changes. since it&#x27;s based on how long it takes, fewer items lowers your cost, and a few additions are no problem. if it&#x27;s something big, like a piano, a shed or another room, give me a holler so we bring the right team. process/how it works">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">I've added or removed items since the estimate. What now?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Just text me the changes. Since it's based on how long it takes, fewer items lowers your cost, and a few additions are no problem. If it's something big, like a piano, a shed or another room, give me a holler so we bring the right team.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-will-it-cost-less-if-i-pack-or-move-some-things-myself" data-search="will it cost less if i pack or move some things myself? yep. it&#x27;s based on how long it takes, so anything you pack, take apart or move yourself lowers the bill. just let me know, and we&#x27;ll resize the team or trucks. pricing/cost">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Will it cost less if I pack or move some things myself?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Yep. It's based on how long it takes, so anything you pack, take apart or move yourself lowers the bill. Just let me know, and we'll resize the team or trucks.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-how-do-you-protect-floors-and-walls" data-search="how do you protect floors and walls? it&#x27;s included. we lay floor runners on entries and main walkways and pad the tight corners. for brand-new floors or carpet, we can keep an inside crew in socks. if you want the whole floor covered, we can do that at extra cost. services/scope">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">How do you protect floors and walls?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>It's included. We lay floor runners on entries and main walkways and pad the tight corners. For brand-new floors or carpet, we can keep an inside crew in socks. If you want the whole floor covered, we can do that at extra cost.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-how-long-will-my-move-take" data-search="how long will my move take? most local moves are done by midafternoon, and your estimate shows the hour range. bigger homes and out-of-state moves can take two to five days, and we&#x27;ll walk you through the plan day by day. logistics/access">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">How long will my move take?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Most local moves are done by midafternoon, and your estimate shows the hour range. Bigger homes and out-of-state moves can take two to five days, and we'll walk you through the plan day by day.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-what-about-parking-elevators-stairs-or-a-tight-driveway" data-search="what about parking, elevators, stairs or a tight driveway? tell us about stairs, elevators, gates and parking up front so we bring the right team. reserve your elevator and a loading spot, and we&#x27;ll handle the rest. if the truck can&#x27;t fit your driveway, we&#x27;ll park on the street with cones. logistics/access">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">What about parking, elevators, stairs or a tight driveway?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Tell us about stairs, elevators, gates and parking up front so we bring the right team. Reserve your elevator and a loading spot, and we'll handle the rest. If the truck can't fit your driveway, we'll park on the street with cones.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-do-dresser-drawers-need-to-be-emptied" data-search="do dresser drawers need to be emptied? yep, please empty them. the drawers can stay in, and we&#x27;ll wrap the dresser shut. same goes for wardrobes and lift-top chests. logistics/access">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Do dresser drawers need to be emptied?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Yep, please empty them. The drawers can stay in, and we'll wrap the dresser shut. Same goes for wardrobes and lift-top chests.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-how-does-packing-day-work" data-search="how does packing day work? the same team packs and moves you. for a full pack, we come in a day or two ahead, and kitchen-only can happen the morning of. we bring all the boxes, tape and paper. process/how it works">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">How does packing day work?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>The same team packs and moves you. For a full pack, we come in a day or two ahead, and kitchen-only can happen the morning of. We bring all the boxes, tape and paper.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-how-do-you-get-into-my-storage-unit" data-search="how do you get into my storage unit? either meet us there to let us in, or get us the key and gate code ahead of time. just let me know which, and i&#x27;ll put it in your move plan. logistics/access">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">How do you get into my storage unit?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Either meet us there to let us in, or get us the key and gate code ahead of time. Just let me know which, and I'll put it in your move plan.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-what-can-t-you-move" data-search="what can&#x27;t you move? we can&#x27;t take live plants, ammunition, propane or gasoline, so empty the mower and the grill tank. same with corrosive chemicals and alcohol. keep jewelry, cash, medications and important documents with you. services/scope">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">What can't you move?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>We can't take live plants, ammunition, propane or gasoline, so empty the mower and the grill tank. Same with corrosive chemicals and alcohol. Keep jewelry, cash, medications and important documents with you.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-do-i-need-to-be-there-on-move-day" data-search="do i need to be there on move day? someone who knows the plan should walk the home with our team lead at the start and sign off at the end. in between, you&#x27;re free to go. if nobody can be there, we can do keys or a door code, but only with a written plan and a contact we can reach. process/how it works">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Do I need to be there on move day?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Someone who knows the plan should walk the home with our team lead at the start and sign off at the end. In between, you're free to go. If nobody can be there, we can do keys or a door code, but only with a written plan and a contact we can reach.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-who-do-i-contact-before-and-on-move-day" data-search="who do i contact before and on move day? text or call our main line. it reaches me and matt. on move day, your team lead will text you when they&#x27;re on the way. process/how it works">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Who do I contact before and on move day?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Text or call our main line. It reaches me and Matt. On move day, your team lead will text you when they're on the way.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-will-weather-affect-my-move" data-search="will weather affect my move? we move in rain and snow; we&#x27;re minnesota crews. bad weather can slow us down a little, and we add extra floor and furniture protection. if it&#x27;s truly unsafe, we&#x27;ll reschedule at no charge. logistics/access">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Will weather affect my move?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>We move in rain and snow; we're Minnesota crews. Bad weather can slow us down a little, and we add extra floor and furniture protection. If it's truly unsafe, we'll reschedule at no charge.</div>
+        </div>
+      </div>
+    </section>
+    <section class="content-section fq-stage" id="stage-move-day">
+      <h2 class="content-group-title">6. Move day</h2>
+      <p class="fq-stage__hint">On the job.</p>
+      
+      <div class="faq-item fq-item" id="q-what-if-the-move-runs-long-or-everything-doesn-t-fit" data-search="what if the move runs long or everything doesn&#x27;t fit? you only pay for the actual time, so a longer day does cost more, but we&#x27;ll call you before it does. we don&#x27;t want you surprised. if the delay&#x27;s on us, like a late crew or missing supplies, you don&#x27;t pay for it. and if something doesn&#x27;t fit, we can make a second trip. pricing/cost">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">What if the move runs long or everything doesn't fit?</span>
+            <span class="fq-meta"><span class="fq-badge fq-badge--phone">Phone only</span></span>
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>You only pay for the actual time, so a longer day does cost more, but we'll call you before it does. We don't want you surprised. If the delay's on us, like a late crew or missing supplies, you don't pay for it. And if something doesn't fit, we can make a second trip.</div><div class="fq-note"><strong>Internal</strong>Phone only.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-is-it-ok-to-have-pets-home-or-feed-the-crew" data-search="is it ok to have pets home or feed the crew? pets are totally fine. water and lunch are always appreciated, never expected. other">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Is it OK to have pets home or feed the crew?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Pets are totally fine. Water and lunch are always appreciated, never expected.</div>
+        </div>
+      </div>
+    </section>
+    <section class="content-section fq-stage" id="stage-billing-after">
+      <h2 class="content-group-title">7. Billing/after</h2>
+      <p class="fq-stage__hint">Final invoice, tips, damage.</p>
+      
+      <div class="faq-item fq-item" id="q-something-was-damaged-what-happens-now" data-search="something was damaged. what happens now? i&#x27;m sorry that happened. send us photos within two weeks. matt reviews every claim personally, and we&#x27;ll repair it, replace it or send a check, often the same week. damage is rare, and when it happens, we own it. policies/terms">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Something was damaged. What happens now?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>I'm sorry that happened. Send us photos within two weeks. Matt reviews every claim personally, and we'll repair it, replace it or send a check, often the same week. Damage is rare, and when it happens, we own it.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-should-i-tip-how-much-and-how" data-search="should i tip? how much, and how? tips are never expected and always appreciated. if you&#x27;re asking, folks sometimes tip around 15% of the total bill, split between the movers. you can do cash, venmo at @sparrowmovers, or add it to your invoice and we&#x27;ll pass it straight to the team. payment/billing">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Should I tip? How much, and how?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Tips are never expected and always appreciated. If you're asking, folks sometimes tip around 15% of the total bill, split between the movers. You can do cash, Venmo at @sparrowmovers, or add it to your invoice and we'll pass it straight to the team.</div><div class="fq-note"><strong>Internal</strong>Only share the 15% if they ask.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-when-do-i-get-my-final-invoice-and-how-do-i-pay-the-balance" data-search="when do i get my final invoice, and how do i pay the balance? we&#x27;ll email and text your final invoice on move day, with your deposit already taken off. you can pay by card, ach or check. title companies and accounts-payable folks are welcome to pay by check. payment/billing">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">When do I get my final invoice, and how do I pay the balance?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>We'll email and text your final invoice on move day, with your deposit already taken off. You can pay by card, ACH or check. Title companies and accounts-payable folks are welcome to pay by check.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-something-s-missing-or-got-left-behind-what-do-i-do" data-search="something&#x27;s missing or got left behind. what do i do? call us right away. your team lead will check the truck and our storage, and anything we left behind, we&#x27;ll bring over at no cost. other">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Something's missing or got left behind. What do I do?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Call us right away. Your team lead will check the truck and our storage, and anything we left behind, we'll bring over at no cost.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-why-is-this-higher-than-last-time" data-search="why is this higher than last time? our rate went from $75 back in 2023 to $85 per mover per hour, and we now bill our drive time out and back. your estimate shows each piece, so you can see exactly where it comes from. pricing/cost">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Why is this higher than last time?</span>
+            <span class="fq-meta"><span class="fq-badge fq-badge--phone">Phone only</span></span>
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>Our rate went from $75 back in 2023 to $85 per mover per hour, and we now bill our drive time out and back. Your estimate shows each piece, so you can see exactly where it comes from.</div><div class="fq-note"><strong>Internal</strong>Phone only.</div>
+        </div>
+      </div>
+      <div class="faq-item fq-item" id="q-where-should-i-leave-a-review" data-search="where should i leave a review? that means a ton. google helps us the most, and facebook&#x27;s great too. i&#x27;ll text you the link. other">
+        <button class="faq-question">
+          <span class="fq-q">
+            <span class="fq-q__text">Where should I leave a review?</span>
+            
+          </span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="fq-say"><strong>Say this</strong>That means a ton. Google helps us the most, and Facebook's great too. I'll text you the link.</div>
+        </div>
+      </div>
+    </section>
+
+      <p class="fq-empty" id="fqEmpty">No questions match. Try a shorter word.</p>
+
+      <div class="callout callout--info">
+        <strong>Question not here?</strong> Tell the customer you'll get them the exact answer, ask Matt, and follow up the same day. Then let Matt know so it gets added.
+      </div>
+    </article>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="../../../index.html" class="nav-item">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      <span class="nav-item__label">Home</span>
+    </a>
+    <a href="../../../search.html" class="nav-item">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <span class="nav-item__label">Search</span>
+    </a>
+    <a href="../../../docs/index.html" class="nav-item">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+      <span class="nav-item__label">Docs</span>
+    </a>
+    <a href="../../../training/index.html" class="nav-item">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+      <span class="nav-item__label">Videos</span>
+    </a>
+  </nav>
+
+  <script src="../../../js/app.js"></script>
+  <script>
+    (function () {
+      var input = document.getElementById('fqSearch');
+      var items = document.querySelectorAll('.fq-item');
+      var stages = document.querySelectorAll('.fq-stage');
+      var top = document.getElementById('fqTop');
+      var empty = document.getElementById('fqEmpty');
+      input.addEventListener('input', function () {
+        var q = input.value.trim().toLowerCase();
+        var shown = 0;
+        items.forEach(function (el) {
+          var hit = !q || el.dataset.search.indexOf(q) !== -1;
+          el.style.display = hit ? '' : 'none';
+          if (hit) shown++;
+        });
+        stages.forEach(function (s) {
+          var any = s.querySelector('.fq-item:not([style*="none"])');
+          s.style.display = any ? '' : 'none';
+        });
+        top.style.display = q ? 'none' : '';
+        empty.style.display = shown ? 'none' : 'block';
+      });
+      // Open a question when jumped to from the Top 10
+      document.querySelectorAll('.fq-toplink').forEach(function (a) {
+        a.addEventListener('click', function () {
+          var target = document.querySelector(a.getAttribute('href'));
+          if (target) {
+            document.querySelectorAll('.fq-item.open').forEach(function (o) { o.classList.remove('open'); });
+            target.classList.add('open');
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
