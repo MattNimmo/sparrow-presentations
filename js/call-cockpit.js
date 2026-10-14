@@ -17,7 +17,7 @@ const STEPS = [
   { id: 'step3', num: '3', name: 'Collecting Inventory', tagline: 'You name, they confirm' },
   { id: 'step4', num: '4', name: 'Paint the Picture',    tagline: 'Anchor on their words' },
   { id: 'step5', num: '5', name: 'Confirm Basic Info',   tagline: 'Build the Yes Ladder' },
-  { id: 'step6', num: '6', name: 'Present the Pricing',  tagline: 'Verbal first, one number' },
+  { id: 'step6', num: '6', name: 'Present the Pricing',  tagline: 'Verbal first, all-in plan' },
   { id: 'step7', num: '7', name: 'Assume the Sale',      tagline: 'Immediate, confident' },
   { id: 'step8', num: '8', name: 'Objections & Rebuttals', tagline: 'Address → Reassure → Close' },
   { id: 'step9', num: '9', name: 'Rewrap & Close',       tagline: 'Always close on something' },
