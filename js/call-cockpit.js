@@ -13,7 +13,7 @@ const CHECK_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
 const STEPS = [
   { id: 'step0', num: '0', name: 'Before the Call',    tagline: '30-second reset' },
   { id: 'step1', num: '1', name: 'Setting Expectations', tagline: 'Connect human-to-human' },
-  { id: 'step2', num: '2', name: 'Basic Info',           tagline: 'Get into Chariot' },
+  { id: 'step2', num: '2', name: 'Basic Info',           tagline: 'Date first, then Chariot' },
   { id: 'step3', num: '3', name: 'Collecting Inventory', tagline: 'You name, they confirm' },
   { id: 'step4', num: '4', name: 'Paint the Picture',    tagline: 'Anchor on their words' },
   { id: 'step5', num: '5', name: 'Confirm Basic Info',   tagline: 'Build the Yes Ladder' },
@@ -490,7 +490,7 @@ const QS_SCRIPTS = [
   { num: '3 — Pain Funnel', selector: '#step1 p em' },
   { num: '4 — Pricing',     selector: '#step6 .script-block:nth-of-type(1)' },
   { num: '5 — The Close',   selector: '#step7 .script-block:nth-of-type(1)' },
-  { num: '6 — Tentative Reservation', selector: '#step8 .script-block:nth-of-type(1)' },
+  { num: '6 — Set the Next Step', selector: '#step8 .script-block:nth-of-type(1)' },
   { num: '7 — Rewrap + Emotional Close', selector: '#step9' },
 ];
 
